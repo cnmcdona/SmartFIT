@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartFIT Experience: Golf Grip Fitting</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
+  <div id="survey-container" class="bg-white p-6 rounded-xl shadow-lg max-w-lg w-full relative">
+    <!-- Progress Indicator -->
+    <div id="progress" class="text-sm text-gray-600 mb-4"></div>
+
+    <!-- Step 0: Welcome -->
+    <div class="survey-step opacity-0" data-step="0">
+      <h2 class="text-2xl font-semibold mb-4">Welcome to the SmartFIT Experience</h2>
+      <p class="mb-6 text-gray-700">The most comprehensive and advanced grip fitting technology available to golfers.</p>
+      <button id="next-0" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Start</button>
+    </div>
+
+    <!-- Section 1: Player Profile -->
+    <!-- Step 1: Age -->
+    <div class="survey-step hidden opacity-0" data-step="1">
+      <h3 class="text-xl font-medium mb-4">What is your age?</h3>
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center"><input type="radio" name="age" value="Under 18" class="mr-2" />Under 18</label>
+        <label class="flex items-center"><input type="radio" name="age" value="18-24" class="mr-2" />18-24</label>
+        <label class="flex items-center"><input type="radio" name="age" value="25-34" class="mr-2" />25-34</label>
+        <label class="flex items-center"><input type="radio" name="age" value="35-44" class="mr-2" />35-44</label>
+        <label class="flex items-center"><input type="radio" name="age" value="45-54" class="mr-2" />45-54</label>
+        <label class="flex items-center"><input type="radio" name="age" value="55-64" class="mr-2" />55-64</label>
+        <label class="flex items-center"><input type="radio" name="age" value="65+" class="mr-2" />65+</label>
+      </div>
+      <p id="error-1" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
+      <button id="next-1" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 2: Gender -->
+    <div class="survey-step hidden opacity-0" data-step="2">
+      <h3 class="text-xl font-medium mb-4">What is your gender?</h3>
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center"><input type="radio" name="gender" value="Male" class="mr-2" />Male</label>
+        <label class="flex items-center"><input type="radio" name="gender" value="Female" class="mr-2" />Female</label>
+        <label class="flex items-center"><input type="radio" name="gender" value="Prefer not to say" class="mr-2" />Prefer not to say</label>
+      </div>
+      <p id="error-2" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
+      <button id="next-2" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 3: Handicap -->
+    <div class="survey-step hidden opacity-0" data-step="3">
+      <h3 class="text-xl font-medium mb-4">What is your handicap?</h3>
+      <input id="handicap" type="range" min="0" max="21" step="5" value="10" class="w-full mb-2" />
+      <div id="handicap-label" class="text-gray-700 mb-4">10</div>
+      <button id="next-3" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 4: Rounds per Year -->
+    <div class="survey-step hidden opacity-0" data-step="4">
+      <h3 class="text-xl font-medium mb-4">How many rounds a year do you play?</h3>
+      <input id="rounds" type="range" min="5" max="80" step="5" value="40" class="w-full mb-2" />
+      <div id="rounds-label" class="text-gray-700 mb-4">40</div>
+      <button id="next-4" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 5: Current Grip Size -->
+    <div class="survey-step hidden opacity-0" data-step="5">
+      <h3 class="text-xl font-medium mb-4">What size are your current grips? (If you know)</h3>
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center"><input type="radio" name="gripSize" value="Undersize" class="mr-2" />Undersize</label>
+        <label class="flex items-center"><input type="radio" name="gripSize" value="Standard" class="mr-2" />Standard</label>
+        <label class="flex items-center"><input type="radio" name="gripSize" value="Midsize" class="mr-2" />Midsize</label>
+        <label class="flex items-center"><input type="radio" name="gripSize" value="Jumbo" class="mr-2" />Jumbo</label>
+        <label class="flex items-center"><input type="radio" name="gripSize" value="I don't know" class="mr-2" />I don't know</label>
+      </div>
+      <p id="error-5" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
+      <button id="next-5" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 6: Current Grip Models -->
+    <div class="survey-step hidden opacity-0" data-step="6">
+      <h3 class="text-xl font-medium mb-4">What model(s) are your current grips? (If you know)</h3>
+      <div class="relative mb-4">
+        <input id="model-input" type="text" placeholder="Type to search..." class="w-full border border-gray-300 rounded-lg p-2" />
+        <div id="model-suggestions" class="absolute top-full left-0 bg-white border border-gray-300 w-full z-10 rounded-lg"></div>
+      </div>
+      <label class="flex items-center mb-4"><input id="unknown-model" type="checkbox" class="mr-2" />I don't know</label>
+      <p id="error-6" class="text-red-500 text-sm mb-2 hidden">Please specify your grip model or select "I don't know".</p>
+      <button id="next-6" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Section 2: Physical Considerations & Grip Preferences -->
+    <!-- Step 7: Physical Considerations -->
+    <div class="survey-step hidden opacity-0" data-step="7">
+      <h3 class="text-xl font-medium mb-4">Do you experience any of the following?</h3>
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center"><input type="checkbox" name="physical" value="Arthritis" class="mr-2" />Arthritis</label>
+        <label class="flex items-center"><input type="checkbox" name="physical" value="Limited Hand Strength" class="mr-2" />Limited Hand Strength</label>
+        <label class="flex items-center"><input type="checkbox" name="physical" value="Tendinitis" class="mr-2" />Tendinitis</label>
+        <label class="flex items-center"><input type="checkbox" name="physical" value="None of the above" class="mr-2" />None of the above</label>
+      </div>
+      <p id="error-7" class="text-red-500 text-sm mb-2 hidden">Please select at least one option.</p>
+      <button id="next-7" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 8: Moisture Control -->
+    <div class="survey-step hidden opacity-0" data-step="8">
+      <h3 class="text-xl font-medium mb-4">Do your grips need to help with moisture control?</h3>
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center"><input type="radio" name="moisture" value="Yes, I struggle with slippage" class="mr-2" />Yes, I struggle with slippage</label>
+        <label class="flex items-center"><input type="radio" name="moisture" value="No, moisture isn't an issue" class="mr-2" />No, moisture isn't an issue</label>
+      </div>
+      <p id="error-8" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
+      <button id="next-8" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 9: Current Grip Feel -->
+    <div class="survey-step hidden opacity-0" data-step="9">
+      <h3 class="text-xl font-medium mb-4">How would you describe your current grip's feel?</h3>
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center"><input type="radio" name="feel" value="Too soft" class="mr-2" />Too soft</label>
+        <label class="flex items-center"><input type="radio" name="feel" value="Slightly soft" class="mr-2" />Slightly soft</label>
+        <label class="flex items-center"><input type="radio" name="feel" value="Just right" class="mr-2" />Just right</label>
+        <label class="flex items-center"><input type="radio" name="feel" value="Slightly firm" class="mr-2" />Slightly firm</label>
+        <label class="flex items-center"><input type="radio" name="feel" value="Too firm" class="mr-2" />Too firm</label>
+      </div>
+      <p id="error-9" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
+      <button id="next-9" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 10: Swing Hand -->
+    <div class="survey-step hidden opacity-0" data-step="10">
+      <h3 class="text-xl font-medium mb-4">Which hand do you swing with?</h3>
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center"><input type="radio" name="swingHand" value="Left" class="mr-2" />Left</label>
+        <label class="flex items-center"><input type="radio" name="swingHand" value="Right" class="mr-2" checked />Right</label>
+      </div>
+      <p id="error-10" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
+      <button id="next-10" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 11: Iron Shot Shape -->
+    <div class="survey-step hidden opacity-0" data-step="11">
+      <h3 class="text-xl font-medium mb-4">What's your typical iron shot shape?</h3>
+      <div id="iron-diagram-wrapper" class="relative mb-4 rounded-lg overflow-hidden">
+        <div id="iron-overlay" class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center text-gray-500 z-10">Move the slider to see shot shape</div>
+        <svg id="iron-diagram" width="300" height="150" class="mx-auto">
+          <path d="M50,150 A100,100 0 0,0 250,150" stroke="#4B5563" stroke-width="2" fill="none" />
+          <circle id="iron-marker" cx="150" cy="50" r="6" fill="#00B140" />
+        </svg>
+      </div>
+      <input id="iron-shape" type="range" min="0" max="7" step="1" value="4" class="w-full mb-2" />
+      <div id="iron-label" class="text-center text-gray-700 mb-4">Straight</div>
+      <button id="next-11" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 12: Driver Shot Shape -->
+    <div class="survey-step hidden opacity-0" data-step="12">
+      <h3 class="text-xl font-medium mb-4">What's your typical driver shot shape?</h3>
+      <div id="driver-diagram-wrapper" class="relative mb-4 rounded-lg overflow-hidden">
+        <div id="driver-overlay" class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center text-gray-500 z-10">Move the slider to see shot shape</div>
+        <svg id="driver-diagram" width="300" height="150" class="mx-auto">
+          <path d="M50,150 A100,100 0 0,0 250,150" stroke="#4B5563" stroke-width="2" fill="none" />
+          <circle id="driver-marker" cx="150" cy="50" r="6" fill="#00B140" />
+        </svg>
+      </div>
+      <input id="driver-shape" type="range" min="0" max="7" step="1" value="4" class="w-full mb-2" />
+      <div id="driver-label" class="text-center text-gray-700 mb-4">Straight</div>
+      <button id="next-12" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Section 3: Goals -->
+    <!-- Step 13: Change Iron Shape -->
+    <div class="survey-step hidden opacity-0" data-step="13">
+      <h3 class="text-xl font-medium mb-4">Do you want to change your iron shot shape?</h3>
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center"><input type="radio" name="goalIron" value="Yes, I want straighter shots" class="mr-2" />Yes, I want straighter shots</label>
+        <label class="flex items-center"><input type="radio" name="goalIron" value="Yes, I want to draw it more" class="mr-2" />Yes, I want to draw it more</label>
+        <label class="flex items-center"><input type="radio" name="goalIron" value="Yes, I want to fade it more" class="mr-2" />Yes, I want to fade it more</label>
+        <label class="flex items-center"><input type="radio" name="goalIron" value="No, I like my current shape" class="mr-2" />No, I like my current shape</label>
+      </div>
+      <p id="error-13" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
+      <button id="next-13" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 14: Change Driver Shape -->
+    <div class="survey-step hidden opacity-0" data-step="14">
+      <h3 class="text-xl font-medium mb-4">Do you want to change your driver shot shape?</h3>
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center"><input type="radio" name="goalDriver" value="Yes, I want straighter shots" class="mr-2" />Yes, I want straighter shots</label>
+        <label class="flex items-center"><input type="radio" name="goalDriver" value="Yes, I want to draw it more" class="mr-2" />Yes, I want to draw it more</label>
+        <label class="flex items-center"><input type="radio" name="goalDriver" value="Yes, I want to fade it more" class="mr-2" />Yes, I want to fade it more</label>
+        <label class="flex items-center"><input type="radio" name="goalDriver" value="No, I like my current shape" class="mr-2" />No, I like my current shape</label>
+      </div>
+      <p id="error-14" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
+      <button id="next-14" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
+    </div>
+
+    <!-- Step 15: Improve Grip Goals -->
+    <div class="survey-step hidden opacity-0" data-step="15">
+      <h3 class="text-xl font-medium mb-4">What do you want to improve with your new grips?</h3>
+      <div class="space-y-2 mb-4">
+        <label class="flex items-center"><input type="checkbox" name="improve" value="Better fit" class="mr-2" />Better fit</label>
+        <label class="flex items-center"><input type="checkbox" name="improve" value="Better club control" class="mr-2" />Better club control</label>
+        <label class="flex items-center"><input type="checkbox" name="improve" value="Improved feel and feedback" class="mr-2" />Improved feel and feedback</label>
+        <label class="flex items-center"><input type="checkbox" name="improve" value="Better grip in wet conditions" class="mr-2" />Better grip in wet conditions</label>
+        <label class="flex items-center"><input type="checkbox" name="improve" value="More comfort" class="mr-2" />More comfort</label>
+        <label class="flex items-center"><input type="checkbox" name="improve" value="Less hand fatigue" class="mr-2" />Less hand fatigue</label>
+      </div>
+      <p id="error-15" class="text-red-500 text-sm mb-2 hidden">Please select at least one option.</p>
+      <button id="next-15" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Submit</button>
+    </div>
+
+    <!-- Step 16: Thank You -->
+    <div class="survey-step hidden opacity-0" data-step="16">
+      <h2 class="text-2xl font-semibold mb-4">Thank you for completing the SmartFIT Experience!</h2>
+      <p class="text-gray-700 mb-6">Your personalized grip recommendation will appear here shortly!</p>
+    </div>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Collect all steps and initialize
+      const steps = Array.from(document.querySelectorAll('.survey-step'));
+      const totalSteps = steps.length;
+      const questionSteps = totalSteps - 2; // exclude welcome & thank you
+      let currentStep = 0;
+      let swingHand = 'Right'; // default
+
+      const progressEl = document.getElementById('progress');
+      const shapeLabels = ['Pull hook','Hook','Pull','Draw','Straight','Push','Slice','Push Slice'];
+
+      // Update the progress indicator
+      function updateProgress() {
+        if (currentStep > 0 && currentStep <= questionSteps) {
+          progressEl.textContent = `Question ${currentStep} of ${questionSteps}`;
+        } else {
+          progressEl.textContent = '';
+        }
+      }
+
+      // Show a specific step with fade transition
+      function showStep(index) {
+        const oldStep = document.querySelector(`.survey-step[data-step="${currentStep}"]`);
+        const newStep = document.querySelector(`.survey-step[data-step="${index}"]`);
+        // Fade out old
+        oldStep.classList.add('opacity-0');
+        setTimeout(() => { oldStep.classList.add('hidden'); }, 500);
+        // Fade in new
+        newStep.classList.remove('hidden');
+        setTimeout(() => { newStep.classList.remove('opacity-0'); }, 10);
+        currentStep = index;
+        updateProgress();
+      }
+
+      // Initialize display
+      steps.forEach((step, idx) => {
+        if (idx === 0) {
+          step.classList.remove('hidden');
+        } else {
+          step.classList.add('hidden', 'opacity-0');
+        }
+      });
+      updateProgress();
+
+      // Validation logic per step
+      function validateStep(stepIndex) {
+        let valid = true;
+        const stepEl = document.querySelector(`.survey-step[data-step="${stepIndex}"]`);
+        const errorEl = document.getElementById(`error-${stepIndex}`);
+
+        // Radio-based questions
+        const radioMap = {
+          1:'age', 2:'gender', 5:'gripSize',
+          8:'moisture', 9:'feel', 10:'swingHand',
+          13:'goalIron', 14:'goalDriver'
+        };
+        if (radioMap[stepIndex]) {
+          const opts = stepEl.querySelectorAll(`input[name="${radioMap[stepIndex]}"]`);
+          if (![...opts].some(o=>o.checked)) {
+            valid = false;
+            errorEl.textContent = 'Please select an option.';
+            errorEl.classList.remove('hidden');
+          } else {
+            errorEl.classList.add('hidden');
+          }
+        }
+        // Grip model
+        if (stepIndex===6) {
+          const unknown = document.getElementById('unknown-model');
+          const input = document.getElementById('model-input');
+          if (!unknown.checked && input.value.trim()==='') {
+            valid=false;
+            errorEl.textContent = 'Please specify your grip model or select "I don\'t know".';
+            errorEl.classList.remove('hidden');
+          } else errorEl.classList.add('hidden');
+        }
+        // Multi-checkbox questions
+        if (stepIndex===7) {
+          const opts = stepEl.querySelectorAll('input[name="physical"]:checked');
+          if (opts.length===0) {
+            valid=false;
+            errorEl.textContent='Please select at least one option.';
+            errorEl.classList.remove('hidden');
+          } else errorEl.classList.add('hidden');
+        }
+        if (stepIndex===15) {
+          const opts = stepEl.querySelectorAll('input[name="improve"]:checked');
+          if (opts.length===0) {
+            valid=false;
+            errorEl.textContent='Please select at least one option.';
+            errorEl.classList.remove('hidden');
+          } else errorEl.classList.add('hidden');
+        }
+        return valid;
+      }
+
+      // Next button handlers
+      steps.forEach(stepEl => {
+        const idx = parseInt(stepEl.dataset.step,10);
+        const btn = document.getElementById(`next-${idx}`);
+        if (btn) {
+          btn.addEventListener('click', () => {
+            if (idx>0 && idx<=questionSteps && !validateStep(idx)) return;
+            showStep(idx+1);
+          });
+        }
+      });
+
+      // Autocomplete for grip models
+      const gripModels = ['Golf Pride Tour Velvet','Lamkin Crossline','SuperStroke Traxion'];
+      const modelInput = document.getElementById('model-input');
+      const suggestions = document.getElementById('model-suggestions');
+      modelInput.addEventListener('input', () => {
+        const q = modelInput.value.trim().toLowerCase();
+        suggestions.innerHTML = '';
+        if (!q) return;
+        gripModels.filter(m=>m.toLowerCase().includes(q)).forEach(match => {
+          const div = document.createElement('div');
+          div.textContent = match;
+          div.className='cursor-pointer px-2 py-1 hover:bg-gray-200';
+          div.addEventListener('click', () => {
+            modelInput.value = match;
+            suggestions.innerHTML = '';
+          });
+          suggestions.appendChild(div);
+        });
+      });
+      document.getElementById('unknown-model').addEventListener('change', e => {
+        if (e.target.checked) {
+          modelInput.value=''; modelInput.disabled=true; suggestions.innerHTML='';
+        } else {
+          modelInput.disabled=false;
+        }
+      });
+
+      // Slider labels
+      const hc = document.getElementById('handicap');
+      const hcLabel = document.getElementById('handicap-label');
+      hc.addEventListener('input', ()=> hcLabel.textContent = hc.value);
+      const rd = document.getElementById('rounds');
+      const rdLabel = document.getElementById('rounds-label');
+      rd.addEventListener('input', ()=> rdLabel.textContent = rd.value);
+
+      // Swing hand selection flips diagrams
+      document.querySelectorAll('input[name="swingHand"]').forEach(r=> {
+        r.addEventListener('change', e => {
+          swingHand = e.target.value;
+          updateDiagram('iron');
+          updateDiagram('driver');
+        });
+      });
+
+      // Draw diagram labels
+      function initDiagram(type) {
+        const svg = document.getElementById(`${type}-diagram`);
+        const cx=150, cy=150, r=100;
+        shapeLabels.forEach((lbl,i) => {
+          const angleDeg = 180 - (i*180/(shapeLabels.length-1));
+          const angleRad = angleDeg*Math.PI/180;
+          const x = cx + r*Math.cos(angleRad);
+          const y = cy - r*Math.sin(angleRad);
+          const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+          txt.setAttribute('x', x);
+          txt.setAttribute('y', y);
+          txt.setAttribute('text-anchor','middle');
+          txt.setAttribute('alignment-baseline','middle');
+          txt.setAttribute('font-size','10');
+          txt.setAttribute('fill','#4B5563');
+          txt.textContent = lbl;
+          svg.appendChild(txt);
+        });
+      }
+      initDiagram('iron');
+      initDiagram('driver');
+
+      // Update marker & label on slider move
+      function updateDiagram(type) {
+        const s = document.getElementById(`${type}-shape`);
+        const val = parseInt(s.value,10);
+        const marker = document.getElementById(`${type}-marker`);
+        const overlay = document.getElementById(`${type}-overlay`);
+        const lbl = document.getElementById(`${type}-label`);
+        const wrap = document.getElementById(`${type}-diagram-wrapper`);
+        overlay.style.display='none';
+        const angleDeg = 180 - (val*180/(shapeLabels.length-1));
+        const angleRad = angleDeg*Math.PI/180;
+        const cx=150, cy=150, r=100;
+        const x = cx + r*Math.cos(angleRad);
+        const y = cy - r*Math.sin(angleRad);
+        marker.setAttribute('cx', x);
+        marker.setAttribute('cy', y);
+        lbl.textContent = shapeLabels[val];
+        wrap.style.transform = swingHand==='Left' ? 'scaleX(-1)' : 'none';
+      }
+      document.getElementById('iron-shape').addEventListener('input', ()=> updateDiagram('iron'));
+      document.getElementById('driver-shape').addEventListener('input', ()=> updateDiagram('driver'));
+    });
+  </script>
+</body>
+</html> 
