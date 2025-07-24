@@ -1,428 +1,926 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SmartFIT Experience: Golf Grip Fitting</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFIT Golf Grip Survey</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .survey-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .survey-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header */
+        .survey-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .logo span:nth-child(1) {
+            color: #1a1a1a;
+        }
+
+        .logo span:nth-child(2) {
+            color: #1a1a1a;
+        }
+
+        .logo span:nth-child(3) {
+            color: #4fd1c5;
+        }
+
+        .menu-icon {
+            font-size: 1.5rem;
+            color: #cbd5e0;
+            cursor: pointer;
+        }
+
+        /* Progress indicator */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background-color: #4fd1c5;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Question styling */
+        .question-number {
+            color: #4fd1c5;
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        .section-intro {
+            background-color: #e6fffa;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section-intro h2 {
+            color: #4fd1c5;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .section-intro p {
+            color: #4a5568;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Welcome page specific styles */
+        .welcome-page {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 40px;
+            min-height: 500px;
+        }
+
+        .welcome-content h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            color: #4fd1c5;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            max-width: 500px;
+        }
+
+        .welcome-content p {
+            font-size: 1.375rem;
+            color: #2d3748;
+            margin-bottom: 50px;
+            line-height: 1.6;
+            max-width: 480px;
+            font-weight: 400;
+        }
+
+        .begin-button {
+            background-color: #60a5fa;
+            color: white;
+            padding: 18px 60px;
+            border-radius: 30px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+        }
+
+        .begin-button:hover {
+            background-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
+        }
+
+        /* Golf graphic */
+        .golf-graphic {
+            position: absolute;
+            right: -100px;
+            bottom: -50px;
+            width: 400px;
+            height: 400px;
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .golf-graphic svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Options */
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .option-button {
+            background-color: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .option-button:hover {
+            border-color: #4fd1c5;
+            background-color: #f0fdfa;
+        }
+
+        .option-button.selected {
+            background-color: #4fd1c5;
+            border-color: #4fd1c5;
+            color: white;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        /* Sliders */
+        .slider-container {
+            margin: 40px 0;
+        }
+
+        .slider-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4fd1c5;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            outline: none;
+            margin: 20px 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #4fd1c5;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(79, 209, 197, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #4fd1c5;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(79, 209, 197, 0.5);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: #718096;
+            margin-top: 10px;
+        }
+
+        /* Text input */
+        input[type="text"] {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            color: #2d3748;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4fd1c5;
+            background-color: #f0fdfa;
+        }
+
+        input[type="text"]::placeholder {
+            color: #a0aec0;
+        }
+
+        /* Navigation buttons */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 20px;
+            gap: 12px;
+        }
+
+        .nav-button {
+            flex: 1;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-button.primary {
+            background-color: #60a5fa;
+            color: white;
+        }
+
+        .nav-button.primary:hover {
+            background-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.4);
+        }
+
+        .nav-button.secondary {
+            background-color: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .nav-button.secondary:hover {
+            background-color: #cbd5e0;
+        }
+
+        .nav-button:disabled {
+            background-color: #e2e8f0;
+            color: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Shot diagram */
+        .shot-diagram-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            height: 200px;
+            margin: 30px auto;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #f7fafc;
+        }
+
+        .shot-diagram-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .shot-diagram-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Hand diagram */
+        .hand-diagram {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hand-diagram svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Survey pages */
+        .survey-page {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .survey-page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Success message */
+        .success-message {
+            background-color: #e6fffa;
+            color: #2c7a7b;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: none;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .survey-card {
+                padding: 30px 20px;
+                min-height: 500px;
+            }
+
+            .question-text {
+                font-size: 1.25rem;
+            }
+
+            .question-number {
+                font-size: 2.5rem;
+            }
+
+            .slider-value {
+                font-size: 2.5rem;
+            }
+
+            .welcome-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
-  <div id="survey-container" class="bg-white p-6 rounded-xl shadow-lg max-w-lg w-full relative">
-    <!-- Progress Indicator -->
-    <div id="progress" class="text-sm text-gray-600 mb-4"></div>
+<body>
+    <div class="survey-container">
+        <div class="survey-card">
+            <div class="survey-header">
+                <div class="logo">
+                    <span>GR</span><span>I</span><span>P</span><span>script</span>
+                </div>
+                <i class="fas fa-bars menu-icon"></i>
+            </div>
 
-    <noscript>
-      <div class="bg-red-100 text-red-700 p-4 rounded mb-4 text-center">
-        This survey requires JavaScript to function. Please enable JavaScript in your browser.
-      </div>
-    </noscript>
+            <div class="progress-dots" id="progress-dots">
+                <!-- Dots will be generated dynamically -->
+            </div>
 
-    <!-- Step 0: Welcome -->
-    <div class="survey-step" data-step="0">
-      <h2 class="text-2xl font-semibold mb-4">Welcome to the SmartFIT Experience</h2>
-      <p class="mb-6 text-gray-700">The most comprehensive and advanced grip fitting technology available to golfers.</p>
-      <button id="next-0" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Start</button>
+            <div id="survey-pages">
+                <!-- Welcome Page -->
+                <div class="survey-page active welcome-page" data-page="0">
+                    <div class="golf-graphic">
+                        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                            <g opacity="0.8">
+                                <!-- Golf ball path -->
+                                <path d="M 50 350 Q 200 100 350 200" stroke="#4fd1c5" stroke-width="40" fill="none" stroke-linecap="round" opacity="0.4"/>
+                                <circle cx="350" cy="200" r="30" fill="#4fd1c5" opacity="0.6"/>
+                                
+                                <!-- Additional decorative elements -->
+                                <circle cx="150" cy="250" r="60" fill="#4fd1c5" opacity="0.2"/>
+                                <circle cx="280" cy="320" r="80" fill="#4fd1c5" opacity="0.15"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="welcome-content" style="position: relative; z-index: 1;">
+                        <h1>Welcome to the SmartFIT™ Experience</h1>
+                        <p>The most comprehensive and advanced grip fitting technology available to golfers.</p>
+                        <button class="begin-button" id="begin-button">BEGIN</button>
+                    </div>
+                </div>
+
+                <!-- Section 1 Intro -->
+                <div class="survey-page" data-page="1">
+                    <div class="section-intro">
+                        <h2>Player Profile</h2>
+                        <p>In this section, we'll learn about your player profile. This helps us understand your general golfing background.</p>
+                    </div>
+                    <div class="nav-container">
+                        <button class="nav-button primary" id="section1-continue">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Question 1: Age -->
+                <div class="survey-page" data-page="2">
+                    <div class="question-number">1</div>
+                    <h2 class="question-text">What's your age?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="age-under18" name="age" value="Under 18">
+                        <label for="age-under18" class="option-button">Under 18</label>
+                        
+                        <input type="radio" id="age-18-24" name="age" value="18-24">
+                        <label for="age-18-24" class="option-button">18-24</label>
+                        
+                        <input type="radio" id="age-25-34" name="age" value="25-34">
+                        <label for="age-25-34" class="option-button">25-34</label>
+                        
+                        <input type="radio" id="age-35-44" name="age" value="35-44">
+                        <label for="age-35-44" class="option-button">35-44</label>
+                        
+                        <input type="radio" id="age-45-54" name="age" value="45-54">
+                        <label for="age-45-54" class="option-button">45-54</label>
+                        
+                        <input type="radio" id="age-55-64" name="age" value="55-64">
+                        <label for="age-55-64" class="option-button">55-64</label>
+                        
+                        <input type="radio" id="age-65plus" name="age" value="65+">
+                        <label for="age-65plus" class="option-button">65+</label>
+                    </div>
+                </div>
+
+                <!-- Question 2: Gender -->
+                <div class="survey-page" data-page="3">
+                    <div class="question-number">2</div>
+                    <h2 class="question-text">What's your gender?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="gender-male" name="gender" value="Male">
+                        <label for="gender-male" class="option-button">Male</label>
+                        
+                        <input type="radio" id="gender-female" name="gender" value="Female">
+                        <label for="gender-female" class="option-button">Female</label>
+                        
+                        <input type="radio" id="gender-prefer-not" name="gender" value="Prefer not to say">
+                        <label for="gender-prefer-not" class="option-button">Prefer not to say</label>
+                    </div>
+                </div>
+
+                <!-- Question 3: Handicap -->
+                <div class="survey-page" data-page="4">
+                    <div class="question-number">3</div>
+                    <h2 class="question-text">What's your approx. handicap?</h2>
+                    <div class="slider-container">
+                        <div class="slider-value" id="handicap-value">14</div>
+                        <input type="range" id="handicap-slider" name="handicap" min="0" max="36" value="14">
+                        <div class="slider-labels">
+                            <span>Professional</span>
+                            <span>Beginner</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 4: Rounds per year -->
+                <div class="survey-page" data-page="5">
+                    <div class="question-number">4</div>
+                    <h2 class="question-text">How many times a year do you play?</h2>
+                    <div class="slider-container">
+                        <div class="slider-value" id="rounds-value">60</div>
+                        <input type="range" id="rounds-slider" name="rounds-per-year" min="5" max="100" value="60" step="5">
+                        <div class="slider-labels">
+                            <span>Rarely</span>
+                            <span>Frequently</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2 Intro -->
+                <div class="survey-page" data-page="6">
+                    <div class="section-intro">
+                        <h2>Preferences & Physical Considerations</h2>
+                        <p>Now, tell us about any physical considerations and grip preferences. This helps us understand any physical factors that may affect your grip recommendation.</p>
+                    </div>
+                    <div class="nav-container">
+                        <button class="nav-button primary" id="section2-continue">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Question 5: Physical conditions -->
+                <div class="survey-page" data-page="7">
+                    <div class="question-number">5</div>
+                    <h2 class="question-text">Do you experience any of the following?</h2>
+                    <div class="options-container">
+                        <input type="checkbox" id="condition-arthritis" name="physical-condition" value="Arthritis">
+                        <label for="condition-arthritis" class="option-button">Arthritis</label>
+                        
+                        <input type="checkbox" id="condition-limited" name="physical-condition" value="Limited Hand Strength">
+                        <label for="condition-limited" class="option-button">Limited Hand Strength</label>
+                        
+                        <input type="checkbox" id="condition-tendinitis" name="physical-condition" value="Tendinitis">
+                        <label for="condition-tendinitis" class="option-button">Tendinitis</label>
+                        
+                        <input type="checkbox" id="condition-none" name="physical-condition" value="None of the above">
+                        <label for="condition-none" class="option-button">None of the above</label>
+                    </div>
+                </div>
+
+                <!-- Question 6: Moisture control -->
+                <div class="survey-page" data-page="8">
+                    <div class="question-number">6</div>
+                    <h2 class="question-text">Do you need enhanced moisture control?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="moisture-yes" name="moisture-control" value="Yes, I struggle with slippage">
+                        <label for="moisture-yes" class="option-button">Yes, I struggle with slippage</label>
+                        
+                        <input type="radio" id="moisture-no" name="moisture-control" value="No, moisture isn't an issue">
+                        <label for="moisture-no" class="option-button">No, moisture isn't an issue</label>
+                    </div>
+                </div>
+
+                <!-- Question 7: Grip feel -->
+                <div class="survey-page" data-page="9">
+                    <div class="question-number">7</div>
+                    <h2 class="question-text">How would you describe your current grip's feel?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="feel-too-soft" name="grip-feel" value="Too soft">
+                        <label for="feel-too-soft" class="option-button">Too soft</label>
+                        
+                        <input type="radio" id="feel-slightly-soft" name="grip-feel" value="Slightly soft">
+                        <label for="feel-slightly-soft" class="option-button">Slightly soft</label>
+                        
+                        <input type="radio" id="feel-just-right" name="grip-feel" value="Just right">
+                        <label for="feel-just-right" class="option-button">Just right</label>
+                        
+                        <input type="radio" id="feel-slightly-firm" name="grip-feel" value="Slightly firm">
+                        <label for="feel-slightly-firm" class="option-button">Slightly firm</label>
+                        
+                        <input type="radio" id="feel-too-firm" name="grip-feel" value="Too firm">
+                        <label for="feel-too-firm" class="option-button">Too firm</label>
+                    </div>
+                </div>
+
+                <!-- Question 8: Current grip size -->
+                <div class="survey-page" data-page="10">
+                    <div class="question-number">8</div>
+                    <h2 class="question-text">What size are your current grips?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="size-undersize" name="grip-size" value="Undersize">
+                        <label for="size-undersize" class="option-button">Undersize</label>
+                        
+                        <input type="radio" id="size-standard" name="grip-size" value="Standard">
+                        <label for="size-standard" class="option-button">Standard</label>
+                        
+                        <input type="radio" id="size-midsize" name="grip-size" value="Midsize">
+                        <label for="size-midsize" class="option-button">Midsize</label>
+                        
+                        <input type="radio" id="size-jumbo" name="grip-size" value="Jumbo">
+                        <label for="size-jumbo" class="option-button">Jumbo</label>
+                        
+                        <input type="radio" id="size-dont-know" name="grip-size" value="I don't know">
+                        <label for="size-dont-know" class="option-button">I don't know</label>
+                    </div>
+                </div>
+
+                <!-- Question 9: Swing hand -->
+                <div class="survey-page" data-page="11">
+                    <div class="question-number">9</div>
+                    <h2 class="question-text">Which hand do you swing with?</h2>
+                    <div class="options-container" style="flex-direction: row; max-width: 300px; margin: 0 auto;">
+                        <input type="radio" id="swing-left" name="swing-hand" value="Left">
+                        <label for="swing-left" class="option-button" style="flex: 1;">Left</label>
+                        
+                        <input type="radio" id="swing-right" name="swing-hand" value="Right" checked>
+                        <label for="swing-right" class="option-button" style="flex: 1;">Right</label>
+                    </div>
+                </div>
+
+                <!-- Question 10: Iron shot shape -->
+                <div class="survey-page" data-page="12">
+                    <div class="question-number">10</div>
+                    <h2 class="question-text">What's your typical iron shot shape?</h2>
+                    <div class="hand-diagram">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Simplified hand and club illustration -->
+                            <g id="hand-illustration">
+                                <!-- Club shaft -->
+                                <line x1="100" y1="20" x2="100" y2="180" stroke="#718096" stroke-width="4" stroke-linecap="round"/>
+                                
+                                <!-- Hands -->
+                                <ellipse cx="100" cy="100" rx="25" ry="35" fill="#fbbf24" opacity="0.8"/>
+                                <ellipse cx="100" cy="120" rx="25" ry="35" fill="#f59e0b" opacity="0.8"/>
+                                
+                                <!-- Ball path indicator -->
+                                <path id="shot-path" d="M 100 180 Q 100 150 100 120" stroke="#4fd1c5" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="iron-shot-slider" name="iron-shot-shape" min="0" max="6" value="3" step="1">
+                        <div class="slider-labels">
+                            <span>Pull Hook</span>
+                            <span>Push Slice</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completion Page -->
+                <div class="survey-page" data-page="13">
+                    <div class="welcome-content">
+                        <div class="question-number" style="color: #4fd1c5;">✓</div>
+                        <h1>Survey Complete!</h1>
+                        <p>Thank you for completing the SmartFIT grip assessment. Your personalized grip recommendations are being prepared.</p>
+                        <div class="success-message" id="success-message" style="display: block;">
+                            Your responses have been saved successfully!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-container" id="nav-container">
+                <button class="nav-button secondary" id="back-button">Back</button>
+                <button class="nav-button primary" id="continue-button">Continue</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Section 1: Player Profile -->
-    <!-- Step 1: Age -->
-    <div class="survey-step hidden opacity-0" data-step="1">
-      <h3 class="text-xl font-medium mb-4">What is your age?</h3>
-      <div class="space-y-2 mb-4">
-        <label class="flex items-center"><input type="radio" name="age" value="Under 18" class="mr-2" />Under 18</label>
-        <label class="flex items-center"><input type="radio" name="age" value="18-24" class="mr-2" />18-24</label>
-        <label class="flex items-center"><input type="radio" name="age" value="25-34" class="mr-2" />25-34</label>
-        <label class="flex items-center"><input type="radio" name="age" value="35-44" class="mr-2" />35-44</label>
-        <label class="flex items-center"><input type="radio" name="age" value="45-54" class="mr-2" />45-54</label>
-        <label class="flex items-center"><input type="radio" name="age" value="55-64" class="mr-2" />55-64</label>
-        <label class="flex items-center"><input type="radio" name="age" value="65+" class="mr-2" />65+</label>
-      </div>
-      <p id="error-1" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
-      <button id="next-1" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
+    <script>
+        // Survey state
+        let currentPage = 0;
+        const totalPages = 14; // Including welcome and completion
+        const surveyData = {};
 
-    <!-- Step 2: Gender -->
-    <div class="survey-step hidden opacity-0" data-step="2">
-      <h3 class="text-xl font-medium mb-4">What is your gender?</h3>
-      <div class="space-y-2 mb-4">
-        <label class="flex items-center"><input type="radio" name="gender" value="Male" class="mr-2" />Male</label>
-        <label class="flex items-center"><input type="radio" name="gender" value="Female" class="mr-2" />Female</label>
-        <label class="flex items-center"><input type="radio" name="gender" value="Prefer not to say" class="mr-2" />Prefer not to say</label>
-      </div>
-      <p id="error-2" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
-      <button id="next-2" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
+        // DOM elements
+        const pages = document.querySelectorAll('.survey-page');
+        const backButton = document.getElementById('back-button');
+        const continueButton = document.getElementById('continue-button');
+        const navContainer = document.getElementById('nav-container');
+        const progressDots = document.getElementById('progress-dots');
 
-    <!-- Step 3: Handicap -->
-    <div class="survey-step hidden opacity-0" data-step="3">
-      <h3 class="text-xl font-medium mb-4">What is your handicap?</h3>
-      <input id="handicap" type="range" min="0" max="21" step="5" value="10" class="w-full mb-2" />
-      <div id="handicap-label" class="text-gray-700 mb-4">10</div>
-      <button id="next-3" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Step 4: Rounds per Year -->
-    <div class="survey-step hidden opacity-0" data-step="4">
-      <h3 class="text-xl font-medium mb-4">How many rounds a year do you play?</h3>
-      <input id="rounds" type="range" min="5" max="80" step="5" value="40" class="w-full mb-2" />
-      <div id="rounds-label" class="text-gray-700 mb-4">40</div>
-      <button id="next-4" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Step 5: Current Grip Size -->
-    <div class="survey-step hidden opacity-0" data-step="5">
-      <h3 class="text-xl font-medium mb-4">What size are your current grips? (If you know)</h3>
-      <div class="space-y-2 mb-4">
-        <label class="flex items-center"><input type="radio" name="gripSize" value="Undersize" class="mr-2" />Undersize</label>
-        <label class="flex items-center"><input type="radio" name="gripSize" value="Standard" class="mr-2" />Standard</label>
-        <label class="flex items-center"><input type="radio" name="gripSize" value="Midsize" class="mr-2" />Midsize</label>
-        <label class="flex items-center"><input type="radio" name="gripSize" value="Jumbo" class="mr-2" />Jumbo</label>
-        <label class="flex items-center"><input type="radio" name="gripSize" value="I don't know" class="mr-2" />I don't know</label>
-      </div>
-      <p id="error-5" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
-      <button id="next-5" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Step 6: Current Grip Models -->
-    <div class="survey-step hidden opacity-0" data-step="6">
-      <h3 class="text-xl font-medium mb-4">What model(s) are your current grips? (If you know)</h3>
-      <div class="relative mb-4">
-        <input id="model-input" type="text" placeholder="Type to search..." class="w-full border border-gray-300 rounded-lg p-2" />
-        <div id="model-suggestions" class="absolute top-full left-0 bg-white border border-gray-300 w-full z-10 rounded-lg"></div>
-      </div>
-      <label class="flex items-center mb-4"><input id="unknown-model" type="checkbox" class="mr-2" />I don't know</label>
-      <p id="error-6" class="text-red-500 text-sm mb-2 hidden">Please specify your grip model or select "I don't know".</p>
-      <button id="next-6" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Section 2: Physical Considerations & Grip Preferences -->
-    <!-- Step 7: Physical Considerations -->
-    <div class="survey-step hidden opacity-0" data-step="7">
-      <h3 class="text-xl font-medium mb-4">Do you experience any of the following?</h3>
-      <div class="space-y-2 mb-4">
-        <label class="flex items-center"><input type="checkbox" name="physical" value="Arthritis" class="mr-2" />Arthritis</label>
-        <label class="flex items-center"><input type="checkbox" name="physical" value="Limited Hand Strength" class="mr-2" />Limited Hand Strength</label>
-        <label class="flex items-center"><input type="checkbox" name="physical" value="Tendinitis" class="mr-2" />Tendinitis</label>
-        <label class="flex items-center"><input type="checkbox" name="physical" value="None of the above" class="mr-2" />None of the above</label>
-      </div>
-      <p id="error-7" class="text-red-500 text-sm mb-2 hidden">Please select at least one option.</p>
-      <button id="next-7" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Step 8: Moisture Control -->
-    <div class="survey-step hidden opacity-0" data-step="8">
-      <h3 class="text-xl font-medium mb-4">Do your grips need to help with moisture control?</h3>
-      <div class="space-y-2 mb-4">
-        <label class="flex items-center"><input type="radio" name="moisture" value="Yes, I struggle with slippage" class="mr-2" />Yes, I struggle with slippage</label>
-        <label class="flex items-center"><input type="radio" name="moisture" value="No, moisture isn't an issue" class="mr-2" />No, moisture isn't an issue</label>
-      </div>
-      <p id="error-8" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
-      <button id="next-8" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Step 9: Current Grip Feel -->
-    <div class="survey-step hidden opacity-0" data-step="9">
-      <h3 class="text-xl font-medium mb-4">How would you describe your current grip's feel?</h3>
-      <div class="space-y-2 mb-4">
-        <label class="flex items-center"><input type="radio" name="feel" value="Too soft" class="mr-2" />Too soft</label>
-        <label class="flex items-center"><input type="radio" name="feel" value="Slightly soft" class="mr-2" />Slightly soft</label>
-        <label class="flex items-center"><input type="radio" name="feel" value="Just right" class="mr-2" />Just right</label>
-        <label class="flex items-center"><input type="radio" name="feel" value="Slightly firm" class="mr-2" />Slightly firm</label>
-        <label class="flex items-center"><input type="radio" name="feel" value="Too firm" class="mr-2" />Too firm</label>
-      </div>
-      <p id="error-9" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
-      <button id="next-9" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Step 10: Swing Hand -->
-    <div class="survey-step hidden opacity-0" data-step="10">
-      <h3 class="text-xl font-medium mb-4">Which hand do you swing with?</h3>
-      <div class="space-y-2 mb-4">
-        <label class="flex items-center"><input type="radio" name="swingHand" value="Left" class="mr-2" />Left</label>
-        <label class="flex items-center"><input type="radio" name="swingHand" value="Right" class="mr-2" checked />Right</label>
-      </div>
-      <p id="error-10" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
-      <button id="next-10" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Step 11: Iron Shot Shape -->
-    <div class="survey-step hidden opacity-0" data-step="11">
-      <h3 class="text-xl font-medium mb-4">What's your typical iron shot shape?</h3>
-      <div id="iron-diagram-wrapper" class="relative mb-4 rounded-lg overflow-hidden">
-        <div id="iron-overlay" class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center text-gray-500 z-10">Move the slider to see shot shape</div>
-        <svg id="iron-diagram" width="300" height="150" class="mx-auto">
-          <path d="M50,150 A100,100 0 0,0 250,150" stroke="#4B5563" stroke-width="2" fill="none" />
-          <circle id="iron-marker" cx="150" cy="50" r="6" fill="#00B140" />
-        </svg>
-      </div>
-      <input id="iron-shape" type="range" min="0" max="7" step="1" value="4" class="w-full mb-2" />
-      <div id="iron-label" class="text-center text-gray-700 mb-4">Straight</div>
-      <button id="next-11" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Step 12: Driver Shot Shape -->
-    <div class="survey-step hidden opacity-0" data-step="12">
-      <h3 class="text-xl font-medium mb-4">What's your typical driver shot shape?</h3>
-      <div id="driver-diagram-wrapper" class="relative mb-4 rounded-lg overflow-hidden">
-        <div id="driver-overlay" class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center text-gray-500 z-10">Move the slider to see shot shape</div>
-        <svg id="driver-diagram" width="300" height="150" class="mx-auto">
-          <path d="M50,150 A100,100 0 0,0 250,150" stroke="#4B5563" stroke-width="2" fill="none" />
-          <circle id="driver-marker" cx="150" cy="50" r="6" fill="#00B140" />
-        </svg>
-      </div>
-      <input id="driver-shape" type="range" min="0" max="7" step="1" value="4" class="w-full mb-2" />
-      <div id="driver-label" class="text-center text-gray-700 mb-4">Straight</div>
-      <button id="next-12" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Section 3: Goals -->
-    <!-- Step 13: Change Iron Shape -->
-    <div class="survey-step hidden opacity-0" data-step="13">
-      <h3 class="text-xl font-medium mb-4">Do you want to change your iron shot shape?</h3>
-      <div class="space-y-2 mb-4">
-        <label class="flex items-center"><input type="radio" name="goalIron" value="Yes, I want straighter shots" class="mr-2" />Yes, I want straighter shots</label>
-        <label class="flex items-center"><input type="radio" name="goalIron" value="Yes, I want to draw it more" class="mr-2" />Yes, I want to draw it more</label>
-        <label class="flex items-center"><input type="radio" name="goalIron" value="Yes, I want to fade it more" class="mr-2" />Yes, I want to fade it more</label>
-        <label class="flex items-center"><input type="radio" name="goalIron" value="No, I like my current shape" class="mr-2" />No, I like my current shape</label>
-      </div>
-      <p id="error-13" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
-      <button id="next-13" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Step 14: Change Driver Shape -->
-    <div class="survey-step hidden opacity-0" data-step="14">
-      <h3 class="text-xl font-medium mb-4">Do you want to change your driver shot shape?</h3>
-      <div class="space-y-2 mb-4">
-        <label class="flex items-center"><input type="radio" name="goalDriver" value="Yes, I want straighter shots" class="mr-2" />Yes, I want straighter shots</label>
-        <label class="flex items-center"><input type="radio" name="goalDriver" value="Yes, I want to draw it more" class="mr-2" />Yes, I want to draw it more</label>
-        <label class="flex items-center"><input type="radio" name="goalDriver" value="Yes, I want to fade it more" class="mr-2" />Yes, I want to fade it more</label>
-        <label class="flex items-center"><input type="radio" name="goalDriver" value="No, I like my current shape" class="mr-2" />No, I like my current shape</label>
-      </div>
-      <p id="error-14" class="text-red-500 text-sm mb-2 hidden">Please select an option.</p>
-      <button id="next-14" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Next</button>
-    </div>
-
-    <!-- Step 15: Improve Grip Goals -->
-    <div class="survey-step hidden opacity-0" data-step="15">
-      <h3 class="text-xl font-medium mb-4">What do you want to improve with your new grips?</h3>
-      <div class="space-y-2 mb-4">
-        <label class="flex items-center"><input type="checkbox" name="improve" value="Better fit" class="mr-2" />Better fit</label>
-        <label class="flex items-center"><input type="checkbox" name="improve" value="Better club control" class="mr-2" />Better club control</label>
-        <label class="flex items-center"><input type="checkbox" name="improve" value="Improved feel and feedback" class="mr-2" />Improved feel and feedback</label>
-        <label class="flex items-center"><input type="checkbox" name="improve" value="Better grip in wet conditions" class="mr-2" />Better grip in wet conditions</label>
-        <label class="flex items-center"><input type="checkbox" name="improve" value="More comfort" class="mr-2" />More comfort</label>
-        <label class="flex items-center"><input type="checkbox" name="improve" value="Less hand fatigue" class="mr-2" />Less hand fatigue</label>
-      </div>
-      <p id="error-15" class="text-red-500 text-sm mb-2 hidden">Please select at least one option.</p>
-      <button id="next-15" class="next-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Submit</button>
-    </div>
-
-    <!-- Step 16: Thank You -->
-    <div class="survey-step hidden opacity-0" data-step="16">
-      <h2 class="text-2xl font-semibold mb-4">Thank you for completing the SmartFIT Experience!</h2>
-      <p class="text-gray-700 mb-6">Your personalized grip recommendation will appear here shortly!</p>
-    </div>
-  </div>
-
-  <!-- JavaScript Logic -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Collect all steps and initialize
-      const steps = Array.from(document.querySelectorAll('.survey-step'));
-      const totalSteps = steps.length;
-      const questionSteps = totalSteps - 2; // exclude welcome & thank you
-      let currentStep = 0;
-      let swingHand = 'Right'; // default
-
-      const progressEl = document.getElementById('progress');
-      const shapeLabels = ['Pull hook','Hook','Pull','Draw','Straight','Push','Slice','Push Slice'];
-
-      // Update the progress indicator
-      function updateProgress() {
-        if (currentStep > 0 && currentStep <= questionSteps) {
-          progressEl.textContent = `Question ${currentStep} of ${questionSteps}`;
-        } else {
-          progressEl.textContent = '';
+        // Initialize progress dots
+        function initProgressDots() {
+            progressDots.innerHTML = '';
+            for (let i = 0; i < totalPages - 2; i++) { // Exclude welcome and completion
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                progressDots.appendChild(dot);
+            }
         }
-      }
 
-      // Show a specific step with fade transition
-      function showStep(index) {
-        const oldStep = document.querySelector(`.survey-step[data-step="${currentStep}"]`);
-        const newStep = document.querySelector(`.survey-step[data-step="${index}"]`);
-        // Fade out old
-        oldStep.classList.add('opacity-0');
-        setTimeout(() => { oldStep.classList.add('hidden'); }, 500);
-        // Fade in new
-        newStep.classList.remove('hidden');
-        setTimeout(() => { newStep.classList.remove('opacity-0'); }, 10);
-        currentStep = index;
-        updateProgress();
-      }
+        // Update progress dots
+        function updateProgressDots() {
+            const dots = progressDots.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                if (index === currentPage - 1) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
 
-      // Initialize display
-      steps.forEach((step, idx) => {
-        if (idx === 0) {
-          step.classList.remove('hidden');
-        } else {
-          step.classList.add('hidden', 'opacity-0');
-        }
-      });
-      updateProgress();
+        // Show page
+        function showPage(pageIndex) {
+            pages.forEach((page, index) => {
+                if (index === pageIndex) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
 
-      // Validation logic per step
-      function validateStep(stepIndex) {
-        let valid = true;
-        const stepEl = document.querySelector(`.survey-step[data-step="${stepIndex}"]`);
-        const errorEl = document.getElementById(`error-${stepIndex}`);
+            // Update navigation visibility
+            if (pageIndex === 0) {
+                // Welcome page
+                navContainer.style.display = 'none';
+                progressDots.style.display = 'none';
+            } else if (pageIndex === totalPages - 1) {
+                // Completion page
+                navContainer.style.display = 'none';
+                progressDots.style.display = 'none';
+            } else if (pageIndex === 1 || pageIndex === 6) {
+                // Section intro pages
+                navContainer.style.display = 'none';
+                progressDots.style.display = 'flex';
+            } else {
+                // Regular question pages
+                navContainer.style.display = 'flex';
+                progressDots.style.display = 'flex';
+                backButton.style.display = pageIndex > 1 ? 'block' : 'none';
+            }
 
-        // Radio-based questions
-        const radioMap = {
-          1:'age', 2:'gender', 5:'gripSize',
-          8:'moisture', 9:'feel', 10:'swingHand',
-          13:'goalIron', 14:'goalDriver'
-        };
-        if (radioMap[stepIndex]) {
-          const opts = stepEl.querySelectorAll(`input[name="${radioMap[stepIndex]}"]`);
-          if (![...opts].some(o=>o.checked)) {
-            valid = false;
-            errorEl.textContent = 'Please select an option.';
-            errorEl.classList.remove('hidden');
-          } else {
-            errorEl.classList.add('hidden');
-          }
+            updateProgressDots();
+            updateContinueButton();
         }
-        // Grip model
-        if (stepIndex===6) {
-          const unknown = document.getElementById('unknown-model');
-          const input = document.getElementById('model-input');
-          if (!unknown.checked && input.value.trim()==='') {
-            valid=false;
-            errorEl.textContent = 'Please specify your grip model or select "I don\'t know".';
-            errorEl.classList.remove('hidden');
-          } else errorEl.classList.add('hidden');
-        }
-        // Multi-checkbox questions
-        if (stepIndex===7) {
-          const opts = stepEl.querySelectorAll('input[name="physical"]:checked');
-          if (opts.length===0) {
-            valid=false;
-            errorEl.textContent='Please select at least one option.';
-            errorEl.classList.remove('hidden');
-          } else errorEl.classList.add('hidden');
-        }
-        if (stepIndex===15) {
-          const opts = stepEl.querySelectorAll('input[name="improve"]:checked');
-          if (opts.length===0) {
-            valid=false;
-            errorEl.textContent='Please select at least one option.';
-            errorEl.classList.remove('hidden');
-          } else errorEl.classList.add('hidden');
-        }
-        return valid;
-      }
 
-      // Next button handlers
-      steps.forEach(stepEl => {
-        const idx = parseInt(stepEl.dataset.step,10);
-        const btn = document.getElementById(`next-${idx}`);
-        if (btn) {
-          btn.addEventListener('click', () => {
-            if (idx>0 && idx<=questionSteps && !validateStep(idx)) return;
-            showStep(idx+1);
-          });
+        // Check if current page is valid
+        function isPageValid() {
+            const currentPageEl = pages[currentPage];
+            const inputs = currentPageEl.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            
+            if (inputs.length > 0) {
+                return Array.from(inputs).some(input => input.checked);
+            }
+            
+            return true; // Pages without inputs are always valid
         }
-      });
 
-      // Autocomplete for grip models
-      const gripModels = ['Golf Pride Tour Velvet','Lamkin Crossline','SuperStroke Traxion'];
-      const modelInput = document.getElementById('model-input');
-      const suggestions = document.getElementById('model-suggestions');
-      modelInput.addEventListener('input', () => {
-        const q = modelInput.value.trim().toLowerCase();
-        suggestions.innerHTML = '';
-        if (!q) return;
-        gripModels.filter(m=>m.toLowerCase().includes(q)).forEach(match => {
-          const div = document.createElement('div');
-          div.textContent = match;
-          div.className='cursor-pointer px-2 py-1 hover:bg-gray-200';
-          div.addEventListener('click', () => {
-            modelInput.value = match;
-            suggestions.innerHTML = '';
-          });
-          suggestions.appendChild(div);
+        // Update continue button state
+        function updateContinueButton() {
+            if (currentPage === totalPages - 2) {
+                continueButton.textContent = 'Submit';
+            } else {
+                continueButton.textContent = 'Continue';
+            }
+            
+            continueButton.disabled = !isPageValid();
+        }
+
+        // Handle option selection
+        function handleOptionSelection(e) {
+            if (e.target.classList.contains('option-button')) {
+                const input = e.target.previousElementSibling;
+                if (input && (input.type === 'radio' || input.type === 'checkbox')) {
+                    input.checked = !input.checked;
+                    
+                    // Update visual state
+                    if (input.type === 'radio') {
+                        const allOptions = input.closest('.options-container').querySelectorAll('.option-button');
+                        allOptions.forEach(opt => opt.classList.remove('selected'));
+                        if (input.checked) {
+                            e.target.classList.add('selected');
+                        }
+                    } else {
+                        e.target.classList.toggle('selected', input.checked);
+                    }
+                    
+                    // Handle "None of the above" logic
+                    if (input.name === 'physical-condition') {
+                        if (input.id === 'condition-none' && input.checked) {
+                            const otherCheckboxes = document.querySelectorAll('input[name="physical-condition"]:not(#condition-none)');
+                            otherCheckboxes.forEach(cb => {
+                                cb.checked = false;
+                                cb.nextElementSibling.classList.remove('selected');
+                            });
+                        } else if (input.id !== 'condition-none' && input.checked) {
+                            document.getElementById('condition-none').checked = false;
+                            document.getElementById('condition-none').nextElementSibling.classList.remove('selected');
+                        }
+                    }
+                    updateContinueButton();
+                }
+            }
+        }
+
+        // Handle slider updates
+        function handleSliderUpdate(e) {
+            if (e.target.id === 'handicap-slider') {
+                document.getElementById('handicap-value').textContent = e.target.value;
+            }
+            if (e.target.id === 'rounds-slider') {
+                document.getElementById('rounds-value').textContent = e.target.value;
+            }
+        }
+
+        // Navigation
+        function goToNextPage() {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        }
+
+        function goToPrevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('begin-button').addEventListener('click', () => {
+            currentPage = 1;
+            showPage(currentPage);
         });
-      });
-      document.getElementById('unknown-model').addEventListener('change', e => {
-        if (e.target.checked) {
-          modelInput.value=''; modelInput.disabled=true; suggestions.innerHTML='';
-        } else {
-          modelInput.disabled=false;
-        }
-      });
-
-      // Slider labels
-      const hc = document.getElementById('handicap');
-      const hcLabel = document.getElementById('handicap-label');
-      hc.addEventListener('input', ()=> hcLabel.textContent = hc.value);
-      const rd = document.getElementById('rounds');
-      const rdLabel = document.getElementById('rounds-label');
-      rd.addEventListener('input', ()=> rdLabel.textContent = rd.value);
-
-      // Swing hand selection flips diagrams
-      document.querySelectorAll('input[name="swingHand"]').forEach(r=> {
-        r.addEventListener('change', e => {
-          swingHand = e.target.value;
-          updateDiagram('iron');
-          updateDiagram('driver');
+        document.getElementById('section1-continue').addEventListener('click', () => {
+            currentPage = 2;
+            showPage(currentPage);
         });
-      });
-
-      // Draw diagram labels
-      function initDiagram(type) {
-        const svg = document.getElementById(`${type}-diagram`);
-        const cx=150, cy=150, r=100;
-        shapeLabels.forEach((lbl,i) => {
-          const angleDeg = 180 - (i*180/(shapeLabels.length-1));
-          const angleRad = angleDeg*Math.PI/180;
-          const x = cx + r*Math.cos(angleRad);
-          const y = cy - r*Math.sin(angleRad);
-          const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
-          txt.setAttribute('x', x);
-          txt.setAttribute('y', y);
-          txt.setAttribute('text-anchor','middle');
-          txt.setAttribute('alignment-baseline','middle');
-          txt.setAttribute('font-size','10');
-          txt.setAttribute('fill','#4B5563');
-          txt.textContent = lbl;
-          svg.appendChild(txt);
+        document.getElementById('section2-continue').addEventListener('click', () => {
+            currentPage = 7;
+            showPage(currentPage);
         });
-      }
-      initDiagram('iron');
-      initDiagram('driver');
+        backButton.addEventListener('click', goToPrevPage);
+        continueButton.addEventListener('click', goToNextPage);
+        document.getElementById('survey-pages').addEventListener('click', handleOptionSelection);
+        document.getElementById('survey-pages').addEventListener('input', handleSliderUpdate);
 
-      // Update marker & label on slider move
-      function updateDiagram(type) {
-        const s = document.getElementById(`${type}-shape`);
-        const val = parseInt(s.value,10);
-        const marker = document.getElementById(`${type}-marker`);
-        const overlay = document.getElementById(`${type}-overlay`);
-        const lbl = document.getElementById(`${type}-label`);
-        const wrap = document.getElementById(`${type}-diagram-wrapper`);
-        overlay.style.display='none';
-        const angleDeg = 180 - (val*180/(shapeLabels.length-1));
-        const angleRad = angleDeg*Math.PI/180;
-        const cx=150, cy=150, r=100;
-        const x = cx + r*Math.cos(angleRad);
-        const y = cy - r*Math.sin(angleRad);
-        marker.setAttribute('cx', x);
-        marker.setAttribute('cy', y);
-        lbl.textContent = shapeLabels[val];
-        wrap.style.transform = swingHand==='Left' ? 'scaleX(-1)' : 'none';
-      }
-      document.getElementById('iron-shape').addEventListener('input', ()=> updateDiagram('iron'));
-      document.getElementById('driver-shape').addEventListener('input', ()=> updateDiagram('driver'));
-    });
-  </script>
+        // Initial setup
+        initProgressDots();
+        showPage(currentPage);
+    </script>
 </body>
 </html> 
