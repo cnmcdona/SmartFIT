@@ -554,36 +554,23 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 120px;
-            margin: 20px 0;
+            height: 150px;
+            margin: 30px 0;
             flex-grow: 1;
             justify-content: center;
         }
 
         .slot-machine {
             position: relative;
-            width: 250px;
-            height: 80px;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
+            width: 300px;
+            height: 100px;
             overflow: hidden;
-            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f8fafc 100%);
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: all 0.3s ease;
-        }
-
-        .slot-machine:hover {
-            border-color: #4fd1c5;
-            box-shadow: 0 4px 12px rgba(79, 209, 197, 0.2);
-        }
-
-        .slot-machine.active {
-            border-color: #4fd1c5;
-            box-shadow: 0 4px 12px rgba(79, 209, 197, 0.3);
         }
 
         .slot-window {
@@ -617,7 +604,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 600;
             color: #4a5568;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -632,9 +619,9 @@
         .slot-option.active {
             transform: translateY(0);
             opacity: 1;
-            color: #4fd1c5;
+            color: #2d3748;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(79, 209, 197, 0.2);
+            font-size: 2.25rem;
         }
 
         .slot-option:not(.active) {
@@ -642,30 +629,12 @@
             opacity: 0.3;
         }
 
+        /* Remove highlight bar */
         .slot-highlight {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 40px;
-            background: linear-gradient(180deg, 
-                rgba(79, 209, 197, 0.1) 0%, 
-                rgba(79, 209, 197, 0.2) 50%, 
-                rgba(79, 209, 197, 0.1) 100%);
-            border-radius: 8px;
-            transform: translateY(-50%);
-            pointer-events: none;
-            z-index: 1;
+            display: none;
         }
 
-        .slot-machine.active .slot-highlight {
-            background: linear-gradient(180deg, 
-                rgba(79, 209, 197, 0.2) 0%, 
-                rgba(79, 209, 197, 0.3) 50%, 
-                rgba(79, 209, 197, 0.2) 100%);
-        }
-
-        /* Add scroll indicators */
+        /* Add subtle scroll indicators */
         .slot-machine::before,
         .slot-machine::after {
             content: '';
@@ -673,29 +642,31 @@
             left: 50%;
             width: 0;
             height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
             z-index: 2;
             pointer-events: none;
-            opacity: 0.5;
+            opacity: 0.3;
         }
 
         .slot-machine::before {
-            top: 8px;
-            border-bottom: 8px solid #cbd5e0;
+            top: 15px;
+            border-bottom: 10px solid #cbd5e0;
         }
 
         .slot-machine::after {
-            bottom: 8px;
-            border-top: 8px solid #cbd5e0;
+            bottom: 15px;
+            border-top: 10px solid #cbd5e0;
         }
 
         .slot-machine:hover::before {
             border-bottom-color: #4fd1c5;
+            opacity: 0.6;
         }
 
         .slot-machine:hover::after {
             border-top-color: #4fd1c5;
+            opacity: 0.6;
         }
 
         /* Responsive */
@@ -757,17 +728,21 @@
 
             /* Slot machine mobile styles */
             .slot-machine-container {
-                height: 100px;
-                margin: 15px 0;
+                height: 120px;
+                margin: 20px 0;
             }
 
             .slot-machine {
-                width: 200px;
-                height: 70px;
+                width: 250px;
+                height: 80px;
             }
 
             .slot-option {
-                font-size: 1.25rem;
+                font-size: 1.75rem;
+            }
+
+            .slot-option.active {
+                font-size: 2rem;
             }
 
             .slot-highlight {
