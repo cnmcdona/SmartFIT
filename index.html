@@ -549,6 +549,155 @@
             margin-top: 20px;
         }
 
+        /* Slot Machine Styles */
+        .slot-machine-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 120px;
+            margin: 20px 0;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .slot-machine {
+            position: relative;
+            width: 250px;
+            height: 80px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f8fafc 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slot-machine:hover {
+            border-color: #4fd1c5;
+            box-shadow: 0 4px 12px rgba(79, 209, 197, 0.2);
+        }
+
+        .slot-machine.active {
+            border-color: #4fd1c5;
+            box-shadow: 0 4px 12px rgba(79, 209, 197, 0.3);
+        }
+
+        .slot-window {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .slot-options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .slot-option {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4a5568;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(100%);
+            opacity: 0.3;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .slot-option.active {
+            transform: translateY(0);
+            opacity: 1;
+            color: #4fd1c5;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(79, 209, 197, 0.2);
+        }
+
+        .slot-option:not(.active) {
+            transform: translateY(100%);
+            opacity: 0.3;
+        }
+
+        .slot-highlight {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(180deg, 
+                rgba(79, 209, 197, 0.1) 0%, 
+                rgba(79, 209, 197, 0.2) 50%, 
+                rgba(79, 209, 197, 0.1) 100%);
+            border-radius: 8px;
+            transform: translateY(-50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .slot-machine.active .slot-highlight {
+            background: linear-gradient(180deg, 
+                rgba(79, 209, 197, 0.2) 0%, 
+                rgba(79, 209, 197, 0.3) 50%, 
+                rgba(79, 209, 197, 0.2) 100%);
+        }
+
+        /* Add scroll indicators */
+        .slot-machine::before,
+        .slot-machine::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .slot-machine::before {
+            top: 8px;
+            border-bottom: 8px solid #cbd5e0;
+        }
+
+        .slot-machine::after {
+            bottom: 8px;
+            border-top: 8px solid #cbd5e0;
+        }
+
+        .slot-machine:hover::before {
+            border-bottom-color: #4fd1c5;
+        }
+
+        .slot-machine:hover::after {
+            border-top-color: #4fd1c5;
+        }
+
         /* Responsive */
         @media (max-width: 640px) {
             .survey-container {
@@ -604,6 +753,25 @@
             .nav-button {
                 padding: 10px 16px;
                 font-size: 0.9rem;
+            }
+
+            /* Slot machine mobile styles */
+            .slot-machine-container {
+                height: 100px;
+                margin: 15px 0;
+            }
+
+            .slot-machine {
+                width: 200px;
+                height: 70px;
+            }
+
+            .slot-option {
+                font-size: 1.25rem;
+            }
+
+            .slot-highlight {
+                height: 35px;
             }
         }
 
@@ -729,27 +897,21 @@
                 <div class="survey-page" data-page="2">
                     <div class="question-number">1</div>
                     <h2 class="question-text">What's your age?</h2>
-                    <div class="options-container">
-                        <input type="radio" id="age-under18" name="age" value="Under 18">
-                        <label for="age-under18" class="option-button">Under 18</label>
-                        
-                        <input type="radio" id="age-18-24" name="age" value="18-24">
-                        <label for="age-18-24" class="option-button">18-24</label>
-                        
-                        <input type="radio" id="age-25-34" name="age" value="25-34">
-                        <label for="age-25-34" class="option-button">25-34</label>
-                        
-                        <input type="radio" id="age-35-44" name="age" value="35-44">
-                        <label for="age-35-44" class="option-button">35-44</label>
-                        
-                        <input type="radio" id="age-45-54" name="age" value="45-54">
-                        <label for="age-45-54" class="option-button">45-54</label>
-                        
-                        <input type="radio" id="age-55-64" name="age" value="55-64">
-                        <label for="age-55-64" class="option-button">55-64</label>
-                        
-                        <input type="radio" id="age-65plus" name="age" value="65+">
-                        <label for="age-65plus" class="option-button">65+</label>
+                    <div class="slot-machine-container">
+                        <div class="slot-machine">
+                            <div class="slot-window">
+                                <div class="slot-options" id="age-options">
+                                    <div class="slot-option" data-value="Under 18">Under 18</div>
+                                    <div class="slot-option" data-value="18-24">18-24</div>
+                                    <div class="slot-option" data-value="25-34">25-34</div>
+                                    <div class="slot-option" data-value="35-44">35-44</div>
+                                    <div class="slot-option" data-value="45-54">45-54</div>
+                                    <div class="slot-option" data-value="55-64">55-64</div>
+                                    <div class="slot-option" data-value="65+">65+</div>
+                                </div>
+                            </div>
+                            <div class="slot-highlight"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -951,6 +1113,7 @@
         let currentPage = 0;
         const totalPages = 14; // Including welcome and completion
         const surveyData = {};
+        let selectedAge = null;
 
         // DOM elements
         const pages = document.querySelectorAll('.survey-page');
@@ -958,6 +1121,122 @@
         const continueButton = document.getElementById('continue-button');
         const navContainer = document.getElementById('nav-container');
         const progressDots = document.getElementById('progress-dots');
+
+        // Slot machine functionality
+        function initSlotMachine() {
+            const slotOptions = document.querySelectorAll('.slot-option');
+            const slotMachine = document.querySelector('.slot-machine');
+            let currentIndex = 0;
+            let isDragging = false;
+            let startY = 0;
+            let currentY = 0;
+
+            // Set initial active option
+            if (slotOptions.length > 0) {
+                slotOptions[0].classList.add('active');
+                selectedAge = slotOptions[0].getAttribute('data-value');
+                slotMachine.classList.add('active');
+            }
+
+            // Touch events for mobile
+            slotMachine.addEventListener('touchstart', handleTouchStart, { passive: false });
+            slotMachine.addEventListener('touchmove', handleTouchMove, { passive: false });
+            slotMachine.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+            // Mouse events for desktop
+            slotMachine.addEventListener('mousedown', handleMouseStart);
+            slotMachine.addEventListener('mousemove', handleMouseMove);
+            slotMachine.addEventListener('mouseup', handleMouseEnd);
+            slotMachine.addEventListener('mouseleave', handleMouseEnd);
+
+            function handleTouchStart(e) {
+                e.preventDefault();
+                isDragging = true;
+                startY = e.touches[0].clientY;
+                currentY = startY;
+            }
+
+            function handleTouchMove(e) {
+                e.preventDefault();
+                if (!isDragging) return;
+                
+                currentY = e.touches[0].clientY;
+                const deltaY = currentY - startY;
+                const sensitivity = 0.5;
+                
+                if (Math.abs(deltaY) > 30) {
+                    if (deltaY > 0 && currentIndex > 0) {
+                        // Scroll down
+                        currentIndex--;
+                        startY = currentY;
+                    } else if (deltaY < 0 && currentIndex < slotOptions.length - 1) {
+                        // Scroll up
+                        currentIndex++;
+                        startY = currentY;
+                    }
+                    updateSlotDisplay();
+                }
+            }
+
+            function handleTouchEnd(e) {
+                e.preventDefault();
+                isDragging = false;
+                updateContinueButton();
+            }
+
+            function handleMouseStart(e) {
+                isDragging = true;
+                startY = e.clientY;
+                currentY = startY;
+                e.preventDefault();
+            }
+
+            function handleMouseMove(e) {
+                if (!isDragging) return;
+                
+                currentY = e.clientY;
+                const deltaY = currentY - startY;
+                const sensitivity = 0.5;
+                
+                if (Math.abs(deltaY) > 30) {
+                    if (deltaY > 0 && currentIndex > 0) {
+                        // Scroll down
+                        currentIndex--;
+                        startY = currentY;
+                    } else if (deltaY < 0 && currentIndex < slotOptions.length - 1) {
+                        // Scroll up
+                        currentIndex++;
+                        startY = currentY;
+                    }
+                    updateSlotDisplay();
+                }
+            }
+
+            function handleMouseEnd(e) {
+                isDragging = false;
+                updateContinueButton();
+            }
+
+            function updateSlotDisplay() {
+                slotOptions.forEach((option, index) => {
+                    option.classList.remove('active');
+                    if (index === currentIndex) {
+                        option.classList.add('active');
+                        selectedAge = option.getAttribute('data-value');
+                    }
+                });
+                slotMachine.classList.add('active');
+            }
+
+            // Add click functionality for direct selection
+            slotOptions.forEach((option, index) => {
+                option.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateSlotDisplay();
+                    updateContinueButton();
+                });
+            });
+        }
 
         // Initialize progress dots
         function initProgressDots() {
@@ -991,6 +1270,13 @@
                 }
             });
 
+            // Initialize slot machine if on age question
+            if (pageIndex === 2) {
+                setTimeout(() => {
+                    initSlotMachine();
+                }, 100);
+            }
+
             // Update navigation visibility
             if (pageIndex === 0) {
                 // Welcome page
@@ -1018,6 +1304,12 @@
         // Check if current page is valid
         function isPageValid() {
             const currentPageEl = pages[currentPage];
+            
+            // Special handling for age question (slot machine)
+            if (currentPage === 2) {
+                return selectedAge !== null;
+            }
+            
             const inputs = currentPageEl.querySelectorAll('input[type="radio"], input[type="checkbox"]');
             
             if (inputs.length > 0) {
