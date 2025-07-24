@@ -1,775 +1,927 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GRIPscript Golf Grip Fitting Survey</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Inter Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Playfair Display for premium headings -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { 
-      font-family: 'Inter', sans-serif; 
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
-    }
-    
-    /* Premium Design System */
-    :root {
-      --gs-primary: #1a1a1a;
-      --gs-secondary: #f8f9fa;
-      --gs-accent: #00B140;
-      --gs-accent-light: #00d152;
-      --gs-gold: #d4af37;
-      --gs-silver: #c0c0c0;
-      --gs-text-primary: #1a1a1a;
-      --gs-text-secondary: #6b7280;
-      --gs-border: rgba(255, 255, 255, 0.1);
-      --gs-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      --gs-shadow-lg: 0 50px 100px -20px rgba(0, 0, 0, 0.25);
-    }
-    
-    /* Survey Container */
-    .survey-container {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-    }
-    
-    .survey-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border-radius: 24px;
-      box-shadow: var(--gs-shadow-lg);
-      overflow: hidden;
-      width: 100%;
-      border: 1px solid var(--gs-border);
-      position: relative;
-    }
-    
-    .survey-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gs-accent), transparent);
-    }
-    
-    /* Header */
-    .survey-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 2rem;
-      border-bottom: 1px solid var(--gs-border);
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-    }
-    
-    .question-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--gs-accent);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    
-    .gripscript-logo {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--gs-primary);
-      letter-spacing: -0.02em;
-    }
-    
-    .menu-icon {
-      font-size: 1.5rem;
-      color: var(--gs-text-secondary);
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-    
-    .menu-icon:hover {
-      color: var(--gs-accent);
-    }
-    
-    /* Body */
-    .survey-body {
-      padding: 3rem 2rem;
-      text-align: center;
-    }
-    
-    .grip-icon {
-      font-size: 3rem;
-      margin-bottom: 1.5rem;
-      color: var(--gs-accent);
-      filter: drop-shadow(0 4px 8px rgba(0, 177, 64, 0.3));
-      animation: float 3s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-    
-    .question-text {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.75rem;
-      font-weight: 600;
-      color: var(--gs-text-primary);
-      margin-bottom: 2rem;
-      line-height: 1.3;
-      letter-spacing: -0.02em;
-    }
-    
-    /* Section Intro */
-    .section-intro {
-      background: linear-gradient(135deg, rgba(0, 177, 64, 0.05) 0%, rgba(0, 177, 64, 0.1) 100%);
-      border-radius: 20px;
-      padding: 2.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid rgba(0, 177, 64, 0.1);
-    }
-    
-    .section-intro h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.875rem;
-      font-weight: 700;
-      color: var(--gs-accent);
-      margin-bottom: 1rem;
-      letter-spacing: -0.02em;
-    }
-    
-    .section-intro p {
-      color: var(--gs-text-secondary);
-      line-height: 1.7;
-      font-size: 1.1rem;
-    }
-    
-    /* Options */
-    .options-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    
-    .option-button {
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-      border: 2px solid var(--gs-border);
-      border-radius: 16px;
-      padding: 1.25rem 1.5rem;
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--gs-text-primary);
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .option-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      transition: left 0.5s ease;
-    }
-    
-    .option-button:hover::before {
-      left: 100%;
-    }
-    
-    .option-button:hover {
-      border-color: var(--gs-accent);
-      background: rgba(0, 177, 64, 0.05);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0, 177, 64, 0.15);
-    }
-    
-    .option-button.selected {
-      background: linear-gradient(135deg, var(--gs-accent) 0%, var(--gs-accent-light) 100%);
-      border-color: var(--gs-accent);
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0, 177, 64, 0.3);
-    }
-    
-    .option-button.horizontal {
-      flex: 1;
-    }
-    
-    .horizontal-options {
-      display: flex;
-      gap: 1rem;
-    }
-    
-    /* Sliders */
-    .slider-container {
-      margin: 3rem 0;
-    }
-    
-    .slider-value {
-      font-family: 'Playfair Display', serif;
-      font-size: 4rem;
-      font-weight: 700;
-      color: var(--gs-accent);
-      margin-bottom: 1.5rem;
-      text-shadow: 0 4px 8px rgba(0, 177, 64, 0.2);
-    }
-    
-    .slider-input {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 12px;
-      border-radius: 6px;
-      background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 100%);
-      outline: none;
-      margin: 1.5rem 0;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .slider-input::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--gs-accent) 0%, var(--gs-accent-light) 100%);
-      cursor: pointer;
-      border: 4px solid white;
-      box-shadow: 0 4px 12px rgba(0, 177, 64, 0.4);
-      transition: all 0.3s ease;
-    }
-    
-    .slider-input::-webkit-slider-thumb:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 20px rgba(0, 177, 64, 0.6);
-    }
-    
-    .slider-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.875rem;
-      color: var(--gs-text-secondary);
-      font-weight: 500;
-      margin-top: 1rem;
-    }
-    
-    /* Shot Shape */
-    .shot-shape-container {
-      margin: 3rem 0;
-    }
-    
-    .shot-svg {
-      width: 100%;
-      height: 240px;
-      margin: 1.5rem 0;
-      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
-    }
-    
-    .shot-path {
-      fill: none;
-      stroke-width: 4;
-      opacity: 0.15;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .shape1 { stroke: #8B5CF6; }
-    .shape2 { stroke: #3B82F6; }
-    .shape3 { stroke: #F59E0B; }
-    .shape4 { stroke: #10B981; }
-    .shape5 { stroke: var(--gs-accent); }
-    .shape6 { stroke: #F97316; }
-    .shape7 { stroke: #EC4899; }
-    .shape8 { stroke: #EF4444; }
-    
-    .shot-path.active {
-      opacity: 1;
-      stroke-width: 6;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-    }
-    
-    .shot-slider {
-      margin: 1.5rem 0;
-    }
-    
-    .shot-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.875rem;
-      color: var(--gs-text-secondary);
-      font-weight: 500;
-      margin-top: 1rem;
-    }
-    
-    /* Navigation */
-    .survey-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      padding: 2rem;
-      border-top: 1px solid var(--gs-border);
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-    }
-    
-    .action-button {
-      padding: 1.25rem;
-      border: none;
-      border-radius: 16px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .action-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: left 0.5s ease;
-    }
-    
-    .action-button:hover::before {
-      left: 100%;
-    }
-    
-    .btn-continue {
-      background: linear-gradient(135deg, var(--gs-accent) 0%, var(--gs-accent-light) 100%);
-      color: white;
-      box-shadow: 0 8px 20px rgba(0, 177, 64, 0.3);
-    }
-    
-    .btn-continue:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0, 177, 64, 0.4);
-    }
-    
-    .btn-back {
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-      color: var(--gs-text-primary);
-      border: 2px solid var(--gs-border);
-    }
-    
-    .btn-back:hover {
-      background: rgba(255, 255, 255, 0.9);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-    
-    .btn-continue:disabled {
-      background: #e5e7eb;
-      color: #9ca3af;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-    
-    /* Animations */
-    .fade-enter {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    
-    .fade-enter-active {
-      opacity: 1;
-      transform: translateY(0);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    /* Responsive */
-    @media (max-width: 480px) {
-      .survey-container {
-        padding: 1rem 0.5rem;
-      }
-      
-      .survey-body {
-        padding: 2rem 1.5rem;
-      }
-      
-      .slider-value {
-        font-size: 3rem;
-      }
-      
-      .question-text {
-        font-size: 1.5rem;
-      }
-    }
-    
-    /* Premium scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    
-    ::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, var(--gs-accent) 0%, var(--gs-accent-light) 100%);
-      border-radius: 4px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(135deg, var(--gs-accent-light) 0%, var(--gs-accent) 100%);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFIT Golf Grip Survey</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .survey-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .survey-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header */
+        .survey-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .logo span:nth-child(1) {
+            color: #1a1a1a;
+        }
+
+        .logo span:nth-child(2) {
+            color: #1a1a1a;
+        }
+
+        .logo span:nth-child(3) {
+            color: #4fd1c5;
+        }
+
+        .menu-icon {
+            font-size: 1.5rem;
+            color: #cbd5e0;
+            cursor: pointer;
+        }
+
+        /* Progress indicator */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background-color: #4fd1c5;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Question styling */
+        .question-number {
+            color: #4fd1c5;
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        .section-intro {
+            background-color: #e6fffa;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section-intro h2 {
+            color: #4fd1c5;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .section-intro p {
+            color: #4a5568;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Welcome page specific styles */
+        .welcome-page {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 40px;
+            min-height: 500px;
+        }
+
+        .welcome-content h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            color: #4fd1c5;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            max-width: 500px;
+        }
+
+        .welcome-content p {
+            font-size: 1.375rem;
+            color: #2d3748;
+            margin-bottom: 50px;
+            line-height: 1.6;
+            max-width: 480px;
+            font-weight: 400;
+        }
+
+        .begin-button {
+            background-color: #60a5fa;
+            color: white;
+            padding: 18px 60px;
+            border-radius: 30px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+        }
+
+        .begin-button:hover {
+            background-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
+        }
+
+        /* Golf graphic */
+        .golf-graphic {
+            position: absolute;
+            right: -100px;
+            bottom: -50px;
+            width: 400px;
+            height: 400px;
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .golf-graphic svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Options */
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .option-button {
+            background-color: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .option-button:hover {
+            border-color: #4fd1c5;
+            background-color: #f0fdfa;
+        }
+
+        .option-button.selected {
+            background-color: #4fd1c5;
+            border-color: #4fd1c5;
+            color: white;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        /* Sliders */
+        .slider-container {
+            margin: 40px 0;
+        }
+
+        .slider-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4fd1c5;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            outline: none;
+            margin: 20px 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #4fd1c5;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(79, 209, 197, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #4fd1c5;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(79, 209, 197, 0.5);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: #718096;
+            margin-top: 10px;
+        }
+
+        /* Text input */
+        input[type="text"] {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            color: #2d3748;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4fd1c5;
+            background-color: #f0fdfa;
+        }
+
+        input[type="text"]::placeholder {
+            color: #a0aec0;
+        }
+
+        /* Navigation buttons */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 20px;
+            gap: 12px;
+        }
+
+        .nav-button {
+            flex: 1;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-button.primary {
+            background-color: #60a5fa;
+            color: white;
+        }
+
+        .nav-button.primary:hover {
+            background-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.4);
+        }
+
+        .nav-button.secondary {
+            background-color: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .nav-button.secondary:hover {
+            background-color: #cbd5e0;
+        }
+
+        .nav-button:disabled {
+            background-color: #e2e8f0;
+            color: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Shot diagram */
+        .shot-diagram-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            height: 200px;
+            margin: 30px auto;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #f7fafc;
+        }
+
+        .shot-diagram-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .shot-diagram-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Hand diagram */
+        .hand-diagram {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hand-diagram svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Survey pages */
+        .survey-page {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .survey-page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Success message */
+        .success-message {
+            background-color: #e6fffa;
+            color: #2c7a7b;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: none;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .survey-card {
+                padding: 30px 20px;
+                min-height: 500px;
+            }
+
+            .question-text {
+                font-size: 1.25rem;
+            }
+
+            .question-number {
+                font-size: 2.5rem;
+            }
+
+            .slider-value {
+                font-size: 2.5rem;
+            }
+
+            .welcome-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="survey-container">
-    <div class="survey-card" id="survey-card">
-      <!-- Survey content will be rendered here -->
+    <div class="survey-container">
+        <div class="survey-card">
+            <div class="survey-header">
+                <div class="logo">
+                    <span>GR</span><span>I</span><span>P</span><span>script</span>
+                </div>
+                <i class="fas fa-bars menu-icon"></i>
+            </div>
+
+            <div class="progress-dots" id="progress-dots">
+                <!-- Dots will be generated dynamically -->
+            </div>
+
+            <div id="survey-pages">
+                <!-- Welcome Page -->
+                <div class="survey-page active welcome-page" data-page="0">
+                    <div class="golf-graphic">
+                        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                            <g opacity="0.8">
+                                <!-- Golf ball path -->
+                                <path d="M 50 350 Q 200 100 350 200" stroke="#4fd1c5" stroke-width="40" fill="none" stroke-linecap="round" opacity="0.4"/>
+                                <circle cx="350" cy="200" r="30" fill="#4fd1c5" opacity="0.6"/>
+                                
+                                <!-- Additional decorative elements -->
+                                <circle cx="150" cy="250" r="60" fill="#4fd1c5" opacity="0.2"/>
+                                <circle cx="280" cy="320" r="80" fill="#4fd1c5" opacity="0.15"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="welcome-content" style="position: relative; z-index: 1;">
+                        <h1>Welcome to the SmartFIT™ Experience</h1>
+                        <p>The most comprehensive and advanced grip fitting technology available to golfers.</p>
+                        <button class="begin-button" id="begin-button">BEGIN</button>
+                    </div>
+                </div>
+
+                <!-- Section 1 Intro -->
+                <div class="survey-page" data-page="1">
+                    <div class="section-intro">
+                        <h2>Player Profile</h2>
+                        <p>In this section, we'll learn about your player profile. This helps us understand your general golfing background.</p>
+                    </div>
+                    <div class="nav-container">
+                        <button class="nav-button primary" id="section1-continue">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Question 1: Age -->
+                <div class="survey-page" data-page="2">
+                    <div class="question-number">1</div>
+                    <h2 class="question-text">What's your age?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="age-under18" name="age" value="Under 18">
+                        <label for="age-under18" class="option-button">Under 18</label>
+                        
+                        <input type="radio" id="age-18-24" name="age" value="18-24">
+                        <label for="age-18-24" class="option-button">18-24</label>
+                        
+                        <input type="radio" id="age-25-34" name="age" value="25-34">
+                        <label for="age-25-34" class="option-button">25-34</label>
+                        
+                        <input type="radio" id="age-35-44" name="age" value="35-44">
+                        <label for="age-35-44" class="option-button">35-44</label>
+                        
+                        <input type="radio" id="age-45-54" name="age" value="45-54">
+                        <label for="age-45-54" class="option-button">45-54</label>
+                        
+                        <input type="radio" id="age-55-64" name="age" value="55-64">
+                        <label for="age-55-64" class="option-button">55-64</label>
+                        
+                        <input type="radio" id="age-65plus" name="age" value="65+">
+                        <label for="age-65plus" class="option-button">65+</label>
+                    </div>
+                </div>
+
+                <!-- Question 2: Gender -->
+                <div class="survey-page" data-page="3">
+                    <div class="question-number">2</div>
+                    <h2 class="question-text">What's your gender?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="gender-male" name="gender" value="Male">
+                        <label for="gender-male" class="option-button">Male</label>
+                        
+                        <input type="radio" id="gender-female" name="gender" value="Female">
+                        <label for="gender-female" class="option-button">Female</label>
+                        
+                        <input type="radio" id="gender-prefer-not" name="gender" value="Prefer not to say">
+                        <label for="gender-prefer-not" class="option-button">Prefer not to say</label>
+                    </div>
+                </div>
+
+                <!-- Question 3: Handicap -->
+                <div class="survey-page" data-page="4">
+                    <div class="question-number">3</div>
+                    <h2 class="question-text">What's your approx. handicap?</h2>
+                    <div class="slider-container">
+                        <div class="slider-value" id="handicap-value">14</div>
+                        <input type="range" id="handicap-slider" name="handicap" min="0" max="36" value="14">
+                        <div class="slider-labels">
+                            <span>Professional</span>
+                            <span>Beginner</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 4: Rounds per year -->
+                <div class="survey-page" data-page="5">
+                    <div class="question-number">4</div>
+                    <h2 class="question-text">How many times a year do you play?</h2>
+                    <div class="slider-container">
+                        <div class="slider-value" id="rounds-value">60</div>
+                        <input type="range" id="rounds-slider" name="rounds-per-year" min="5" max="100" value="60" step="5">
+                        <div class="slider-labels">
+                            <span>Rarely</span>
+                            <span>Frequently</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2 Intro -->
+                <div class="survey-page" data-page="6">
+                    <div class="section-intro">
+                        <h2>Preferences & Physical Considerations</h2>
+                        <p>Now, tell us about any physical considerations and grip preferences. This helps us understand any physical factors that may affect your grip recommendation.</p>
+                    </div>
+                    <div class="nav-container">
+                        <button class="nav-button primary" id="section2-continue">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Question 5: Physical conditions -->
+                <div class="survey-page" data-page="7">
+                    <div class="question-number">5</div>
+                    <h2 class="question-text">Do you experience any of the following?</h2>
+                    <div class="options-container">
+                        <input type="checkbox" id="condition-arthritis" name="physical-condition" value="Arthritis">
+                        <label for="condition-arthritis" class="option-button">Arthritis</label>
+                        
+                        <input type="checkbox" id="condition-limited" name="physical-condition" value="Limited Hand Strength">
+                        <label for="condition-limited" class="option-button">Limited Hand Strength</label>
+                        
+                        <input type="checkbox" id="condition-tendinitis" name="physical-condition" value="Tendinitis">
+                        <label for="condition-tendinitis" class="option-button">Tendinitis</label>
+                        
+                        <input type="checkbox" id="condition-none" name="physical-condition" value="None of the above">
+                        <label for="condition-none" class="option-button">None of the above</label>
+                    </div>
+                </div>
+
+                <!-- Question 6: Moisture control -->
+                <div class="survey-page" data-page="8">
+                    <div class="question-number">6</div>
+                    <h2 class="question-text">Do you need enhanced moisture control?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="moisture-yes" name="moisture-control" value="Yes, I struggle with slippage">
+                        <label for="moisture-yes" class="option-button">Yes, I struggle with slippage</label>
+                        
+                        <input type="radio" id="moisture-no" name="moisture-control" value="No, moisture isn't an issue">
+                        <label for="moisture-no" class="option-button">No, moisture isn't an issue</label>
+                    </div>
+                </div>
+
+                <!-- Question 7: Grip feel -->
+                <div class="survey-page" data-page="9">
+                    <div class="question-number">7</div>
+                    <h2 class="question-text">How would you describe your current grip's feel?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="feel-too-soft" name="grip-feel" value="Too soft">
+                        <label for="feel-too-soft" class="option-button">Too soft</label>
+                        
+                        <input type="radio" id="feel-slightly-soft" name="grip-feel" value="Slightly soft">
+                        <label for="feel-slightly-soft" class="option-button">Slightly soft</label>
+                        
+                        <input type="radio" id="feel-just-right" name="grip-feel" value="Just right">
+                        <label for="feel-just-right" class="option-button">Just right</label>
+                        
+                        <input type="radio" id="feel-slightly-firm" name="grip-feel" value="Slightly firm">
+                        <label for="feel-slightly-firm" class="option-button">Slightly firm</label>
+                        
+                        <input type="radio" id="feel-too-firm" name="grip-feel" value="Too firm">
+                        <label for="feel-too-firm" class="option-button">Too firm</label>
+                    </div>
+                </div>
+
+                <!-- Question 8: Current grip size -->
+                <div class="survey-page" data-page="10">
+                    <div class="question-number">8</div>
+                    <h2 class="question-text">What size are your current grips?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="size-undersize" name="grip-size" value="Undersize">
+                        <label for="size-undersize" class="option-button">Undersize</label>
+                        
+                        <input type="radio" id="size-standard" name="grip-size" value="Standard">
+                        <label for="size-standard" class="option-button">Standard</label>
+                        
+                        <input type="radio" id="size-midsize" name="grip-size" value="Midsize">
+                        <label for="size-midsize" class="option-button">Midsize</label>
+                        
+                        <input type="radio" id="size-jumbo" name="grip-size" value="Jumbo">
+                        <label for="size-jumbo" class="option-button">Jumbo</label>
+                        
+                        <input type="radio" id="size-dont-know" name="grip-size" value="I don't know">
+                        <label for="size-dont-know" class="option-button">I don't know</label>
+                    </div>
+                </div>
+
+                <!-- Question 9: Swing hand -->
+                <div class="survey-page" data-page="11">
+                    <div class="question-number">9</div>
+                    <h2 class="question-text">Which hand do you swing with?</h2>
+                    <div class="options-container" style="flex-direction: row; max-width: 300px; margin: 0 auto;">
+                        <input type="radio" id="swing-left" name="swing-hand" value="Left">
+                        <label for="swing-left" class="option-button" style="flex: 1;">Left</label>
+                        
+                        <input type="radio" id="swing-right" name="swing-hand" value="Right" checked>
+                        <label for="swing-right" class="option-button" style="flex: 1;">Right</label>
+                    </div>
+                </div>
+
+                <!-- Question 10: Iron shot shape -->
+                <div class="survey-page" data-page="12">
+                    <div class="question-number">10</div>
+                    <h2 class="question-text">What's your typical iron shot shape?</h2>
+                    <div class="hand-diagram">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Simplified hand and club illustration -->
+                            <g id="hand-illustration">
+                                <!-- Club shaft -->
+                                <line x1="100" y1="20" x2="100" y2="180" stroke="#718096" stroke-width="4" stroke-linecap="round"/>
+                                
+                                <!-- Hands -->
+                                <ellipse cx="100" cy="100" rx="25" ry="35" fill="#fbbf24" opacity="0.8"/>
+                                <ellipse cx="100" cy="120" rx="25" ry="35" fill="#f59e0b" opacity="0.8"/>
+                                
+                                <!-- Ball path indicator -->
+                                <path id="shot-path" d="M 100 180 Q 100 150 100 120" stroke="#4fd1c5" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="iron-shot-slider" name="iron-shot-shape" min="0" max="6" value="3" step="1">
+                        <div class="slider-labels">
+                            <span>Pull Hook</span>
+                            <span>Push Slice</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completion Page -->
+                <div class="survey-page" data-page="13">
+                    <div class="welcome-content">
+                        <div class="question-number" style="color: #4fd1c5;">✓</div>
+                        <h1>Survey Complete!</h1>
+                        <p>Thank you for completing the SmartFIT grip assessment. Your personalized grip recommendations are being prepared.</p>
+                        <div class="success-message" id="success-message" style="display: block;">
+                            Your responses have been saved successfully!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-container" id="nav-container">
+                <button class="nav-button secondary" id="back-button">Back</button>
+                <button class="nav-button primary" id="continue-button">Continue</button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    // Survey data
-    const surveySteps = [
-      // Welcome
-      { type: 'welcome', title: 'Welcome to GRIPscript', message: 'The most comprehensive and advanced grip fitting technology available to golfers.' },
-      
-      // Section 1 Intro
-      { type: 'section', title: 'Player Profile', message: 'In this section, we\'ll learn about your player profile. This helps us understand your general golfing background.' },
-      
-      // Question 1: Age
-      { type: 'slider', question: 'What\'s your age?', name: 'age', min: 1, max: 7, value: 2, labels: ['Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65+'] },
-      
-      // Question 2: Gender
-      { type: 'radio', question: 'What\'s your gender?', name: 'gender', options: ['Male', 'Female', 'Prefer not to say'] },
-      
-      // Question 3: Handicap
-      { type: 'slider', question: 'What\'s your approx. handicap?', name: 'handicap', min: 0, max: 36, value: 14, labels: ['Professional', 'Beginner'] },
-      
-      // Question 4: Rounds per year
-      { type: 'slider', question: 'How many times a year do you play?', name: 'rounds', min: 5, max: 85, value: 60, labels: ['Rarely', 'Consistently'] },
-      
-      // Section 2 Intro
-      { type: 'section', title: 'Preferences & Physical Considerations', message: 'Now, tell us about any physical considerations and grip preferences. This helps us understand any physical factors that may affect your grip recommendation.' },
-      
-      // Question 5: Physical conditions
-      { type: 'checkbox', question: 'Do you experience any of the following?', name: 'physical', options: ['Arthritis', 'Limited Hand Strength', 'Tendinitis', 'None of the above'], note: 'Select all that apply' },
-      
-      // Question 6: Moisture control
-      { type: 'radio', question: 'Do you need enhanced moisture control?', name: 'moisture', options: ['Yes, I struggle with slippage', 'No, moisture isn\'t an issue'] },
-      
-      // Question 7: Grip feel
-      { type: 'radio', question: 'How would you describe your current grip\'s feel?', name: 'feel', options: ['Too soft', 'Slightly soft', 'Just right', 'Slightly firm', 'Too firm'] },
-      
-      // Question 8: Grip size
-      { type: 'radio', question: 'What size are your current grips?', name: 'gripSize', options: ['Undersize', 'Standard', 'Midsize', 'Jumbo', 'I don\'t know'] },
-      
-      // Question 9: Swing hand
-      { type: 'radio', question: 'Which hand do you swing with?', name: 'swingHand', options: ['Left', 'Right'], horizontal: true },
-      
-      // Question 10: Iron shot shape
-      { type: 'shotshape', question: 'What\'s your typical iron shot shape?', name: 'ironShape', default: 4 },
-      
-      // Question 11: Driver shot shape
-      { type: 'shotshape', question: 'What\'s your typical driver shot shape?', name: 'driverShape', default: 4 },
-      
-      // Section 3 Intro
-      { type: 'section', title: 'Goals', message: 'Lastly, tell us about your goals. Tell us what you want to improve with your new grips.' },
-      
-      // Question 12: Change iron shape
-      { type: 'radio', question: 'Do you want to change your iron shot shape?', name: 'goalIron', options: ['Yes, I want straighter shots', 'Yes, I want to draw it more', 'Yes, I want to fade it more', 'No, I like my current shape'] },
-      
-      // Question 13: Change driver shape
-      { type: 'radio', question: 'Do you want to change your driver shot shape?', name: 'goalDriver', options: ['Yes, I want straighter shots', 'Yes, I want to draw it more', 'Yes, I want to fade it more', 'No, I like my current shape'] },
-      
-      // Question 14: Improve grip goals
-      { type: 'checkbox', question: 'What do you want to improve with your new grips?', name: 'improve', options: ['Better fit', 'Better club control', 'Improved feel and feedback', 'Better grip in wet conditions', 'More comfort', 'Less hand fatigue'], note: 'Select all that apply' },
-      
-      // Thank you
-      { type: 'thankyou', title: 'Thank you for completing the GRIPscript Experience!', message: 'Your personalized grip recommendation will appear here shortly!' }
-    ];
+    <script>
+        // Survey state
+        let currentPage = 0;
+        const totalPages = 14; // Including welcome and completion
+        const surveyData = {};
 
-    // Survey state
-    let currentStep = 0;
-    let answers = {};
+        // DOM elements
+        const pages = document.querySelectorAll('.survey-page');
+        const backButton = document.getElementById('back-button');
+        const continueButton = document.getElementById('continue-button');
+        const navContainer = document.getElementById('nav-container');
+        const progressDots = document.getElementById('progress-dots');
 
-    // Utility functions
-    function $(sel) { return document.querySelector(sel); }
-    function $all(sel) { return Array.from(document.querySelectorAll(sel)); }
-
-    // Render functions
-    function renderHeader(step, stepNumber) {
-      if (step.type === 'welcome' || step.type === 'thankyou') return '';
-      
-      const questionText = step.type === 'section' ? step.title : `Question ${stepNumber}`;
-      return `
-        <div class="survey-header">
-          <div class="question-number">${questionText}</div>
-          <div class="gripscript-logo">GRIPscript</div>
-          <div class="menu-icon">☰</div>
-        </div>
-      `;
-    }
-
-    function renderWelcome(step) {
-      return `
-        <div class="survey-body">
-          <div class="grip-icon">🏌️</div>
-          <h1 class="question-text">${step.title}</h1>
-          <p style="color: var(--gs-text-secondary); line-height: 1.7; margin-bottom: 2rem; font-size: 1.1rem;">${step.message}</p>
-        </div>
-      `;
-    }
-
-    function renderSection(step) {
-      return `
-        <div class="survey-body">
-          <div class="section-intro">
-            <h2>${step.title}</h2>
-            <p>${step.message}</p>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderThankYou(step) {
-      return `
-        <div class="survey-body">
-          <div class="grip-icon">🎉</div>
-          <h1 class="question-text">${step.title}</h1>
-          <p style="color: var(--gs-text-secondary); line-height: 1.7; font-size: 1.1rem;">${step.message}</p>
-        </div>
-      `;
-    }
-
-    function renderSlider(step, stepNumber) {
-      const value = answers[step.name] ?? step.value;
-      const displayValue = step.labels ? step.labels[value] : value;
-      
-      return `
-        <div class="survey-body">
-          <div class="grip-icon">🏌️</div>
-          <h2 class="question-text">${step.question}</h2>
-          <div class="slider-container">
-            <div class="slider-value">${displayValue}</div>
-            <input type="range" class="slider-input" min="${step.min}" max="${step.max}" value="${value}" name="${step.name}">
-            <div class="slider-labels">
-              <span>${step.labels[0]}</span>
-              <span>${step.labels[1]}</span>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderRadio(step, stepNumber) {
-      const selected = answers[step.name];
-      const optionsHtml = step.options.map(option => `
-        <button class="option-button ${selected === option ? 'selected' : ''}" data-value="${option}">
-          ${option}
-        </button>
-      `).join('');
-
-      const containerClass = step.horizontal ? 'horizontal-options' : 'options-container';
-      
-      return `
-        <div class="survey-body">
-          <div class="grip-icon">🏌️</div>
-          <h2 class="question-text">${step.question}</h2>
-          ${step.note ? `<p style="color: var(--gs-text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem; font-weight: 500;">${step.note}</p>` : ''}
-          <div class="${containerClass}">
-            ${optionsHtml}
-          </div>
-        </div>
-      `;
-    }
-
-    function renderCheckbox(step, stepNumber) {
-      const selected = answers[step.name] || [];
-      const optionsHtml = step.options.map(option => `
-        <button class="option-button ${selected.includes(option) ? 'selected' : ''}" data-value="${option}">
-          ${option}
-        </button>
-      `).join('');
-
-      return `
-        <div class="survey-body">
-          <div class="grip-icon">🏌️</div>
-          <h2 class="question-text">${step.question}</h2>
-          ${step.note ? `<p style="color: var(--gs-text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem; font-weight: 500;">${step.note}</p>` : ''}
-          <div class="options-container">
-            ${optionsHtml}
-          </div>
-        </div>
-      `;
-    }
-
-    function renderShotShape(step, stepNumber) {
-      const value = (answers[step.name] ?? step.default) + 1;
-      
-      return `
-        <div class="survey-body">
-          <div class="grip-icon">🏌️</div>
-          <h2 class="question-text">${step.question}</h2>
-          <div class="shot-shape-container">
-            <svg viewBox="0 0 400 200" class="shot-svg" id="shotSvg-${step.name}">
-              <path id="shape1-${step.name}" class="shot-path shape1" d="M200,180 C180,140 160,80 140,40"/>
-              <path id="shape2-${step.name}" class="shot-path shape2" d="M200,180 C185,140 170,80 155,40"/>
-              <path id="shape3-${step.name}" class="shot-path shape3" d="M200,180 C195,140 190,80 185,40"/>
-              <path id="shape4-${step.name}" class="shot-path shape4" d="M200,180 C210,140 230,80 250,40"/>
-              <path id="shape5-${step.name}" class="shot-path shape5" d="M200,180 C200,140 200,80 200,40"/>
-              <path id="shape6-${step.name}" class="shot-path shape6" d="M200,180 C215,140 230,80 245,40"/>
-              <path id="shape7-${step.name}" class="shot-path shape7" d="M200,180 C225,140 250,80 275,40"/>
-              <path id="shape8-${step.name}" class="shot-path shape8" d="M200,180 C240,140 280,80 320,40"/>
-            </svg>
-            <div class="shot-slider">
-              <input type="range" class="slider-input" min="1" max="8" value="${value}" name="${step.name}">
-              <div class="shot-labels">
-                <span>Pull Hook</span>
-                <span>Push Slice</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderNavigation() {
-      const step = surveySteps[currentStep];
-      const isLastStep = currentStep === surveySteps.length - 1;
-      const canContinue = step.type === 'welcome' || step.type === 'section' || step.type === 'thankyou' || 
-                         (step.type === 'slider') || 
-                         (step.type === 'radio' && answers[step.name]) ||
-                         (step.type === 'checkbox' && answers[step.name] && answers[step.name].length > 0) ||
-                         (step.type === 'shotshape' && answers[step.name] !== undefined);
-
-      return `
-        <div class="survey-actions">
-          ${currentStep > 0 ? '<button class="action-button btn-back">BACK</button>' : ''}
-          <button class="action-button btn-continue" ${!canContinue ? 'disabled' : ''}>
-            ${isLastStep ? 'FINISH' : 'CONTINUE'}
-          </button>
-        </div>
-      `;
-    }
-
-    // Main render function
-    function renderSurvey() {
-      const step = surveySteps[currentStep];
-      const stepNumber = surveySteps.slice(0, currentStep + 1).filter(s => ['slider', 'radio', 'checkbox', 'shotshape'].includes(s.type)).length;
-      
-      let html = '';
-      html += renderHeader(step, stepNumber);
-      
-      if (step.type === 'welcome') html += renderWelcome(step);
-      else if (step.type === 'section') html += renderSection(step);
-      else if (step.type === 'thankyou') html += renderThankYou(step);
-      else if (step.type === 'slider') html += renderSlider(step, stepNumber);
-      else if (step.type === 'radio') html += renderRadio(step, stepNumber);
-      else if (step.type === 'checkbox') html += renderCheckbox(step, stepNumber);
-      else if (step.type === 'shotshape') html += renderShotShape(step, stepNumber);
-      
-      html += renderNavigation();
-      
-      $('#survey-card').innerHTML = html;
-      setupEvents();
-    }
-
-    // Event handlers
-    function setupEvents() {
-      // Navigation
-      $('.btn-continue')?.addEventListener('click', () => {
-        if (currentStep < surveySteps.length - 1) {
-          currentStep++;
-          renderSurvey();
-        }
-      });
-      
-      $('.btn-back')?.addEventListener('click', () => {
-        if (currentStep > 0) {
-          currentStep--;
-          renderSurvey();
-        }
-      });
-
-      // Option buttons
-      $all('.option-button').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const step = surveySteps[currentStep];
-          const value = e.target.dataset.value;
-          
-          if (step.type === 'radio') {
-            answers[step.name] = value;
-            $all('.option-button').forEach(b => b.classList.remove('selected'));
-            e.target.classList.add('selected');
-          } else if (step.type === 'checkbox') {
-            if (!answers[step.name]) answers[step.name] = [];
-            const index = answers[step.name].indexOf(value);
-            if (index > -1) {
-              answers[step.name].splice(index, 1);
-              e.target.classList.remove('selected');
-            } else {
-              answers[step.name].push(value);
-              e.target.classList.add('selected');
+        // Initialize progress dots
+        function initProgressDots() {
+            progressDots.innerHTML = '';
+            for (let i = 0; i < totalPages - 2; i++) { // Exclude welcome and completion
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                progressDots.appendChild(dot);
             }
-          }
-          
-          renderSurvey();
-        });
-      });
-
-      // Sliders
-      $all('.slider-input').forEach(slider => {
-        slider.addEventListener('input', (e) => {
-          const step = surveySteps[currentStep];
-          if (step.type === 'shotshape') {
-            answers[step.name] = parseInt(e.target.value) - 1;
-            updateShotShape(step.name, parseInt(e.target.value));
-          } else {
-            answers[step.name] = parseInt(e.target.value);
-          }
-          renderSurvey();
-        });
-      });
-
-      // Initialize shot shape if present
-      const step = surveySteps[currentStep];
-      if (step.type === 'shotshape') {
-        const slider = $(`input[name="${step.name}"]`);
-        if (slider) {
-          updateShotShape(step.name, parseInt(slider.value));
         }
-      }
-    }
 
-    function updateShotShape(stepName, value) {
-      const paths = $all(`#shotSvg-${stepName} .shot-path`);
-      const idx = Number(value) - 1;
-      paths.forEach((p, i) => p.classList.toggle('active', i === idx));
-    }
+        // Update progress dots
+        function updateProgressDots() {
+            const dots = progressDots.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                if (index === currentPage - 1) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
 
-    // Initialize
-    renderSurvey();
-  </script>
+        // Show page
+        function showPage(pageIndex) {
+            pages.forEach((page, index) => {
+                if (index === pageIndex) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            // Update navigation visibility
+            if (pageIndex === 0) {
+                // Welcome page
+                navContainer.style.display = 'none';
+                progressDots.style.display = 'none';
+            } else if (pageIndex === totalPages - 1) {
+                // Completion page
+                navContainer.style.display = 'none';
+                progressDots.style.display = 'none';
+            } else if (pageIndex === 1 || pageIndex === 6) {
+                // Section intro pages
+                navContainer.style.display = 'none';
+                progressDots.style.display = 'flex';
+            } else {
+                // Regular question pages
+                navContainer.style.display = 'flex';
+                progressDots.style.display = 'flex';
+                backButton.style.display = pageIndex > 1 ? 'block' : 'none';
+            }
+
+            updateProgressDots();
+            updateContinueButton();
+        }
+
+        // Check if current page is valid
+        function isPageValid() {
+            const currentPageEl = pages[currentPage];
+            const inputs = currentPageEl.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            
+            if (inputs.length > 0) {
+                return Array.from(inputs).some(input => input.checked);
+            }
+            
+            return true; // Pages without inputs are always valid
+        }
+
+        // Update continue button state
+        function updateContinueButton() {
+            if (currentPage === totalPages - 2) {
+                continueButton.textContent = 'Submit';
+            } else {
+                continueButton.textContent = 'Continue';
+            }
+            
+            continueButton.disabled = !isPageValid();
+        }
+
+        // Handle option selection
+        function handleOptionSelection(e) {
+            if (e.target.classList.contains('option-button')) {
+                const input = e.target.previousElementSibling;
+                if (input && (input.type === 'radio' || input.type === 'checkbox')) {
+                    input.checked = !input.checked;
+                    
+                    // Update visual state
+                    if (input.type === 'radio') {
+                        const allOptions = input.closest('.options-container').querySelectorAll('.option-button');
+                        allOptions.forEach(opt => opt.classList.remove('selected'));
+                        if (input.checked) {
+                            e.target.classList.add('selected');
+                        }
+                    } else {
+                        e.target.classList.toggle('selected', input.checked);
+                    }
+                    
+                    // Handle "None of the above" logic
+                    if (input.name === 'physical-condition') {
+                        if (input.id === 'condition-none' && input.checked) {
+                            const otherCheckboxes = document.querySelectorAll('input[name="physical-condition"]:not(#condition-none)');
+                            otherCheckboxes.forEach(cb => {
+                                cb.checked = false;
+                                cb.nextElementSibling.classList.remove('selected');
+                            });
+                        } else if (input.id !== 'condition-none' && input.checked) {
+                            document.getElementById('condition-none').checked = false;
+                            document.getElementById('condition-none').nextElementSibling.classList.remove('selected');
+                        }
+                    }
+                    updateContinueButton();
+                }
+            }
+        }
+
+        // Handle slider updates
+        function handleSliderUpdate(e) {
+            if (e.target.id === 'handicap-slider') {
+                document.getElementById('handicap-value').textContent = e.target.value;
+            }
+            if (e.target.id === 'rounds-slider') {
+                const val = parseInt(e.target.value, 10);
+                document.getElementById('rounds-value').textContent = val >= 85 ? '85+' : val;
+            }
+        }
+
+        // Navigation
+        function goToNextPage() {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        }
+
+        function goToPrevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('begin-button').addEventListener('click', () => {
+            currentPage = 1;
+            showPage(currentPage);
+        });
+        document.getElementById('section1-continue').addEventListener('click', () => {
+            currentPage = 2;
+            showPage(currentPage);
+        });
+        document.getElementById('section2-continue').addEventListener('click', () => {
+            currentPage = 7;
+            showPage(currentPage);
+        });
+        backButton.addEventListener('click', goToPrevPage);
+        continueButton.addEventListener('click', goToNextPage);
+        document.getElementById('survey-pages').addEventListener('click', handleOptionSelection);
+        document.getElementById('survey-pages').addEventListener('input', handleSliderUpdate);
+
+        // Initial setup
+        initProgressDots();
+        showPage(currentPage);
+    </script>
 </body>
 </html> 
