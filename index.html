@@ -3,643 +3,641 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SmartFIT Experience: Golf Grip Fitting</title>
+  <title>GRIPscript Golf Grip Fitting Survey</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Inter Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .fade-enter { opacity: 0; transform: translateY(16px); }
-    .fade-enter-active { opacity: 1; transform: translateY(0); transition: opacity 0.4s, transform 0.4s; }
-    .fade-exit { opacity: 1; transform: translateY(0); }
-    .fade-exit-active { opacity: 0; transform: translateY(-16px); transition: opacity 0.4s, transform 0.4s; }
-    .transitioning { pointer-events: none; }
-    /* Custom scrollbar for progress bar */
-    ::-webkit-scrollbar { height: 6px; background: #e5e7eb; border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb { background: #4fd1c5; border-radius: 9999px; }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: linear-gradient(135deg, #f0f9ff 0%, #f0fdf4 100%);
+    }
     
-    /* --- GRIPscript Shot Shape Styles --- */
+    /* GRIPscript Design System */
     :root {
       --gs-green: #00B140;
-      --gs-blue:  #5AC8FA;
-      --gs-grey:  #F0F0F0;
-      --font:    'Inter', sans-serif;
+      --gs-blue: #5AC8FA;
+      --gs-grey: #F0F0F0;
+      --gs-dark: #1a1a1a;
+      --gs-light: #f8fafc;
     }
     
-    /* --- container & header --- */
-    .gs-step {
-      max-width: 360px;
-      margin: 1.5em auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      overflow: hidden;
-      font-family: var(--font);
+    /* Survey Container */
+    .survey-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 1rem;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
     }
-    .gs-header {
+    
+    .survey-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      overflow: hidden;
+      width: 100%;
+    }
+    
+    /* Header */
+    .survey-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1em;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #f1f5f9;
     }
-    .gs-logo { 
-      height: 24px; 
-      font-weight: 700;
+    
+    .question-number {
+      font-size: 0.875rem;
+      font-weight: 600;
       color: var(--gs-green);
     }
-    .gs-menu {
-      font-size: 1.5em;
-      color: #ccc;
+    
+    .gripscript-logo {
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: var(--gs-green);
+    }
+    
+    .menu-icon {
+      font-size: 1.25rem;
+      color: #cbd5e1;
       cursor: pointer;
     }
-
-    /* --- question block --- */
-    .gs-body {
-      padding: 0 1.2em;
+    
+    /* Body */
+    .survey-body {
+      padding: 2rem 1.5rem;
       text-align: center;
     }
-    .gs-icon {
-      margin-top: 0.8em;
-      height: 32px;
-      font-size: 32px;
-    }
-    .gs-question {
-      margin: 0.6em 0 1em;
+    
+    .grip-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
       color: var(--gs-green);
-      font-weight: 300;
-      font-size: 1.2em;
-      line-height: 1.3;
     }
-
-    /* --- graphic --- */
-    .gs-graphic {
-      position: relative;
-      height: 200px;
+    
+    .question-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--gs-green);
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
     }
+    
+    /* Section Intro */
+    .section-intro {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .section-intro h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gs-green);
+      margin-bottom: 0.75rem;
+    }
+    
+    .section-intro p {
+      color: #64748b;
+      line-height: 1.6;
+    }
+    
+    /* Options */
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    
+    .option-button {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+    
+    .option-button:hover {
+      border-color: var(--gs-green);
+      background: #f0fdf4;
+    }
+    
+    .option-button.selected {
+      background: var(--gs-green);
+      border-color: var(--gs-green);
+      color: white;
+    }
+    
+    .option-button.horizontal {
+      flex: 1;
+    }
+    
+    .horizontal-options {
+      display: flex;
+      gap: 0.75rem;
+    }
+    
+    /* Sliders */
+    .slider-container {
+      margin: 2rem 0;
+    }
+    
+    .slider-value {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--gs-green);
+      margin-bottom: 1rem;
+    }
+    
+    .slider-input {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      outline: none;
+      margin: 1rem 0;
+    }
+    
+    .slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--gs-green);
+      cursor: pointer;
+      border: 3px solid white;
+      box-shadow: 0 2px 8px rgba(0, 177, 64, 0.3);
+    }
+    
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+    
+    /* Shot Shape */
+    .shot-shape-container {
+      margin: 2rem 0;
+    }
+    
     .shot-svg {
       width: 100%;
-      height: 100%;
+      height: 200px;
+      margin: 1rem 0;
     }
+    
     .shot-path {
       fill: none;
       stroke-width: 3;
       opacity: 0.2;
-      transition: opacity 0.3s;
+      transition: all 0.3s ease;
     }
-    /* pastel base colors */
-    .shape1 { stroke: #8E44AD; }   /* purple */
-    .shape2 { stroke: #3498DB; }   /* blue */
-    .shape3 { stroke: #F1C40F; }   /* yellow */
-    .shape4 { stroke: #A0D468; }   /* light-green */
-    .shape5 { stroke: #00B140; }   /* Gripscript green */
-    .shape6 { stroke: #E67E22; }   /* orange */
-    .shape7 { stroke: #E84393; }   /* pink */
-    .shape8 { stroke: #D64541; }   /* red */
-    /* highlight selected */
+    
+    .shape1 { stroke: #8E44AD; }
+    .shape2 { stroke: #3498DB; }
+    .shape3 { stroke: #F1C40F; }
+    .shape4 { stroke: #A0D468; }
+    .shape5 { stroke: var(--gs-green); }
+    .shape6 { stroke: #E67E22; }
+    .shape7 { stroke: #E84393; }
+    .shape8 { stroke: #D64541; }
+    
     .shot-path.active {
       opacity: 1;
       stroke-width: 4;
     }
-
-    /* --- slider --- */
-    .gs-slider {
-      margin: 1.2em 0;
+    
+    .shot-slider {
+      margin: 1rem 0;
     }
-    .gs-slider input[type="range"] {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 6px;
-      border-radius: 3px;
-      background: #ECECEC;
-      outline: none;
-      position: relative;
-      z-index: 2;
-      margin-bottom: 0.4em;
-    }
-    .gs-slider input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 26px;
-      height: 18px;
-      border-radius: 9px;
-      background: var(--gs-green);
-      cursor: pointer;
-      margin-top: -6px;
-    }
-    /* labels below the slider */
-    .gs-labels {
+    
+    .shot-labels {
       display: flex;
       justify-content: space-between;
-      font-size: 0.8em;
-      color: #555;
+      font-size: 0.875rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+    
+    /* Navigation */
+    .survey-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1.5rem;
+      border-top: 1px solid #f1f5f9;
+    }
+    
+    .action-button {
+      padding: 1rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+    
+    .btn-continue {
+      background: var(--gs-blue);
+      color: white;
+    }
+    
+    .btn-continue:hover {
+      background: #4ba3d1;
+      transform: translateY(-1px);
+    }
+    
+    .btn-back {
+      background: var(--gs-grey);
+      color: #475569;
+    }
+    
+    .btn-back:hover {
+      background: #e2e8f0;
+    }
+    
+    .btn-continue:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    /* Animations */
+    .fade-enter {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .fade-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.3s ease;
+    }
+    
+    /* Responsive */
+    @media (max-width: 480px) {
+      .survey-container {
+        padding: 0.5rem;
+      }
+      
+      .survey-body {
+        padding: 1.5rem 1rem;
+      }
+      
+      .slider-value {
+        font-size: 2.5rem;
+      }
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-green-50 to-blue-50 min-h-screen flex items-center justify-center">
-  <div id="survey-root" class="w-full max-w-xl mx-auto p-2 sm:p-6">
-    <!-- Survey will be rendered here by JS -->
+<body>
+  <div class="survey-container">
+    <div class="survey-card" id="survey-card">
+      <!-- Survey content will be rendered here -->
+    </div>
   </div>
+
   <script>
-    // --- Survey Data Structure ---
-    // Each step is an object with type, question, options, etc.
-    const gripModels = [
-      "Golf Pride Tour Velvet", "Lamkin Crossline", "SuperStroke Traxion", "Winn Dri-Tac", "Golf Pride MCC", "Golf Pride ZGRIP", "Lamkin Sonar", "Winn Excel", "SuperStroke S-Tech"
-    ];
-    const shotShapeLabels = [
-      "Pull hook", "Hook", "Pull", "Draw", "Straight", "Push", "Slice", "Push Slice"
-    ];
+    // Survey data
     const surveySteps = [
-      // 0: Welcome
-      { type: 'welcome',
-        title: 'SmartFIT Experience: Golf Grip Fitting',
-        message: 'Welcome to the SmartFIT Experience. The most comprehensive and advanced grip fitting technology available to golfers.'
-      },
-      // 1: Section 1 Intro
-      { type: 'section',
-        title: 'Player Profile',
-        message: 'In this section, we’ll learn about your player profile. This section helps us understand your general golfing background.'
-      },
-      // 2: Age
-      { type: 'radio',
-        question: 'What is your age?',
-        name: 'age',
-        required: true,
-        options: [
-          'Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65+'
-        ]
-      },
-      // 3: Gender
-      { type: 'radio',
-        question: 'What is your gender?',
-        name: 'gender',
-        required: true,
-        options: [
-          'Male', 'Female', 'Prefer not to say'
-        ]
-      },
-      // 4: Handicap
-      { type: 'slider',
-        question: 'What is your handicap?',
-        name: 'handicap',
-        required: true,
-        min: 0, max: 21, step: 5, value: 10,
-        labels: ['Scratch to 4', '5-9', '10-14', '15-20', '21+']
-      },
-      // 5: Rounds per year
-      { type: 'slider',
-        question: 'How many rounds a year do you play?',
-        name: 'rounds',
-        required: true,
-        min: 5, max: 80, step: 5, value: 40
-      },
-      // 6: Grip size
-      { type: 'radio',
-        question: 'What size are your current grips? (If you know)',
-        name: 'gripSize',
-        required: true,
-        options: [
-          'Undersize', 'Standard', 'Midsize', 'Jumbo', "I don't know"
-        ]
-      },
-      // 7: Grip model
-      { type: 'autocomplete',
-        question: 'What model(s) are your current grips? (If you know)',
-        name: 'gripModel',
-        required: false,
-        options: gripModels
-      },
-      // 8: Section 2 Intro
-      { type: 'section',
-        title: 'Physical Considerations & Grip Preferences',
-        message: 'Now, tell us about any physical considerations and grip preferences. This help us understand any physical factors that may affect your grip recommendation.'
-      },
-      // 9: Physical conditions
-      { type: 'checkbox',
-        question: 'Do you experience any of the following?',
-        name: 'physical',
-        required: true,
-        options: [
-          'Arthritis', 'Limited Hand Strength', 'Tendinitis', 'None of the above'
-        ]
-      },
-      // 10: Moisture control
-      { type: 'radio',
-        question: 'Do your grips need to help with moisture control?',
-        name: 'moisture',
-        required: true,
-        options: [
-          'Yes, I struggle with slippage', 'No, moisture isn’t an issue'
-        ]
-      },
-      // 11: Grip feel
-      { type: 'radio',
-        question: 'How would you describe your current grip’s feel?',
-        name: 'feel',
-        required: true,
-        options: [
-          'Too soft', 'Slightly soft', 'Just right', 'Slightly firm', 'Too firm'
-        ]
-      },
-      // 12: Swing hand
-      { type: 'radio',
-        question: 'Which hand do you swing with?',
-        name: 'swingHand',
-        required: true,
-        options: [
-          'Left', 'Right'
-        ],
-        default: 'Right'
-      },
-      // 13: Iron shot shape
-      { type: 'shotshape',
-        question: 'What’s your typical iron shot shape?',
-        name: 'ironShape',
-        required: true,
-        labels: shotShapeLabels,
-        default: 4 // Straight
-      },
-      // 14: Driver shot shape
-      { type: 'shotshape',
-        question: 'What’s your typical driver shot shape?',
-        name: 'driverShape',
-        required: true,
-        labels: shotShapeLabels,
-        default: 4 // Straight
-      },
-      // 15: Section 3 Intro
-      { type: 'section',
-        title: 'Goals',
-        message: 'Lastly, tell us about your goals. Tell us what you want to improve with your new grips.'
-      },
-      // 16: Change iron shape
-      { type: 'radio',
-        question: 'Do you want to change your iron shot shape?',
-        name: 'goalIron',
-        required: true,
-        options: [
-          'Yes, I want straighter shots', 'Yes, I want to draw it more', 'Yes, I want to fade it more', 'No, I like my current shape'
-        ]
-      },
-      // 17: Change driver shape
-      { type: 'radio',
-        question: 'Do you want to change your driver shot shape?',
-        name: 'goalDriver',
-        required: true,
-        options: [
-          'Yes, I want straighter shots', 'Yes, I want to draw it more', 'Yes, I want to fade it more', 'No, I like my current shape'
-        ]
-      },
-      // 18: Improve grip goals
-      { type: 'checkbox',
-        question: 'What do you want to improve with your new grips?',
-        name: 'improve',
-        required: true,
-        options: [
-          'Better fit', 'Better club control', 'Improved feel and feedback', 'Better grip in wet conditions', 'More comfort', 'Less hand fatigue'
-        ]
-      },
-      // 19: Thank you
-      { type: 'thankyou',
-        title: 'Thank you for completing the SmartFIT Experience!',
-        message: 'Your personalized grip recommendation will appear here shortly!'
-      }
+      // Welcome
+      { type: 'welcome', title: 'Welcome to GRIPscript', message: 'The most comprehensive and advanced grip fitting technology available to golfers.' },
+      
+      // Section 1 Intro
+      { type: 'section', title: 'Player Profile', message: 'In this section, we\'ll learn about your player profile. This helps us understand your general golfing background.' },
+      
+      // Question 1: Age
+      { type: 'slider', question: 'What\'s your age?', name: 'age', min: 1, max: 7, value: 2, labels: ['Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65+'] },
+      
+      // Question 2: Gender
+      { type: 'radio', question: 'What\'s your gender?', name: 'gender', options: ['Male', 'Female', 'Prefer not to say'] },
+      
+      // Question 3: Handicap
+      { type: 'slider', question: 'What\'s your approx. handicap?', name: 'handicap', min: 0, max: 36, value: 14, labels: ['Professional', 'Beginner'] },
+      
+      // Question 4: Rounds per year
+      { type: 'slider', question: 'How many times a year do you play?', name: 'rounds', min: 5, max: 85, value: 60, labels: ['Rarely', 'Consistently'] },
+      
+      // Section 2 Intro
+      { type: 'section', title: 'Preferences & Physical Considerations', message: 'Now, tell us about any physical considerations and grip preferences. This helps us understand any physical factors that may affect your grip recommendation.' },
+      
+      // Question 5: Physical conditions
+      { type: 'checkbox', question: 'Do you experience any of the following?', name: 'physical', options: ['Arthritis', 'Limited Hand Strength', 'Tendinitis', 'None of the above'], note: 'Select all that apply' },
+      
+      // Question 6: Moisture control
+      { type: 'radio', question: 'Do you need enhanced moisture control?', name: 'moisture', options: ['Yes, I struggle with slippage', 'No, moisture isn\'t an issue'] },
+      
+      // Question 7: Grip feel
+      { type: 'radio', question: 'How would you describe your current grip\'s feel?', name: 'feel', options: ['Too soft', 'Slightly soft', 'Just right', 'Slightly firm', 'Too firm'] },
+      
+      // Question 8: Grip size
+      { type: 'radio', question: 'What size are your current grips?', name: 'gripSize', options: ['Undersize', 'Standard', 'Midsize', 'Jumbo', 'I don\'t know'] },
+      
+      // Question 9: Swing hand
+      { type: 'radio', question: 'Which hand do you swing with?', name: 'swingHand', options: ['Left', 'Right'], horizontal: true },
+      
+      // Question 10: Iron shot shape
+      { type: 'shotshape', question: 'What\'s your typical iron shot shape?', name: 'ironShape', default: 4 },
+      
+      // Question 11: Driver shot shape
+      { type: 'shotshape', question: 'What\'s your typical driver shot shape?', name: 'driverShape', default: 4 },
+      
+      // Section 3 Intro
+      { type: 'section', title: 'Goals', message: 'Lastly, tell us about your goals. Tell us what you want to improve with your new grips.' },
+      
+      // Question 12: Change iron shape
+      { type: 'radio', question: 'Do you want to change your iron shot shape?', name: 'goalIron', options: ['Yes, I want straighter shots', 'Yes, I want to draw it more', 'Yes, I want to fade it more', 'No, I like my current shape'] },
+      
+      // Question 13: Change driver shape
+      { type: 'radio', question: 'Do you want to change your driver shot shape?', name: 'goalDriver', options: ['Yes, I want straighter shots', 'Yes, I want to draw it more', 'Yes, I want to fade it more', 'No, I like my current shape'] },
+      
+      // Question 14: Improve grip goals
+      { type: 'checkbox', question: 'What do you want to improve with your new grips?', name: 'improve', options: ['Better fit', 'Better club control', 'Improved feel and feedback', 'Better grip in wet conditions', 'More comfort', 'Less hand fatigue'], note: 'Select all that apply' },
+      
+      // Thank you
+      { type: 'thankyou', title: 'Thank you for completing the GRIPscript Experience!', message: 'Your personalized grip recommendation will appear here shortly!' }
     ];
 
-    // --- Survey State ---
+    // Survey state
     let currentStep = 0;
     let answers = {};
-    let transitioning = false;
 
-    // --- Utility Functions ---
+    // Utility functions
     function $(sel) { return document.querySelector(sel); }
     function $all(sel) { return Array.from(document.querySelectorAll(sel)); }
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-    // --- Render Functions ---
-    function renderProgress() {
-      // Progress bar or "Question X of Y"
-      if (currentStep === 0 || surveySteps[currentStep].type === 'thankyou') return '';
-      const totalQuestions = surveySteps.filter(s => ['radio','slider','checkbox','autocomplete','shotshape'].includes(s.type)).length;
-      const currentQuestion = surveySteps.slice(0, currentStep+1).filter(s => ['radio','slider','checkbox','autocomplete','shotshape'].includes(s.type)).length;
-      return `<div class="w-full flex items-center mb-6">
-        <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden mr-4">
-          <div class="h-2 bg-teal-400 rounded-full transition-all" style="width: ${(currentQuestion/totalQuestions)*100}%"></div>
-        </div>
-        <span class="text-sm text-gray-500">Question ${currentQuestion} of ${totalQuestions}</span>
-      </div>`;
-    }
-
-    function renderSection(title, message) {
-      return `<div class="rounded-2xl bg-gradient-to-br from-green-100 to-blue-100 p-8 text-center shadow mb-8 animate-fadein">
-        <h2 class="text-2xl font-bold text-teal-600 mb-2">${title}</h2>
-        <p class="text-gray-700 text-lg">${message}</p>
-        <button class="mt-8 px-8 py-3 rounded-xl bg-teal-500 text-white font-semibold text-lg shadow hover:bg-teal-600 transition" id="next-btn">Continue</button>
-      </div>`;
-    }
-
-    function renderWelcome(title, message) {
-      return `<div class="rounded-2xl bg-white p-8 text-center shadow-lg mb-8 animate-fadein">
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-teal-600 mb-4">${title}</h1>
-        <p class="text-gray-700 text-lg mb-8">${message}</p>
-        <button class="px-10 py-4 rounded-xl bg-blue-500 text-white font-semibold text-lg shadow hover:bg-blue-600 transition" id="next-btn">Start</button>
-      </div>`;
-    }
-
-    function renderThankYou(title, message) {
-      return `<div class="rounded-2xl bg-white p-8 text-center shadow-lg animate-fadein">
-        <h2 class="text-3xl font-bold text-teal-600 mb-4">${title}</h2>
-        <p class="text-gray-700 text-lg mb-8">${message}</p>
-      </div>`;
-    }
-
-    function renderRadio(step, value) {
-      return `<form class="space-y-4 animate-fadein">
-        <h2 class="text-xl font-semibold text-gray-800 mb-6">${step.question}</h2>
-        ${step.options.map(opt => `
-          <label class="block cursor-pointer rounded-xl border border-gray-200 px-6 py-4 flex items-center gap-3 hover:border-teal-400 transition ${value===opt?'bg-teal-50 border-teal-400':''}">
-            <input type="radio" name="${step.name}" value="${opt}" class="form-radio h-5 w-5 text-teal-500" ${value===opt?'checked':''}>
-            <span class="text-lg">${opt}</span>
-          </label>
-        `).join('')}
-      </form>`;
-    }
-
-    function renderCheckbox(step, value=[]) {
-      return `<form class="space-y-4 animate-fadein">
-        <h2 class="text-xl font-semibold text-gray-800 mb-6">${step.question}</h2>
-        ${step.options.map(opt => `
-          <label class="block cursor-pointer rounded-xl border border-gray-200 px-6 py-4 flex items-center gap-3 hover:border-teal-400 transition ${value.includes(opt)?'bg-teal-50 border-teal-400':''}">
-            <input type="checkbox" name="${step.name}" value="${opt}" class="form-checkbox h-5 w-5 text-teal-500" ${value.includes(opt)?'checked':''}>
-            <span class="text-lg">${opt}</span>
-          </label>
-        `).join('')}
-      </form>`;
-    }
-
-    function renderSlider(step, value) {
-      let labels = step.labels || [];
-      let label = '';
-      if (labels.length) {
-        // Map value to label
-        const idx = Math.floor((value-step.min)/(step.max-step.min)*((labels.length-1)||1));
-        label = `<div class="text-teal-600 font-semibold text-lg mb-2">${labels[idx]}</div>`;
-      }
-      return `<form class="animate-fadein">
-        <h2 class="text-xl font-semibold text-gray-800 mb-6">${step.question}</h2>
-        ${label}
-        <input type="range" min="${step.min}" max="${step.max}" step="${step.step}" value="${value}" name="${step.name}" class="w-full accent-teal-500 h-2 rounded-lg mb-2">
-        <div class="flex justify-between text-sm text-gray-500">
-          <span>${step.min}</span><span>${step.max}</span>
-        </div>
-      </form>`;
-    }
-
-    function renderAutocomplete(step, value) {
-      return `<form class="animate-fadein">
-        <h2 class="text-xl font-semibold text-gray-800 mb-6">${step.question}</h2>
-        <div class="relative mb-2">
-          <input type="text" name="${step.name}" id="grip-model-input" autocomplete="off" class="w-full border border-gray-300 rounded-xl p-4 text-lg focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition" placeholder="Type to search..." value="${value||''}" ${answers['gripModelUnknown']?'disabled':''}>
-          <div id="grip-model-suggestions" class="absolute left-0 right-0 bg-white border border-gray-200 rounded-xl shadow z-10 mt-1"></div>
-        </div>
-        <label class="inline-flex items-center gap-2 cursor-pointer select-none">
-          <input type="checkbox" id="grip-model-unknown" ${answers['gripModelUnknown']?'checked':''}>
-          <span class="text-gray-700">I don't know</span>
-        </label>
-      </form>`;
-    }
-
-    function renderShotShape(step, value, swingHand, inactive=true) {
-      // GRIPscript enhanced shot shape with branded design
-      const labels = step.labels;
-      const n = labels.length;
-      const idx = value;
+    // Render functions
+    function renderHeader(step, stepNumber) {
+      if (step.type === 'welcome' || step.type === 'thankyou') return '';
       
-      // Flip for left hand - adjust paths accordingly
-      const flip = swingHand==='Left' ? -1 : 1;
-      
-      // Overlay for inactive state
-      const overlay = inactive ? `<div class="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center text-gray-400 text-lg font-medium rounded-2xl z-10 pointer-events-auto">Move the slider to see shot shape</div>` : '';
-      
-      return `<div class="animate-fadein">
-        <!-- GRIPscript Shot Shape Step -->
-        <div class="gs-step">
-          <!-- HEADER -->
-          <div class="gs-header">
-            <div class="gs-logo">GRIPscript</div>
-            <div class="gs-menu">☰</div>
+      const questionText = step.type === 'section' ? step.title : `Question ${stepNumber}`;
+      return `
+        <div class="survey-header">
+          <div class="question-number">${questionText}</div>
+          <div class="gripscript-logo">GRIPscript</div>
+          <div class="menu-icon">☰</div>
+        </div>
+      `;
+    }
+
+    function renderWelcome(step) {
+      return `
+        <div class="survey-body">
+          <div class="grip-icon">🏌️</div>
+          <h1 class="question-text">${step.title}</h1>
+          <p style="color: #64748b; line-height: 1.6; margin-bottom: 2rem;">${step.message}</p>
+        </div>
+      `;
+    }
+
+    function renderSection(step) {
+      return `
+        <div class="survey-body">
+          <div class="section-intro">
+            <h2>${step.title}</h2>
+            <p>${step.message}</p>
           </div>
+        </div>
+      `;
+    }
 
-          <!-- QUESTION -->
-          <div class="gs-body">
-            <div class="gs-icon">🏌️</div>
-            <h1 class="gs-question">
-              ${step.question}
-            </h1>
+    function renderThankYou(step) {
+      return `
+        <div class="survey-body">
+          <div class="grip-icon">🎉</div>
+          <h1 class="question-text">${step.title}</h1>
+          <p style="color: #64748b; line-height: 1.6;">${step.message}</p>
+        </div>
+      `;
+    }
 
-            <!-- SHOT GRAPHIC -->
-            <div class="gs-graphic">
-              <svg viewBox="0 0 400 200" class="shot-svg" id="shotSvg-${step.name}">
-                <path id="shape1-${step.name}" class="shot-path shape1"
-                  d="M200,180 C180,140 160,80 140,40"/>
-                <path id="shape2-${step.name}" class="shot-path shape2"
-                  d="M200,180 C185,140 170,80 155,40"/>
-                <path id="shape3-${step.name}" class="shot-path shape3"
-                  d="M200,180 C195,140 190,80 185,40"/>
-                <path id="shape4-${step.name}" class="shot-path shape4"
-                  d="M200,180 C210,140 230,80 250,40"/>
-                <path id="shape5-${step.name}" class="shot-path shape5"
-                  d="M200,180 C200,140 200,80 200,40"/>
-                <path id="shape6-${step.name}" class="shot-path shape6"
-                  d="M200,180 C215,140 230,80 245,40"/>
-                <path id="shape7-${step.name}" class="shot-path shape7"
-                  d="M200,180 C225,140 250,80 275,40"/>
-                <path id="shape8-${step.name}" class="shot-path shape8"
-                  d="M200,180 C240,140 280,80 320,40"/>
-              </svg>
-              ${overlay}
+    function renderSlider(step, stepNumber) {
+      const value = answers[step.name] ?? step.value;
+      const displayValue = step.labels ? step.labels[value] : value;
+      
+      return `
+        <div class="survey-body">
+          <div class="grip-icon">🏌️</div>
+          <h2 class="question-text">${step.question}</h2>
+          <div class="slider-container">
+            <div class="slider-value">${displayValue}</div>
+            <input type="range" class="slider-input" min="${step.min}" max="${step.max}" value="${value}" name="${step.name}">
+            <div class="slider-labels">
+              <span>${step.labels[0]}</span>
+              <span>${step.labels[1]}</span>
             </div>
+          </div>
+        </div>
+      `;
+    }
 
-            <!-- SLIDER -->
-            <div class="gs-slider">
-              <input type="range" id="shotSlider-${step.name}" min="1" max="8" step="1" value="${(answers[step.name] ?? step.default) + 1}" name="${step.name}" ${inactive?'tabindex="-1"':''}>
-              <div class="gs-labels">
-                <span class="left">Pull Hook</span>
-                <span class="right">Push Slice</span>
+    function renderRadio(step, stepNumber) {
+      const selected = answers[step.name];
+      const optionsHtml = step.options.map(option => `
+        <button class="option-button ${selected === option ? 'selected' : ''}" data-value="${option}">
+          ${option}
+        </button>
+      `).join('');
+
+      const containerClass = step.horizontal ? 'horizontal-options' : 'options-container';
+      
+      return `
+        <div class="survey-body">
+          <div class="grip-icon">🏌️</div>
+          <h2 class="question-text">${step.question}</h2>
+          ${step.note ? `<p style="color: #64748b; margin-bottom: 1rem; font-size: 0.875rem;">${step.note}</p>` : ''}
+          <div class="${containerClass}">
+            ${optionsHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCheckbox(step, stepNumber) {
+      const selected = answers[step.name] || [];
+      const optionsHtml = step.options.map(option => `
+        <button class="option-button ${selected.includes(option) ? 'selected' : ''}" data-value="${option}">
+          ${option}
+        </button>
+      `).join('');
+
+      return `
+        <div class="survey-body">
+          <div class="grip-icon">🏌️</div>
+          <h2 class="question-text">${step.question}</h2>
+          ${step.note ? `<p style="color: #64748b; margin-bottom: 1rem; font-size: 0.875rem;">${step.note}</p>` : ''}
+          <div class="options-container">
+            ${optionsHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderShotShape(step, stepNumber) {
+      const value = (answers[step.name] ?? step.default) + 1;
+      
+      return `
+        <div class="survey-body">
+          <div class="grip-icon">🏌️</div>
+          <h2 class="question-text">${step.question}</h2>
+          <div class="shot-shape-container">
+            <svg viewBox="0 0 400 200" class="shot-svg" id="shotSvg-${step.name}">
+              <path id="shape1-${step.name}" class="shot-path shape1" d="M200,180 C180,140 160,80 140,40"/>
+              <path id="shape2-${step.name}" class="shot-path shape2" d="M200,180 C185,140 170,80 155,40"/>
+              <path id="shape3-${step.name}" class="shot-path shape3" d="M200,180 C195,140 190,80 185,40"/>
+              <path id="shape4-${step.name}" class="shot-path shape4" d="M200,180 C210,140 230,80 250,40"/>
+              <path id="shape5-${step.name}" class="shot-path shape5" d="M200,180 C200,140 200,80 200,40"/>
+              <path id="shape6-${step.name}" class="shot-path shape6" d="M200,180 C215,140 230,80 245,40"/>
+              <path id="shape7-${step.name}" class="shot-path shape7" d="M200,180 C225,140 250,80 275,40"/>
+              <path id="shape8-${step.name}" class="shot-path shape8" d="M200,180 C240,140 280,80 320,40"/>
+            </svg>
+            <div class="shot-slider">
+              <input type="range" class="slider-input" min="1" max="8" value="${value}" name="${step.name}">
+              <div class="shot-labels">
+                <span>Pull Hook</span>
+                <span>Push Slice</span>
               </div>
             </div>
           </div>
         </div>
-      </div>`;
+      `;
     }
 
-    // --- Main Render Function ---
-    async function renderSurvey() {
-      const root = document.getElementById('survey-root');
+    function renderNavigation() {
       const step = surveySteps[currentStep];
+      const isLastStep = currentStep === surveySteps.length - 1;
+      const canContinue = step.type === 'welcome' || step.type === 'section' || step.type === 'thankyou' || 
+                         (step.type === 'slider') || 
+                         (step.type === 'radio' && answers[step.name]) ||
+                         (step.type === 'checkbox' && answers[step.name] && answers[step.name].length > 0) ||
+                         (step.type === 'shotshape' && answers[step.name] !== undefined);
+
+      return `
+        <div class="survey-actions">
+          ${currentStep > 0 ? '<button class="action-button btn-back">BACK</button>' : ''}
+          <button class="action-button btn-continue" ${!canContinue ? 'disabled' : ''}>
+            ${isLastStep ? 'FINISH' : 'CONTINUE'}
+          </button>
+        </div>
+      `;
+    }
+
+    // Main render function
+    function renderSurvey() {
+      const step = surveySteps[currentStep];
+      const stepNumber = surveySteps.slice(0, currentStep + 1).filter(s => ['slider', 'radio', 'checkbox', 'shotshape'].includes(s.type)).length;
+      
       let html = '';
-      html += renderProgress();
-      if (step.type === 'welcome') html += renderWelcome(step.title, step.message);
-      else if (step.type === 'section') html += renderSection(step.title, step.message);
-      else if (step.type === 'thankyou') html += renderThankYou(step.title, step.message);
-      else if (step.type === 'radio') html += renderRadio(step, answers[step.name]);
-      else if (step.type === 'checkbox') html += renderCheckbox(step, answers[step.name]||[]);
-      else if (step.type === 'slider') html += renderSlider(step, answers[step.name] ?? step.value);
-      else if (step.type === 'autocomplete') html += renderAutocomplete(step, answers[step.name]);
-      else if (step.type === 'shotshape') html += renderShotShape(step, answers[step.name] ?? step.default, answers['swingHand']||'Right', !answers[step.name+'Active']);
-      // Navigation
-      html += `<div class="flex justify-between mt-8">
-        <button id="back-btn" class="px-6 py-3 rounded-xl bg-gray-200 text-gray-700 font-semibold shadow hover:bg-gray-300 transition ${currentStep===0?'opacity-0 pointer-events-none':''}">Back</button>
-        <button id="next-btn" class="px-8 py-3 rounded-xl bg-teal-500 text-white font-semibold shadow hover:bg-teal-600 transition">${step.type==='thankyou'?'':'Continue'}</button>
-      </div>`;
-      root.innerHTML = html;
-      // Animate in
-      root.classList.add('fade-enter');
-      await sleep(10); root.classList.add('fade-enter-active');
-      await sleep(400); root.classList.remove('fade-enter','fade-enter-active');
-      // Setup events
+      html += renderHeader(step, stepNumber);
+      
+      if (step.type === 'welcome') html += renderWelcome(step);
+      else if (step.type === 'section') html += renderSection(step);
+      else if (step.type === 'thankyou') html += renderThankYou(step);
+      else if (step.type === 'slider') html += renderSlider(step, stepNumber);
+      else if (step.type === 'radio') html += renderRadio(step, stepNumber);
+      else if (step.type === 'checkbox') html += renderCheckbox(step, stepNumber);
+      else if (step.type === 'shotshape') html += renderShotShape(step, stepNumber);
+      
+      html += renderNavigation();
+      
+      $('#survey-card').innerHTML = html;
       setupEvents();
     }
 
-    // --- Event Handlers ---
-    function updateShotShape(stepName, value) {
-      const paths = Array.from(document.querySelectorAll(`#shotSvg-${stepName} .shot-path`));
-      
-      const idx = Number(value) - 1;
-      paths.forEach((p,i) => p.classList.toggle('active', i === idx));
-    }
-
+    // Event handlers
     function setupEvents() {
-      const step = surveySteps[currentStep];
-      // Next/Back
-      $('#next-btn')?.addEventListener('click', async (e) => {
-        e.preventDefault();
-        if (transitioning) return;
-        if (!validateStep()) return;
-        transitioning = true;
-        await animateOut();
-        currentStep = Math.min(currentStep+1, surveySteps.length-1);
-        await renderSurvey();
-        transitioning = false;
+      // Navigation
+      $('.btn-continue')?.addEventListener('click', () => {
+        if (currentStep < surveySteps.length - 1) {
+          currentStep++;
+          renderSurvey();
+        }
       });
-      $('#back-btn')?.addEventListener('click', async (e) => {
-        e.preventDefault();
-        if (transitioning) return;
-        transitioning = true;
-        await animateOut();
-        currentStep = Math.max(currentStep-1, 0);
-        await renderSurvey();
-        transitioning = false;
+      
+      $('.btn-back')?.addEventListener('click', () => {
+        if (currentStep > 0) {
+          currentStep--;
+          renderSurvey();
+        }
       });
-      // Radio
-      $all('input[type=radio]').forEach(radio => {
-        radio.addEventListener('change', e => {
-          answers[radio.name] = radio.value;
-          if (step.type==='radio') validateStep();
-        });
-      });
-      // Checkbox
-      $all('input[type=checkbox]').forEach(cb => {
-        cb.addEventListener('change', e => {
-          if (cb.id==='grip-model-unknown') {
-            answers['gripModelUnknown'] = cb.checked;
-            if (cb.checked) answers['gripModel'] = '';
-            renderSurvey();
-            return;
+
+      // Option buttons
+      $all('.option-button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const step = surveySteps[currentStep];
+          const value = e.target.dataset.value;
+          
+          if (step.type === 'radio') {
+            answers[step.name] = value;
+            $all('.option-button').forEach(b => b.classList.remove('selected'));
+            e.target.classList.add('selected');
+          } else if (step.type === 'checkbox') {
+            if (!answers[step.name]) answers[step.name] = [];
+            const index = answers[step.name].indexOf(value);
+            if (index > -1) {
+              answers[step.name].splice(index, 1);
+              e.target.classList.remove('selected');
+            } else {
+              answers[step.name].push(value);
+              e.target.classList.add('selected');
+            }
           }
-          const vals = $all(`input[name="${cb.name}"]:checked`).map(c=>c.value);
-          answers[cb.name] = vals;
-          validateStep();
+          
+          renderSurvey();
         });
       });
-      // Slider
-      $all('input[type=range]').forEach(slider => {
-        slider.addEventListener('input', e => {
-          // Convert 1-8 slider values to 0-7 for storage
-          if (slider.name === 'ironShape' || slider.name === 'driverShape') {
-            answers[slider.name] = parseInt(slider.value,10) - 1;
-            updateShotShape(slider.name, parseInt(slider.value,10));
+
+      // Sliders
+      $all('.slider-input').forEach(slider => {
+        slider.addEventListener('input', (e) => {
+          const step = surveySteps[currentStep];
+          if (step.type === 'shotshape') {
+            answers[step.name] = parseInt(e.target.value) - 1;
+            updateShotShape(step.name, parseInt(e.target.value));
           } else {
-            answers[slider.name] = parseInt(slider.value,10);
+            answers[step.name] = parseInt(e.target.value);
           }
           renderSurvey();
         });
-        slider.addEventListener('focus', e => {
-          // For shotshape, activate diagram
-          if (step.type==='shotshape') {
-            answers[step.name+'Active'] = true;
-            renderSurvey();
-          }
-        });
       });
-      
-      // Initialize shot shape visuals if present
-      if (step.type === 'shotshape') {
-        const slider = $(`#shotSlider-${step.name}`);
-        if (slider) {
-          updateShotShape(step.name, parseInt(slider.value,10));
-        }
-      }
-      // Autocomplete
-      if ($('#grip-model-input')) {
-        $('#grip-model-input').addEventListener('input', e => {
-          const val = e.target.value;
-          answers['gripModel'] = val;
-          showGripModelSuggestions(val);
-        });
-        $('#grip-model-input').addEventListener('focus', e => {
-          showGripModelSuggestions(e.target.value);
-        });
-        $('#grip-model-input').addEventListener('blur', e => {
-          setTimeout(()=>{
-            $('#grip-model-suggestions').innerHTML = '';
-          }, 200);
-        });
-      }
-    }
 
-    function showGripModelSuggestions(val) {
-      const sug = $('#grip-model-suggestions');
-      if (!val) { sug.innerHTML = ''; return; }
-      const matches = gripModels.filter(m => m.toLowerCase().includes(val.toLowerCase()));
-      sug.innerHTML = matches.map(m => `<div class="px-4 py-2 cursor-pointer hover:bg-teal-50 rounded" onclick="document.getElementById('grip-model-input').value='${m}';document.getElementById('grip-model-suggestions').innerHTML='';answers['gripModel']='${m}';">${m}</div>`).join('');
-    }
-
-    // --- Validation ---
-    function validateStep() {
+      // Initialize shot shape if present
       const step = surveySteps[currentStep];
-      let valid = true;
-      let errorMsg = '';
-      if (step.required) {
-        if (step.type==='radio' && !answers[step.name]) valid = false;
-        if (step.type==='checkbox' && (!answers[step.name] || answers[step.name].length===0)) valid = false;
-        if (step.type==='slider' && (answers[step.name]===undefined || answers[step.name]===null)) valid = false;
-        if (step.type==='autocomplete' && !answers['gripModel'] && !answers['gripModelUnknown']) valid = false;
-        if (step.type==='shotshape' && (answers[step.name]===undefined || answers[step.name]===null)) valid = false;
-      }
-      // Show error
-      if (!valid) {
-        if (!$('#survey-error')) {
-          const err = document.createElement('div');
-          err.id = 'survey-error';
-          err.className = 'mt-4 text-red-500 text-center text-base font-medium animate-fadein';
-          err.textContent = 'Please answer before continuing.';
-          $('#survey-root').appendChild(err);
+      if (step.type === 'shotshape') {
+        const slider = $(`input[name="${step.name}"]`);
+        if (slider) {
+          updateShotShape(step.name, parseInt(slider.value));
         }
-      } else {
-        if ($('#survey-error')) $('#survey-error').remove();
       }
-      return valid;
     }
 
-    // --- Animation ---
-    async function animateOut() {
-      const root = document.getElementById('survey-root');
-      root.classList.add('fade-exit');
-      await sleep(10); root.classList.add('fade-exit-active');
-      await sleep(400); root.classList.remove('fade-exit','fade-exit-active');
+    function updateShotShape(stepName, value) {
+      const paths = $all(`#shotSvg-${stepName} .shot-path`);
+      const idx = Number(value) - 1;
+      paths.forEach((p, i) => p.classList.toggle('active', i === idx));
     }
 
-    // --- Start Survey ---
+    // Initialize
     renderSurvey();
   </script>
 </body>
