@@ -18,6 +18,50 @@
     /* Custom scrollbar for progress bar */
     ::-webkit-scrollbar { height: 6px; background: #e5e7eb; border-radius: 9999px; }
     ::-webkit-scrollbar-thumb { background: #4fd1c5; border-radius: 9999px; }
+    
+    /* Shot shape component styles */
+    .shot-shape-question {
+      font-family: Inter, sans-serif;
+      max-width: 480px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .shot-graphic {
+      margin: 1em 0;
+      position: relative;
+      height: 200px;
+    }
+    #shotSvg-ironShape path,
+    #shotSvg-driverShape path {
+      fill: none;
+      stroke: #ccc;
+      stroke-width: 3;
+      opacity: 0.2;
+      transition: stroke 0.3s, opacity 0.3s;
+    }
+    #shotSvg-ironShape path.active,
+    #shotSvg-driverShape path.active {
+      stroke: #14b8a6;
+      opacity: 1;
+    }
+    .slider-wrapper {
+      user-select: none;
+    }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85em;
+      color: #666;
+    }
+    .slider-labels span {
+      flex: 1;
+      text-align: center;
+      pointer-events: none;
+    }
+    .slider-labels span.active {
+      color: #14b8a6;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-green-50 to-blue-50 min-h-screen flex items-center justify-center">
@@ -294,42 +338,54 @@
     }
 
     function renderShotShape(step, value, swingHand, inactive=true) {
-      // SVG arc diagram with marker and overlay
+      // Enhanced shot shape with visual trajectory paths
       const labels = step.labels;
-      const n = labels.length-1;
+      const n = labels.length;
       const idx = value;
-      // Arc math
-      const cx=150, cy=150, r=100;
-      const angle = (i) => 180 - (i*180/n);
-      const pos = (i) => {
-        const a = angle(i)*Math.PI/180;
-        return {x: cx + r*Math.cos(a), y: cy - r*Math.sin(a)};
-      };
-      // Marker position
-      const marker = pos(idx);
-      // Flip for left hand
+      
+      // Flip for left hand - adjust paths accordingly
       const flip = swingHand==='Left' ? -1 : 1;
-      // Overlay
+      
+      // Overlay for inactive state
       const overlay = inactive ? `<div class="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center text-gray-400 text-lg font-medium rounded-2xl z-10 pointer-events-auto">Move the slider to see shot shape</div>` : '';
+      
       return `<form class="animate-fadein">
         <h2 class="text-xl font-semibold text-gray-800 mb-6">${step.question}</h2>
-        <div class="relative mb-6">
-          <div class="rounded-2xl overflow-hidden border border-gray-200 bg-gray-50" style="width:300px;height:180px;margin:auto;">
-            <div class="relative w-full h-full" style="width:300px;height:180px;">
-              <svg width="300" height="180" viewBox="0 0 300 180">
-                <path d="M50,150 A100,100 0 0,0 250,150" stroke="#4B5563" stroke-width="2" fill="none" />
-                ${labels.map((lbl,i) => {
-                  const p = pos(i);
-                  return `<text x="${p.x}" y="${p.y-10}" text-anchor="middle" font-size="11" fill="#4B5563">${lbl}</text>`;
-                }).join('')}
-                <circle cx="${marker.x}" cy="${marker.y}" r="8" fill="#14b8a6" stroke="#fff" stroke-width="3" />
-              </svg>
-              ${overlay}
+        
+        <!-- Shot shape question container -->
+        <div class="shot-shape-question">
+          <!-- SVG graphic of 8 trajectories -->
+          <div class="shot-graphic">
+            <svg viewBox="0 0 400 200" id="shotSvg-${step.name}">
+              <!-- draw 8 arcs; here we use simple Bézier approximations -->
+              <!-- For clarity, paths are labeled 1–8 -->
+              <path id="shape1-${step.name}" d="M200,180 C180,140 160,80 140,40" />
+              <path id="shape2-${step.name}" d="M200,180 C185,140 170,80 155,40" />
+              <path id="shape3-${step.name}" d="M200,180 C195,140 190,80 185,40" />
+              <path id="shape4-${step.name}" d="M200,180 C210,140 230,80 250,40" />
+              <path id="shape5-${step.name}" d="M200,180 C200,140 200,80 200,40" />
+              <path id="shape6-${step.name}" d="M200,180 C215,140 230,80 245,40" />
+              <path id="shape7-${step.name}" d="M200,180 C225,140 250,80 275,40" />
+              <path id="shape8-${step.name}" d="M200,180 C240,140 280,80 320,40" />
+            </svg>
+            ${overlay}
+          </div>
+
+          <!-- Slider + labels -->
+          <div class="slider-wrapper">
+            <input type="range" id="shotSlider-${step.name}" min="1" max="8" step="1" value="${(answers[step.name] ?? step.default) + 1}" name="${step.name}" class="w-full accent-teal-500 h-2 rounded-lg mb-2" ${inactive?'tabindex="-1"':''}>
+            <div class="slider-labels">
+              <span data-value="1">Pull hook</span>
+              <span data-value="2">Hook</span>
+              <span data-value="3">Pull</span>
+              <span data-value="4">Draw</span>
+              <span data-value="5">Straight</span>
+              <span data-value="6">Push</span>
+              <span data-value="7">Slice</span>
+              <span data-value="8">Push Slice</span>
             </div>
           </div>
         </div>
-        <input type="range" min="0" max="${n}" step="1" value="${value}" name="${step.name}" class="w-full accent-teal-500 h-2 rounded-lg mb-2" ${inactive?'tabindex="-1"':''}>
-        <div class="text-center text-teal-600 font-semibold text-lg mt-2">${labels[value]}</div>
       </form>`;
     }
 
@@ -362,6 +418,15 @@
     }
 
     // --- Event Handlers ---
+    function updateShotShape(stepName, value) {
+      const paths = Array.from(document.querySelectorAll(`#shotSvg-${stepName} path`));
+      const labels = Array.from(document.querySelectorAll(`#shotSvg-${stepName}`).parentElement.parentElement.querySelectorAll('.slider-labels span'));
+      
+      const idx = Number(value) - 1;
+      paths.forEach((p,i) => p.classList.toggle('active', i === idx));
+      labels.forEach((lbl,i) => lbl.classList.toggle('active', i === idx));
+    }
+
     function setupEvents() {
       const step = surveySteps[currentStep];
       // Next/Back
@@ -408,7 +473,13 @@
       // Slider
       $all('input[type=range]').forEach(slider => {
         slider.addEventListener('input', e => {
-          answers[slider.name] = parseInt(slider.value,10);
+          // Convert 1-8 slider values to 0-7 for storage
+          if (slider.name === 'ironShape' || slider.name === 'driverShape') {
+            answers[slider.name] = parseInt(slider.value,10) - 1;
+            updateShotShape(slider.name, parseInt(slider.value,10));
+          } else {
+            answers[slider.name] = parseInt(slider.value,10);
+          }
           renderSurvey();
         });
         slider.addEventListener('focus', e => {
@@ -419,6 +490,14 @@
           }
         });
       });
+      
+      // Initialize shot shape visuals if present
+      if (step.type === 'shotshape') {
+        const slider = $(`#shotSlider-${step.name}`);
+        if (slider) {
+          updateShotShape(step.name, parseInt(slider.value,10));
+        }
+      }
       // Autocomplete
       if ($('#grip-model-input')) {
         $('#grip-model-input').addEventListener('input', e => {
