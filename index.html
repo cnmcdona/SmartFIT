@@ -1490,6 +1490,126 @@
         .slider-question .slider-controls {
             flex: 0 0 auto;
         }
+
+        /* Premium Swipe Up to Begin Animation */
+        @keyframes swipeUpPulse {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-10px) scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes swipeUpGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(45, 210, 143, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(45, 210, 143, 0.6);
+            }
+        }
+
+        .swipe-up-container {
+            position: absolute;
+            bottom: clamp(80px, 15vw, 120px);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            z-index: 10;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .swipe-up-text {
+            color: #2DD28F;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            animation: swipeUpPulse 2s ease-in-out infinite;
+        }
+
+        .swipe-up-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #2DD28F, #5AC8FA);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: swipeUpGlow 2s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .swipe-up-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        .swipe-up-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+            animation: swipeUpPulse 2s ease-in-out infinite;
+        }
+
+        .welcome-page {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            height: 100%;
+            touch-action: pan-y;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+            margin-bottom: auto;
+        }
+
+        .welcome-content h1 {
+            font-size: clamp(1.5rem, 5vw, 2.25rem);
+            font-weight: 600;
+            color: #2DD28F;
+            margin-bottom: clamp(15px, 3vw, 20px);
+            line-height: 1.2;
+            max-width: 400px;
+            animation: slideUpFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .welcome-content p {
+            font-size: clamp(1rem, 3vw, 1.125rem);
+            color: #333333;
+            margin-bottom: clamp(20px, 4vw, 30px);
+            line-height: 1.5;
+            max-width: 400px;
+            font-weight: 400;
+            animation: slideUpFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -1561,8 +1681,13 @@
                         <h1>Welcome to the SmartFIT™ Experience</h1>
                         <p>The most comprehensive and advanced grip fitting technology available to golfers.</p>
                     </div>
-                    <div class="nav-container">
-                        <button class="nav-button primary" id="welcome-continue">Continue</button>
+                    <div class="swipe-up-container" id="swipe-up-container">
+                        <div class="swipe-up-text">Swipe up to begin</div>
+                        <div class="swipe-up-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
 
@@ -2484,6 +2609,106 @@
         // Initial setup
         initProgressDots();
         showPage(currentPage);
+
+        // Premium Swipe Up to Begin functionality
+        const swipeUpContainer = document.getElementById('swipe-up-container');
+        let startY = 0;
+        let currentY = 0;
+        let isSwiping = false;
+        let swipeThreshold = 100; // Minimum swipe distance to trigger
+
+        if (swipeUpContainer) {
+            // Touch events for mobile
+            swipeUpContainer.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+                isSwiping = true;
+                swipeUpContainer.style.transform = 'translateX(-50%) scale(0.95)';
+            });
+
+            swipeUpContainer.addEventListener('touchmove', (e) => {
+                if (!isSwiping) return;
+                currentY = e.touches[0].clientY;
+                const deltaY = startY - currentY;
+                
+                if (deltaY > 0) { // Swiping up
+                    const progress = Math.min(deltaY / swipeThreshold, 1);
+                    swipeUpContainer.style.transform = `translateX(-50%) translateY(-${progress * 20}px) scale(${1 - progress * 0.1})`;
+                }
+            });
+
+            swipeUpContainer.addEventListener('touchend', (e) => {
+                if (!isSwiping) return;
+                const deltaY = startY - currentY;
+                
+                if (deltaY > swipeThreshold) {
+                    // Swipe up successful - trigger begin
+                    swipeUpContainer.style.transform = 'translateX(-50%) translateY(-50px) scale(0.8)';
+                    swipeUpContainer.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        currentPage = 1;
+                        showPage(currentPage);
+                    }, 300);
+                } else {
+                    // Reset position
+                    swipeUpContainer.style.transform = 'translateX(-50%) scale(1)';
+                }
+                
+                isSwiping = false;
+            });
+
+            // Mouse events for desktop
+            swipeUpContainer.addEventListener('mousedown', (e) => {
+                startY = e.clientY;
+                isSwiping = true;
+                swipeUpContainer.style.transform = 'translateX(-50%) scale(0.95)';
+            });
+
+            swipeUpContainer.addEventListener('mousemove', (e) => {
+                if (!isSwiping) return;
+                currentY = e.clientY;
+                const deltaY = startY - currentY;
+                
+                if (deltaY > 0) { // Swiping up
+                    const progress = Math.min(deltaY / swipeThreshold, 1);
+                    swipeUpContainer.style.transform = `translateX(-50%) translateY(-${progress * 20}px) scale(${1 - progress * 0.1})`;
+                }
+            });
+
+            swipeUpContainer.addEventListener('mouseup', (e) => {
+                if (!isSwiping) return;
+                const deltaY = startY - currentY;
+                
+                if (deltaY > swipeThreshold) {
+                    // Swipe up successful - trigger begin
+                    swipeUpContainer.style.transform = 'translateX(-50%) translateY(-50px) scale(0.8)';
+                    swipeUpContainer.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        currentPage = 1;
+                        showPage(currentPage);
+                    }, 300);
+                } else {
+                    // Reset position
+                    swipeUpContainer.style.transform = 'translateX(-50%) scale(1)';
+                }
+                
+                isSwiping = false;
+            });
+
+            // Click fallback for accessibility
+            swipeUpContainer.addEventListener('click', (e) => {
+                if (!isSwiping) {
+                    swipeUpContainer.style.transform = 'translateX(-50%) translateY(-50px) scale(0.8)';
+                    swipeUpContainer.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        currentPage = 1;
+                        showPage(currentPage);
+                    }, 300);
+                }
+            });
+        }
     </script>
 </body>
 </html> 
