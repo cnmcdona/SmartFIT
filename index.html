@@ -847,6 +847,44 @@
                 font-size: 16px;
             }
         }
+
+        /* Autocomplete styles */
+        .autocomplete-list {
+            position: absolute;
+            top: 100%; /* Position below the input */
+            left: 0;
+            width: 100%;
+            max-height: 200px; /* Limit height for scrolling */
+            overflow-y: auto;
+            background-color: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Ensure it's above other elements */
+            font-size: 0.95rem;
+            color: #4a5568;
+            max-width: 300px; /* Match input width */
+        }
+
+        .autocomplete-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid #f0fdfa; /* Subtle separator */
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-item:hover {
+            background-color: #f0fdfa;
+        }
+
+        .autocomplete-item.active {
+            background-color: #4fd1c5;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -1050,9 +1088,20 @@
       </div>
     </div>
 
-                <!-- Question 9: Swing hand -->
+                <!-- Question 9: Current grip model (NEW) -->
                 <div class="survey-page" data-page="11">
                     <div class="question-number">9</div>
+                    <h2 class="question-text">What grip do you currently use?</h2>
+                    <div class="options-container" style="margin-bottom:0;">
+                        <input type="text" id="current-grip-input" name="current-grip" placeholder="Start typing grip name..." autocomplete="off" style="font-size:1.1rem; padding:16px 20px; border:2px solid #e2e8f0; border-radius:12px; width:100%; background:#fff;">
+                        <div id="grip-autocomplete" class="autocomplete-list" style="position:relative;z-index:10;"></div>
+                    </div>
+                </div>
+
+
+                <!-- Question 10: Swing hand -->
+                <div class="survey-page" data-page="12">
+                    <div class="question-number">10</div>
                     <h2 class="question-text">Which hand do you swing with?</h2>
                     <div class="options-container" style="flex-direction: row; max-width: 300px; margin: 0 auto;">
                         <input type="radio" id="swing-left" name="swing-hand" value="Left">
@@ -1063,9 +1112,9 @@
       </div>
     </div>
 
-                <!-- Question 10: Iron shot shape -->
-                <div class="survey-page" data-page="12">
-                    <div class="question-number">10</div>
+                <!-- Question 11: Iron shot shape -->
+                <div class="survey-page" data-page="13">
+                    <div class="question-number">11</div>
                     <h2 class="question-text">What's your typical iron shot shape?</h2>
                     <div class="hand-diagram">
                         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -1093,7 +1142,7 @@
     </div>
 
                 <!-- Completion Page -->
-                <div class="survey-page" data-page="13">
+                <div class="survey-page" data-page="14">
                     <div class="welcome-content">
                         <div class="question-number" style="color: #4fd1c5;">✓</div>
                         <h1>Survey Complete!</h1>
@@ -1115,7 +1164,7 @@
   <script>
         // Survey state
         let currentPage = 0;
-        const totalPages = 14; // Including welcome and completion
+        const totalPages = 15; // Including welcome and completion
         const surveyData = {};
         let selectedAge = null;
 
@@ -1314,9 +1363,13 @@
                 return selectedAge !== null;
             }
             
-            const inputs = currentPageEl.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            const inputs = currentPageEl.querySelectorAll('input[type="radio"], input[type="checkbox"], input[type="text"]');
             
             if (inputs.length > 0) {
+                if (inputs.length === 1 && inputs[0].type === 'text') {
+                    // For the new grip input, it's always valid if it's not empty
+                    return inputs[0].value.trim() !== '';
+                }
                 return Array.from(inputs).some(input => input.checked);
             }
             
@@ -1414,9 +1467,135 @@
         document.getElementById('survey-pages').addEventListener('click', handleOptionSelection);
         document.getElementById('survey-pages').addEventListener('input', handleSliderUpdate);
 
+        // --- Grip List for Autocomplete ---
+        const gripModelsRaw = [
+            { brand: "Golf Pride", models: [
+                "Tour Velvet","Tour Velvet 360","Tour Velvet Plus4","Tour Velvet Align","Tour Velvet Cord","Tour Velvet BCPP (Brushed Cotton Cord Plus4)","MCC (Multi Compound Cord)","MCC Plus4","MCC Align","MCC Plus4 Align","MCC Align MAX","MCC Plus4 Align MAX","MCC Teams","CP2 Pro","CP2 Wrap","CPX","Z-Grip","Z-Grip Cord","Z-Grip Align","ZGRIP Plus2","Tour Wrap 2G","VDR (Variable Density Rubber)","ZGRIP Patriot","Decade MultiCompound","Decade MultiCompound Plus4","New Decade MultiCompound","New Decade MultiCompound Plus4","Niion","Pro Only Red Star","Pro Only Blue Star","Pro Only Green Star","V-55 Cord","Tour Velvet BCT Cord","Tour Velvet Full Cord","Tour Velvet Rubber","Dual Durometer","Whiteout","BlackOut","Pro Soft","Victory","Performer","Speedline","GX","G2C"
+            ]},
+            { brand: "Lamkin", models: [
+                "Crossline","Crossline Plus","Crossline 360","Crossline Cord","Crossline ACE","Crossline Full-Cord","Crossline Tour Black","Crossline Tour Black Full-Cord","Crossline 2.0","UTx","UTx Cord","Sonar","Sonar Plus","Sonar Tour","Sonar Tour Calibrate","Sonar+ Tour Calibrate","Sonar+ Hero","ST Hybrid","ST Hybrid Plus","ST+2 Hybrid","ST+2 Hybrid Calibrate","Comfort Plus","Deep Etched","Deep Etched Cord","Calibrate","Z5","Z5 Standard","Z5 Midsize","Z5 Oversize","R.E.L. ACE","R.E.L. 3GEN","Tour Black","Wrap-Tech","Perma Wrap","Perma Wrap ACE","Genesis","Genesis Material","i-Line","Gripsaver","Arthritic","Pro Soft","Comfort Soft","Performance Plus","Velvet","Velvet Plus","X10"
+            ]},
+            { brand: "SuperStroke", models: [
+                "S-Tech","S-Tech Cord","Soft Wrap TC","Cross Comfort","Comfort","Crossline 2.0","Element","Player","REVL","REVL Tour","REVL Pro","REVL Max","Xrossline 2.0","Crossline Full Cord"
+            ]},
+            { brand: "Winn", models: [
+                "Dri-Tac","Dri-Tac 2.0","Dri-Tac Wrap","Dri-Tac LT","Dri-Tac Dark Gray","Dri-Tac Standard","Dri-Tac Midsize","Dri-Tac Oversize","Dri-Tac Jumbo","Excel","Excel Wrap","Excel RF","Pro X","Pro X 1.18","Pro X 1.32","Pro X 1.60","6715W","Winnlite","V17","PCH","X-Pro","Grip 2.0","DuraTech","WinnPro X","WinnPro Wrap","Polymer Rod","Comfort Soft","Comfort Wrap","Winn Grips 21","Winn Wrap","Attack"
+            ]},
+            { brand: "IOMIC", models: [
+                "Sticky 2.3","Sticky 1.8","Sticky Evolution 2.3","Sticky Evolution 1.8","Sticky Opus 3","X-Grip","X-Grip Hard","X-Grip Soft","X-Evolution","LTC (Low Torque Control)","Absolute-X","Black Armor","Black Armor 2","I-Classic","Art Grip Series","Shallow","Medium","Deep","Standard Balance","Midsize Balance","Large Balance","Sticky Shadow","Sticky Jumbo","Sticky Standard","Sticky Midsize","X-Grip 2.3","X-Grip 1.8","PlayGrip","GripMaster"
+            ]},
+            { brand: "Karma", models: [
+                "Velour","Velour Plus","Velour Standard","Velour Midsize","Velour Jumbo","Dual Touch","Dual Touch Standard","Dual Touch Midsize","Black Velvet","Black Velvet Standard","Black Velvet Midsize","Black Velvet Jumbo","Neion","Neion II","Neion Plus","Smooth","Smooth Black","Smooth White","Super Lite","Pro","RF 360","Excel 360","Arthritic","Revolution","Ripple","Splash","Extreme Soft","Natural","Classic Wrap","Pro Wrap","Velvet Cord","Jumbo Wrap","V-Cord","Ladies Velour"
+            ]},
+            { brand: "JumboMax", models: [
+                "UltraLite Small","UltraLite Small+","UltraLite Medium","UltraLite Medium+","UltraLite Large","UltraLite Large+","UltraLite X-Large","Tour Series Small","Tour Series Small+","Tour Series Medium","Tour Series Medium+","Tour Series Large","Tour Series Large+","Tour Series X-Large","Tour Series Standard Oversize","Tour Series Standard Jumbo","Tour Series Extra Small","Wrap Series Small","Wrap Series Medium","Wrap Series Large","Original Wrap XS","Original Wrap Small","Original Wrap Medium","Original Wrap Large","Original Wrap Extra Large","STR8 Tech Non-Tapered","STR8 Tech Small","STR8 Tech Medium","STR8 Tech Large","STR8 Tech X-Large","ZenLite Small","ZenLite Medium","ZenLite Large"
+            ]},
+            { brand: "Tacki-Mac", models: [
+                "Command","Command Plus","Command RF","Command X","Pro Plus Wrap","Pro Plus Neon","Pro Tour Wrap","Tour Select","Tour Pro","Tour Pro Jumbo","Perforated Tour Pro","Perforated Tour Pro Jumbo","Itomic","Itomic IT2","Serrated","Serrated Oversize","Arthritic","Arthritic Serrated","Unified Wrap","Unified Wrap Non-Tapered","Unified Wrap Non-Tapered Oversize","Standard Wrap","Midsize Wrap","Oversize Wrap","Jumbo Wrap","Junior","Ladies","Bubble Shaft","Velvet","Grip Rite","Rib Grip","Tacki Pro"
+            ]},
+            { brand: "Ping", models: [
+                "PP58","PP58 Midsize","PP58 Oversize","PP60","PP60 Midsize","PP62","ID8","ID8 Undersize","ID8 Standard","ID8 Midsize","ID8 Jumbo","Blackout","703","703 Gold","703 Silver","5L","5L Round","5L Cord","Karsten"
+            ]},
+            { brand: "NO1 Grip", models: [
+                "50 Series","50 Series Standard","50 Series Midsize","50 Series Jumbo","48 Series","48 Series Standard","48 Series Midsize","Traveler","Traveler Standard","Traveler Midsize","Plus Series","Plus Series Standard","Plus Series Midsize","ST Series","ST Standard","ST Midsize","Pro Tour","Sticky 2.3","Sticky 1.8","Diamond","Diamond Plus"
+            ]},
+            { brand: "Avon", models: [
+                "Chamois","Chamois II","Chamois Yellow","Chamois Jumbo","Arthritic","Pro D2X","Pro D2X Wrap","Dual Density","Nexus Tour Velvet","Air Cushion","Pro VX","VX Tour Wrap","Multi-Compound","Diamond Grip","Classic Wrap","Pro Soft","Standard Grip"
+            ]},
+            { brand: "Pure Grips", models: [
+                "DTX","DTX Standard","DTX Midsize","DTX Wrap","Pro","Pro Standard","Pro Midsize","Midsize Pro","Midsize DTX","Big Dog","P2 Wrap","P2 Classic","The Grip","Players Wrap","HEX","Tapeless Installation"
+            ]},
+            { brand: "Boccieri Golf", models: [
+                "Secret Grip","Tour Series","Control Series","Weighted Grip"
+            ]},
+            { brand: "Grip Master", models: [
+                "Montana Cow","Stitchback Reminder","Classic Leather","Tour Leather","Kangaroo Leather","Custom Leather","Heritage","Pro Tour","Classic Wrap"
+            ]},
+            { brand: "Star Grip", models: [
+                "Classic","Tour","Sidewinder","S-Wave","Diamond","Tour Soft","Wrap Tech","Players Choice"
+            ]},
+            { brand: "Loudmouth Golf", models: [
+                "Magic Bus","Shagadelic","Captain Thunderbolt","Savage Flamingos","Paint Balls","Fore Play","Champagne Superstar","Razzle Dazzle","Oakmont Houndstooth"
+            ]},
+            { brand: "Champkey", models: [
+                "Victor","X Rubber","Tour Pro","Genesis","MTB","FCS"
+            ]}
+        ];
+        // Flatten to ["Brand Model"]
+        const gripList = gripModelsRaw.flatMap(g => g.models.map(m => `${g.brand} ${m}`));
+
+        // --- Autocomplete Logic ---
+        function setupGripAutocomplete() {
+            const input = document.getElementById('current-grip-input');
+            const list = document.getElementById('grip-autocomplete');
+            if (!input || !list) return;
+            let currentFocus = -1;
+
+            input.addEventListener('input', function() {
+                const val = this.value.trim().toLowerCase();
+                list.innerHTML = '';
+                if (!val) return;
+                const matches = gripList.filter(g => g.toLowerCase().includes(val)).slice(0, 8);
+                matches.forEach(grip => {
+                    const item = document.createElement('div');
+                    item.className = 'autocomplete-item';
+                    item.textContent = grip;
+                    item.tabIndex = 0;
+                    item.onclick = function() {
+                        input.value = grip;
+                        list.innerHTML = '';
+                        updateContinueButton();
+                    };
+                    item.onkeydown = function(e) {
+                        if (e.key === 'Enter') {
+                            input.value = grip;
+                            list.innerHTML = '';
+                            updateContinueButton();
+                        }
+                    };
+                    list.appendChild(item);
+                });
+            });
+
+            input.addEventListener('keydown', function(e) {
+                let items = list.querySelectorAll('.autocomplete-item');
+                if (e.key === 'ArrowDown') {
+                    currentFocus++;
+                    addActive(items);
+                } else if (e.key === 'ArrowUp') {
+                    currentFocus--;
+                    addActive(items);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (currentFocus > -1 && items[currentFocus]) {
+                        items[currentFocus].click();
+                    }
+                }
+            });
+
+            function addActive(items) {
+                if (!items.length) return;
+                removeActive(items);
+                if (currentFocus >= items.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = items.length - 1;
+                items[currentFocus].classList.add('active');
+                items[currentFocus].scrollIntoView({block:'nearest'});
+            }
+            function removeActive(items) {
+                items.forEach(i => i.classList.remove('active'));
+            }
+            document.addEventListener('click', function(e) {
+                if (e.target !== input) list.innerHTML = '';
+            });
+        }
+
         // Initial setup
         initProgressDots();
         showPage(currentPage);
+        // In showPage, after pageIndex === 11 (the new grip input), call setupGripAutocomplete()
+        if (currentPage === 11) {
+            setupGripAutocomplete();
+        }
   </script>
 </body>
 </html> 
