@@ -356,21 +356,32 @@
 
         /* Sliders */
         .slider-container {
-            margin: clamp(15px, 3vw, 20px) 0;
+            margin: 0;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            min-height: 0; /* Allow shrinking */
+            justify-content: space-between;
+            min-height: 0;
+            height: 100%;
         }
 
         .slider-value {
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-size: clamp(2.5rem, 8vw, 4rem);
             font-weight: 700;
             color: #2DD28F;
             text-align: center;
-            margin-bottom: clamp(10px, 2vw, 15px);
+            margin: 0;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+            line-height: 1.1;
+        }
+
+        .slider-controls {
+            margin-top: auto;
+            padding-bottom: clamp(20px, 5vw, 40px);
         }
 
         input[type="range"] {
@@ -383,40 +394,40 @@
             outline: none;
             margin: 15px 0;
             touch-action: manipulation;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input[type="range"]:hover {
+            background: #d1d5db;
         }
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             background: #2DD28F;
             border-radius: 50%;
             cursor: pointer;
             border: 4px solid white;
             box-shadow: 0 2px 8px rgba(45, 210, 143, 0.5);
-            min-width: 24px;
-            min-height: 24px;
+            min-width: 28px;
+            min-height: 28px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        input[type="range"]::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            background: #2DD28F;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 4px solid white;
-            box-shadow: 0 2px 8px rgba(45, 210, 143, 0.5);
-            min-width: 24px;
-            min-height: 24px;
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(45, 210, 143, 0.7);
         }
 
         .slider-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
+            font-size: clamp(0.7rem, 2vw, 0.8rem);
             color: #718096;
             margin-top: 8px;
+            padding: 0 clamp(10px, 3vw, 20px);
         }
 
         /* Text input */
@@ -1224,15 +1235,15 @@
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             background: #2DD28F;
             border-radius: 50%;
             cursor: pointer;
             border: 4px solid white;
             box-shadow: 0 2px 8px rgba(45, 210, 143, 0.5);
-            min-width: 24px;
-            min-height: 24px;
+            min-width: 28px;
+            min-height: 28px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -1243,12 +1254,17 @@
 
         /* Enhanced Slider Value Animation */
         .slider-value {
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-size: clamp(2.5rem, 8vw, 4rem);
             font-weight: 700;
             color: #2DD28F;
             text-align: center;
-            margin-bottom: clamp(10px, 2vw, 15px);
+            margin: 0;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+            line-height: 1.1;
         }
 
         /* Enhanced Section Intro Animation */
@@ -1446,10 +1462,12 @@
                     <h2 class="question-text">What's your age?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="age-value">25-34</div>
-                        <input type="range" id="age-slider" name="age" min="0" max="6" value="2" step="1">
-                        <div class="slider-labels">
-                            <span>Under 18</span>
-                            <span>65+</span>
+                        <div class="slider-controls">
+                            <input type="range" id="age-slider" name="age" min="0" max="6" value="2" step="1">
+                            <div class="slider-labels">
+                                <span>Under 18</span>
+                                <span>65+</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1474,10 +1492,12 @@
                     <h2 class="question-text">What is your handicap?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="handicap-value">10-14</div>
-                        <input type="range" id="handicap-slider" name="handicap" min="0" max="4" value="2" step="1">
-                        <div class="slider-labels">
-                            <span>Scratch to 4</span>
-                            <span>21+</span>
+                        <div class="slider-controls">
+                            <input type="range" id="handicap-slider" name="handicap" min="0" max="4" value="2" step="1">
+                            <div class="slider-labels">
+                                <span>Scratch to 4</span>
+                                <span>21+</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1487,10 +1507,12 @@
                     <h2 class="question-text">How many rounds a year do you play?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="rounds-value">40</div>
-                        <input type="range" id="rounds-slider" name="rounds-per-year" min="5" max="80" value="40" step="5">
-                        <div class="slider-labels">
-                            <span>5</span>
-                            <span>80</span>
+                        <div class="slider-controls">
+                            <input type="range" id="rounds-slider" name="rounds-per-year" min="5" max="80" value="40" step="5">
+                            <div class="slider-labels">
+                                <span>5</span>
+                                <span>80</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1624,10 +1646,13 @@
                         </svg>
                     </div>
                     <div class="slider-container">
-                        <input type="range" id="iron-shot-slider" name="iron-shot-shape" min="0" max="7" value="4" step="1">
-                        <div class="slider-labels">
-                            <span>Pull Hook</span>
-                            <span>Push Slice</span>
+                        <div class="slider-value" id="iron-shot-value">Straight</div>
+                        <div class="slider-controls">
+                            <input type="range" id="iron-shot-slider" name="iron-shot-shape" min="0" max="7" value="4" step="1">
+                            <div class="slider-labels">
+                                <span>Pull Hook</span>
+                                <span>Push Slice</span>
+                            </div>
                         </div>
                     </div>
                 </div>
