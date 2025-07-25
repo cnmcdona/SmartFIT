@@ -1239,8 +1239,30 @@
                     </div>
                 </div>
 
-                <!-- Completion Page -->
+                <!-- Hand Measurement Instructions Screen -->
                 <div class="survey-page" data-page="20">
+                    <div class="section-intro">
+                        <h2>Instructions</h2>
+                        <p style="margin-bottom: 18px;">You’ll need any U.S. coin (Quarter, Nickel, etc.) to complete this section. It’s used as a reference object for precise measurements.</p>
+                        <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 18px;">
+                            <button id="hand-left-btn" class="option-button" type="button">Left Hand</button>
+                            <button id="hand-right-btn" class="option-button" type="button">Right Hand</button>
+                        </div>
+                        <ol style="text-align: left; max-width: 400px; margin: 0 auto; font-size: 1.05rem; color: #2d3748;">
+                            <li style="margin-bottom: 10px;">Place your <span id="selected-hand-label">Left</span> hand flat, fingers slightly apart</li>
+                            <li style="margin-bottom: 10px;">Put the coin in the center of your palm</li>
+                            <li style="margin-bottom: 10px;">Hold phone 12-18 inches above your hand</li>
+                            <li style="margin-bottom: 10px;">Take photo – make sure hand and coin are fully visible and well-lit</li>
+                        </ol>
+                    </div>
+                    <div class="nav-container">
+                        <button class="nav-button primary" id="hand-instructions-continue">Continue</button>
+                        <button class="nav-button secondary" id="hand-instructions-example">See example</button>
+                    </div>
+                </div>
+
+                <!-- Completion Page -->
+                <div class="survey-page" data-page="21">
                     <div class="welcome-content">
                         <div class="question-number" style="color: #4fd1c5;">✓</div>
                         <h1>Survey Complete!</h1>
@@ -1262,7 +1284,7 @@
   <script>
         // Survey state
         let currentPage = 0;
-        const totalPages = 21; // Including welcome and completion
+        const totalPages = 22; // Including welcome and completion
         const surveyData = {};
         let selectedAge = null;
 
@@ -1734,6 +1756,27 @@
             }
             document.addEventListener('click', function(e) {
                 if (e.target !== input) list.innerHTML = '';
+            });
+        }
+
+        // Hand selection toggle logic
+        let selectedHand = 'Left';
+        const handLeftBtn = document.getElementById('hand-left-btn');
+        const handRightBtn = document.getElementById('hand-right-btn');
+        const selectedHandLabel = document.getElementById('selected-hand-label');
+        if (handLeftBtn && handRightBtn && selectedHandLabel) {
+            handLeftBtn.classList.add('selected');
+            handLeftBtn.addEventListener('click', () => {
+                selectedHand = 'Left';
+                handLeftBtn.classList.add('selected');
+                handRightBtn.classList.remove('selected');
+                selectedHandLabel.textContent = 'Left';
+            });
+            handRightBtn.addEventListener('click', () => {
+                selectedHand = 'Right';
+                handRightBtn.classList.add('selected');
+                handLeftBtn.classList.remove('selected');
+                selectedHandLabel.textContent = 'Right';
             });
         }
 
