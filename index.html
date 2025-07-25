@@ -2175,8 +2175,8 @@
 
             // Update navigation visibility
             if (pageIndex === 0) {
-                // Welcome page - show nav container for Continue button
-                navContainer.style.display = 'flex';
+                // Welcome page - hide nav container since we use swipe functionality
+                navContainer.style.display = 'none';
                 progressDots.style.display = 'none';
                 backButton.style.display = 'none';
             } else if (pageIndex === totalPages - 1) {
@@ -2617,9 +2617,12 @@
         let isSwiping = false;
         let swipeThreshold = 100; // Minimum swipe distance to trigger
 
+        console.log('Swipe container found:', swipeUpContainer); // Debug
+
         if (swipeUpContainer) {
             // Touch events for mobile
             swipeUpContainer.addEventListener('touchstart', (e) => {
+                console.log('Touch start detected'); // Debug
                 startY = e.touches[0].clientY;
                 isSwiping = true;
                 swipeUpContainer.style.transform = 'translateX(-50%) scale(0.95)';
@@ -2627,6 +2630,7 @@
 
             swipeUpContainer.addEventListener('touchmove', (e) => {
                 if (!isSwiping) return;
+                console.log('Touch move detected'); // Debug
                 currentY = e.touches[0].clientY;
                 const deltaY = startY - currentY;
                 
@@ -2638,9 +2642,11 @@
 
             swipeUpContainer.addEventListener('touchend', (e) => {
                 if (!isSwiping) return;
+                console.log('Touch end detected'); // Debug
                 const deltaY = startY - currentY;
                 
                 if (deltaY > swipeThreshold) {
+                    console.log('Swipe up successful!'); // Debug
                     // Swipe up successful - trigger begin
                     swipeUpContainer.style.transform = 'translateX(-50%) translateY(-50px) scale(0.8)';
                     swipeUpContainer.style.opacity = '0';
@@ -2659,6 +2665,7 @@
 
             // Mouse events for desktop
             swipeUpContainer.addEventListener('mousedown', (e) => {
+                console.log('Mouse down detected'); // Debug
                 startY = e.clientY;
                 isSwiping = true;
                 swipeUpContainer.style.transform = 'translateX(-50%) scale(0.95)';
@@ -2666,6 +2673,7 @@
 
             swipeUpContainer.addEventListener('mousemove', (e) => {
                 if (!isSwiping) return;
+                console.log('Mouse move detected'); // Debug
                 currentY = e.clientY;
                 const deltaY = startY - currentY;
                 
@@ -2677,9 +2685,11 @@
 
             swipeUpContainer.addEventListener('mouseup', (e) => {
                 if (!isSwiping) return;
+                console.log('Mouse up detected'); // Debug
                 const deltaY = startY - currentY;
                 
                 if (deltaY > swipeThreshold) {
+                    console.log('Swipe up successful!'); // Debug
                     // Swipe up successful - trigger begin
                     swipeUpContainer.style.transform = 'translateX(-50%) translateY(-50px) scale(0.8)';
                     swipeUpContainer.style.opacity = '0';
@@ -2698,7 +2708,9 @@
 
             // Click fallback for accessibility
             swipeUpContainer.addEventListener('click', (e) => {
+                console.log('Click detected'); // Debug
                 if (!isSwiping) {
+                    console.log('Click fallback triggered'); // Debug
                     swipeUpContainer.style.transform = 'translateX(-50%) translateY(-50px) scale(0.8)';
                     swipeUpContainer.style.opacity = '0';
                     
@@ -2708,6 +2720,8 @@
                     }, 300);
                 }
             });
+        } else {
+            console.log('Swipe container not found!'); // Debug
         }
     </script>
 </body>
