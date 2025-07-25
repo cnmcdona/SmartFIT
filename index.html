@@ -381,7 +381,7 @@
 
         .slider-controls {
             margin-top: auto;
-            padding-bottom: clamp(20px, 5vw, 40px);
+            padding-bottom: clamp(30px, 6vw, 50px);
         }
 
         input[type="range"] {
@@ -1370,6 +1370,95 @@
         #captured-image {
             animation: fadeInScale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        /* Enhanced Slider Layout - Even Spacing */
+        .slider-container {
+            margin: 0;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 0;
+            height: 100%;
+        }
+
+        .slider-value {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            color: #2DD28F;
+            text-align: center;
+            margin: 0;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+            line-height: 1.1;
+        }
+
+        .slider-controls {
+            margin-top: auto;
+            padding-bottom: clamp(30px, 6vw, 50px);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            outline: none;
+            margin: 15px 0;
+            touch-action: manipulation;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input[type="range"]:hover {
+            background: #d1d5db;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 28px;
+            height: 28px;
+            background: #2DD28F;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(45, 210, 143, 0.5);
+            min-width: 28px;
+            min-height: 28px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(45, 210, 143, 0.7);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: clamp(0.7rem, 2vw, 0.8rem);
+            color: #718096;
+            margin-top: 8px;
+            padding: 0 clamp(10px, 3vw, 20px);
+        }
+
+        /* Enhanced Question Text for Slider Questions */
+        .slider-question .question-text {
+            font-size: clamp(1.2rem, 4vw, 1.875rem);
+            font-weight: 600;
+            color: #333333;
+            text-align: center;
+            margin-bottom: clamp(40px, 8vw, 80px);
+            line-height: 1.3;
+            animation: slideUpFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -1458,7 +1547,7 @@
     </div>
 
                 <!-- Question 1: Age -->
-                <div class="survey-page" data-page="2">
+                <div class="survey-page slider-question" data-page="2">
                     <h2 class="question-text">What's your age?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="age-value">25-34</div>
@@ -1488,7 +1577,7 @@
                 </div>
 
                 <!-- Question 3: Handicap -->
-                <div class="survey-page" data-page="4">
+                <div class="survey-page slider-question" data-page="4">
                     <h2 class="question-text">What is your handicap?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="handicap-value">10-14</div>
@@ -1503,7 +1592,7 @@
                 </div>
 
                 <!-- Question 4: Rounds per year -->
-                <div class="survey-page" data-page="5">
+                <div class="survey-page slider-question" data-page="5">
                     <h2 class="question-text">How many rounds a year do you play?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="rounds-value">40</div>
@@ -1627,7 +1716,7 @@
                 </div>
 
                 <!-- Question 11: Iron shot shape -->
-                <div class="survey-page" data-page="13">
+                <div class="survey-page slider-question" data-page="13">
                     <h2 class="question-text">What's your typical iron shot shape?</h2>
                     <div class="hand-diagram">
                         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -1658,7 +1747,7 @@
                 </div>
 
                 <!-- Question 12: Driver shot shape -->
-                <div class="survey-page" data-page="14">
+                <div class="survey-page slider-question" data-page="14">
                     <h2 class="question-text">What's your typical driver shot shape?</h2>
                     <div class="hand-diagram">
                         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
