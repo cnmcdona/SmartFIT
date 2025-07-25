@@ -1352,6 +1352,14 @@
 
             updateProgressDots();
             updateContinueButton();
+
+            // Initialize grip autocomplete if on page 11
+            if (pageIndex === 11 && !gripAutocompleteInitialized) {
+                setTimeout(() => {
+                    setupGripAutocomplete();
+                    gripAutocompleteInitialized = true;
+                }, 100);
+            }
         }
 
         // Check if current page is valid
@@ -1592,7 +1600,6 @@
         // Initial setup
         initProgressDots();
         showPage(currentPage);
-        setupGripAutocomplete(); // Only call once after DOM is ready
   </script>
 </body>
 </html> 
