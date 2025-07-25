@@ -1573,15 +1573,12 @@
                                 <circle cx="100" cy="150" r="40" fill="#2DD28F" opacity="0.15"/>
                             </g>
                         </svg>
-      </div>
+                    </div>
                     <div class="welcome-content" style="position: relative; z-index: 1;">
                         <h1>Welcome to the SmartFIT™ Experience</h1>
                         <p>The most comprehensive and advanced grip fitting technology available to golfers.</p>
                     </div>
-                    <div class="nav-container">
-                        <button class="nav-button primary" id="welcome-continue">Continue</button>
-                    </div>
-    </div>
+                </div>
 
                 <!-- Section 1 Intro -->
                 <div class="survey-page" data-page="1">
@@ -2071,6 +2068,8 @@
                 navContainer.style.display = 'flex';
                 progressDots.style.display = 'none';
                 backButton.style.display = 'none';
+                continueButton.textContent = 'Continue';
+                continueButton.disabled = false;
             } else if (pageIndex === totalPages - 1) {
                 // Completion page
                 navContainer.style.display = 'none';
@@ -2266,10 +2265,6 @@
         }
 
         // Navigation
-        document.getElementById('welcome-continue').addEventListener('click', () => {
-            currentPage = 1;
-            showPage(currentPage);
-        });
         document.getElementById('section1-continue').addEventListener('click', () => {
             currentPage = 2;
             showPage(currentPage);
