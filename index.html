@@ -587,6 +587,7 @@
             margin: 40px 0 30px 0;
             flex-grow: 1;
             width: 100%;
+            position: relative;
         }
 
         .slot-machine {
@@ -595,15 +596,29 @@
             max-width: 400px;
             height: 300px;
             overflow: hidden;
-            background: linear-gradient(180deg, #E5E5EA 0%, #FFFFFF 20%, #FFFFFF 80%, #E5E5EA 100%);
-            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
             touch-action: pan-y;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+            opacity: 0.7;
+            animation: fadeInPicker 1s ease-out 0.5s forwards;
+        }
+
+        .slot-machine.active {
+            opacity: 1;
+        }
+
+        @keyframes fadeInPicker {
+            from {
+                opacity: 0.7;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .slot-window {
@@ -626,6 +641,7 @@
             height: 100%;
             width: 100%;
             position: relative;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .slot-option {
@@ -657,9 +673,10 @@
             color: #333333;
             font-weight: 700;
             font-size: 3rem;
-            background: rgba(45, 210, 143, 0.1);
+            background: rgba(45, 210, 143, 0.08);
             border-radius: 15px;
             margin: 10px 20px;
+            box-shadow: 0 2px 8px rgba(45, 210, 143, 0.15);
         }
 
         .slot-option:not(.active) {
@@ -667,42 +684,13 @@
             opacity: 0.3;
         }
 
-        /* Add subtle scroll indicators */
+        /* Remove all pseudo-elements (arrows) */
         .slot-machine::before,
         .slot-machine::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            z-index: 2;
-            pointer-events: none;
-            opacity: 0.4;
+            display: none;
         }
 
-        .slot-machine::before {
-            top: 20px;
-            border-bottom: 20px solid #333333;
-        }
-
-        .slot-machine::after {
-            bottom: 20px;
-            border-top: 20px solid #333333;
-        }
-
-        .slot-machine:hover::before {
-            border-bottom-color: #2DD28F;
-            opacity: 0.7;
-        }
-
-        .slot-machine:hover::after {
-            border-top-color: #2DD28F;
-            opacity: 0.7;
-        }
-
-        /* Add thumb-friendly touch areas */
+        /* Add subtle gradient overlay for depth */
         .slot-machine::after {
             content: '';
             position: absolute;
@@ -712,10 +700,10 @@
             bottom: 0;
             background: linear-gradient(
                 to bottom,
-                rgba(45, 210, 143, 0.1) 0%,
+                rgba(255, 255, 255, 0.1) 0%,
                 transparent 20%,
                 transparent 80%,
-                rgba(45, 210, 143, 0.1) 100%
+                rgba(255, 255, 255, 0.1) 100%
             );
             pointer-events: none;
             z-index: 1;
@@ -788,7 +776,6 @@
                 width: 100%;
                 max-width: 100%;
                 height: 350px;
-                border-radius: 25px;
                 margin: 0 10px;
             }
 
@@ -800,23 +787,6 @@
             .slot-option.active {
                 font-size: 2.6rem;
                 margin: 15px 25px;
-            }
-
-            /* Make touch areas larger on mobile */
-            .slot-machine::before,
-            .slot-machine::after {
-                border-left: 20px solid transparent;
-                border-right: 20px solid transparent;
-            }
-
-            .slot-machine::before {
-                top: 15px;
-                border-bottom: 25px solid #333333;
-            }
-
-            .slot-machine::after {
-                bottom: 15px;
-                border-top: 25px solid #333333;
             }
         }
 
@@ -1372,10 +1342,14 @@
         function initSlotMachine() {
             const slotOptions = document.querySelectorAll('.slot-option');
             const slotMachine = document.querySelector('.slot-machine');
+            const slotOptionsContainer = document.querySelector('.slot-options');
             let currentIndex = 0;
             let isDragging = false;
             let startY = 0;
             let currentY = 0;
+            let velocity = 0;
+            let lastTime = 0;
+            let animationId = null;
 
             // Set initial active option
             if (slotOptions.length > 0) {
@@ -1400,23 +1374,34 @@
                 isDragging = true;
                 startY = e.touches[0].clientY;
                 currentY = startY;
+                velocity = 0;
+                lastTime = Date.now();
+                cancelAnimationFrame(animationId);
             }
 
             function handleTouchMove(e) {
                 e.preventDefault();
                 if (!isDragging) return;
                 
-                currentY = e.touches[0].clientY;
-                const deltaY = currentY - startY;
-                const sensitivity = 0.5;
+                const now = Date.now();
+                const deltaTime = now - lastTime;
+                const newY = e.touches[0].clientY;
+                const deltaY = newY - currentY;
                 
-                if (Math.abs(deltaY) > 30) {
+                if (deltaTime > 0) {
+                    velocity = deltaY / deltaTime;
+                }
+                
+                currentY = newY;
+                lastTime = now;
+                
+                // Apply momentum scrolling
+                const sensitivity = 0.8;
+                if (Math.abs(deltaY) > 20) {
                     if (deltaY > 0 && currentIndex < slotOptions.length - 1) {
-                        // Scroll down (iOS: go to next option)
                         currentIndex++;
                         startY = currentY;
                     } else if (deltaY < 0 && currentIndex > 0) {
-                        // Scroll up (iOS: go to previous option)
                         currentIndex--;
                         startY = currentY;
                     }
@@ -1427,6 +1412,15 @@
             function handleTouchEnd(e) {
                 e.preventDefault();
                 isDragging = false;
+                
+                // Apply momentum
+                if (Math.abs(velocity) > 0.5) {
+                    const momentum = Math.sign(velocity) * Math.min(Math.abs(velocity) * 10, 2);
+                    applyMomentum(momentum);
+                } else {
+                    snapToClosest();
+                }
+                
                 updateContinueButton();
             }
 
@@ -1434,23 +1428,33 @@
                 isDragging = true;
                 startY = e.clientY;
                 currentY = startY;
+                velocity = 0;
+                lastTime = Date.now();
+                cancelAnimationFrame(animationId);
                 e.preventDefault();
             }
 
             function handleMouseMove(e) {
                 if (!isDragging) return;
                 
-                currentY = e.clientY;
-                const deltaY = currentY - startY;
-                const sensitivity = 0.5;
+                const now = Date.now();
+                const deltaTime = now - lastTime;
+                const newY = e.clientY;
+                const deltaY = newY - currentY;
                 
-                if (Math.abs(deltaY) > 30) {
+                if (deltaTime > 0) {
+                    velocity = deltaY / deltaTime;
+                }
+                
+                currentY = newY;
+                lastTime = now;
+                
+                const sensitivity = 0.8;
+                if (Math.abs(deltaY) > 20) {
                     if (deltaY > 0 && currentIndex < slotOptions.length - 1) {
-                        // Scroll down (iOS: go to next option)
                         currentIndex++;
                         startY = currentY;
                     } else if (deltaY < 0 && currentIndex > 0) {
-                        // Scroll up (iOS: go to previous option)
                         currentIndex--;
                         startY = currentY;
                     }
@@ -1460,7 +1464,45 @@
 
             function handleMouseEnd(e) {
                 isDragging = false;
+                
+                // Apply momentum
+                if (Math.abs(velocity) > 0.5) {
+                    const momentum = Math.sign(velocity) * Math.min(Math.abs(velocity) * 10, 2);
+                    applyMomentum(momentum);
+                } else {
+                    snapToClosest();
+                }
+                
                 updateContinueButton();
+            }
+
+            function applyMomentum(momentum) {
+                let remainingMomentum = momentum;
+                let currentVelocity = remainingMomentum;
+                
+                function animate() {
+                    if (Math.abs(currentVelocity) > 0.1) {
+                        if (currentVelocity > 0 && currentIndex < slotOptions.length - 1) {
+                            currentIndex++;
+                        } else if (currentVelocity < 0 && currentIndex > 0) {
+                            currentIndex--;
+                        }
+                        
+                        updateSlotDisplay();
+                        currentVelocity *= 0.9; // Decay
+                        animationId = requestAnimationFrame(animate);
+                    } else {
+                        snapToClosest();
+                    }
+                }
+                
+                animate();
+            }
+
+            function snapToClosest() {
+                // Ensure we're at a valid index
+                currentIndex = Math.max(0, Math.min(currentIndex, slotOptions.length - 1));
+                updateSlotDisplay();
             }
 
             function updateSlotDisplay() {
@@ -1482,6 +1524,22 @@
                     updateContinueButton();
                 });
             });
+
+            // Add keyboard support
+            slotMachine.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown' && currentIndex < slotOptions.length - 1) {
+                    currentIndex++;
+                    updateSlotDisplay();
+                    updateContinueButton();
+                } else if (e.key === 'ArrowUp' && currentIndex > 0) {
+                    currentIndex--;
+                    updateSlotDisplay();
+                    updateContinueButton();
+                }
+            });
+
+            // Make the picker focusable for keyboard navigation
+            slotMachine.setAttribute('tabindex', '0');
         }
 
         // Initialize progress dots
