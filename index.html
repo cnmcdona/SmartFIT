@@ -1257,14 +1257,28 @@
                     </div>
                 </div>
 
-                <!-- Completion Page -->
+                <!-- Hand Photo Upload Screen -->
                 <div class="survey-page" data-page="21">
-                    <div class="welcome-content">
-                        <div class="question-number" style="color: #4fd1c5;">✓</div>
-                        <h1>Survey Complete!</h1>
-                        <p>Thank you for completing the SmartFIT grip assessment. Your personalized grip recommendations are being prepared.</p>
-                        <div class="success-message" id="success-message" style="display: block;">
-                            Your responses have been saved successfully!
+                    <div class="question-number">16</div>
+                    <h2 class="question-text">Take a photo of your hand</h2>
+                    
+                    <div id="camera-container" style="text-align: center; margin: 20px 0;">
+                        <div id="camera-placeholder" style="width: 300px; height: 400px; margin: 0 auto; border: 2px dashed #cbd5e0; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f7fafc;">
+                            <i class="fas fa-camera" style="font-size: 3rem; color: #cbd5e0; margin-bottom: 15px;"></i>
+                            <p style="color: #718096; font-size: 1rem;">Tap to open camera</p>
+                        </div>
+                        <input type="file" id="camera-input" accept="image/*" capture="environment" style="display: none;">
+                        <button id="open-camera-btn" class="nav-button primary" style="margin-top: 15px;">Open Camera</button>
+                    </div>
+                    
+                    <div id="photo-preview" style="display: none; text-align: center; margin: 20px 0;">
+                        <img id="captured-image" style="max-width: 300px; max-height: 400px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" />
+                    </div>
+                    
+                    <div id="photo-actions" style="display: none; margin-top: 20px;">
+                        <div class="nav-container">
+                            <button class="nav-button secondary" id="retake-photo-btn">Retake</button>
+                            <button class="nav-button primary" id="confirm-photo-btn">Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -1280,7 +1294,7 @@
   <script>
         // Survey state
         let currentPage = 0;
-        const totalPages = 22; // Including welcome and completion
+        const totalPages = 22; // Including welcome and photo upload
         const surveyData = {};
         let selectedAge = null;
 
@@ -1779,6 +1793,58 @@
             if (selectedHandLabel) {
                 selectedHandLabel.textContent = selectedHand;
             }
+        }
+
+        // Camera and photo functionality
+        const cameraInput = document.getElementById('camera-input');
+        const openCameraBtn = document.getElementById('open-camera-btn');
+        const cameraPlaceholder = document.getElementById('camera-placeholder');
+        const photoPreview = document.getElementById('photo-preview');
+        const capturedImage = document.getElementById('captured-image');
+        const photoActions = document.getElementById('photo-actions');
+        const retakePhotoBtn = document.getElementById('retake-photo-btn');
+        const confirmPhotoBtn = document.getElementById('confirm-photo-btn');
+
+        if (openCameraBtn) {
+            openCameraBtn.addEventListener('click', () => {
+                cameraInput.click();
+            });
+        }
+
+        if (cameraInput) {
+            cameraInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        capturedImage.src = e.target.result;
+                        cameraPlaceholder.style.display = 'none';
+                        photoPreview.style.display = 'block';
+                        photoActions.style.display = 'block';
+                        openCameraBtn.style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        if (retakePhotoBtn) {
+            retakePhotoBtn.addEventListener('click', () => {
+                cameraPlaceholder.style.display = 'flex';
+                photoPreview.style.display = 'none';
+                photoActions.style.display = 'none';
+                openCameraBtn.style.display = 'block';
+                cameraInput.value = '';
+            });
+        }
+
+        if (confirmPhotoBtn) {
+            confirmPhotoBtn.addEventListener('click', () => {
+                // Handle photo confirmation - could save to survey data
+                console.log('Photo confirmed');
+                // For now, just proceed to next page or completion
+                alert('Photo captured successfully!');
+            });
         }
 
         // Initial setup
