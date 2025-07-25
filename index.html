@@ -8,7 +8,6 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#f5f5f5">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
     <title>SmartFIT Golf Grip Survey</title>
     <!-- Tailwind CSS CDN -->
@@ -2589,9 +2588,12 @@
         console.log('Swipe container found:', swipeUpContainer); // Debug
 
         if (swipeUpContainer) {
+            console.log('Swipe container dimensions:', swipeUpContainer.offsetWidth, 'x', swipeUpContainer.offsetHeight);
+            console.log('Swipe container position:', swipeUpContainer.offsetTop, swipeUpContainer.offsetLeft);
+            
             // Touch events for mobile
             swipeUpContainer.addEventListener('touchstart', (e) => {
-                console.log('Touch start detected'); // Debug
+                console.log('Touch start detected at:', e.touches[0].clientX, e.touches[0].clientY);
                 startY = e.touches[0].clientY;
                 isSwiping = true;
                 swipeUpContainer.style.transform = 'translateX(-50%) scale(0.95)';
@@ -2677,9 +2679,9 @@
 
             // Click fallback for accessibility
             swipeUpContainer.addEventListener('click', (e) => {
-                console.log('Click detected'); // Debug
+                console.log('Click detected at:', e.clientX, e.clientY);
                 if (!isSwiping) {
-                    console.log('Click fallback triggered'); // Debug
+                    console.log('Click fallback triggered');
                     swipeUpContainer.style.transform = 'translateX(-50%) translateY(-50px) scale(0.8)';
                     swipeUpContainer.style.opacity = '0';
                     
@@ -2689,6 +2691,15 @@
                     }, 300);
                 }
             });
+            
+            // Add a simple test click
+            setTimeout(() => {
+                console.log('Testing if element is clickable...');
+                swipeUpContainer.style.border = '2px solid red';
+                setTimeout(() => {
+                    swipeUpContainer.style.border = '';
+                }, 2000);
+            }, 1000);
         } else {
             console.log('Swipe container not found!'); // Debug
         }
