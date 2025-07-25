@@ -1533,20 +1533,20 @@
 
         // --- Autocomplete Logic ---
         function setupGripAutocomplete() {
-            let input = document.getElementById('current-grip-input');
+            const input = document.getElementById('current-grip-input');
             const list = document.getElementById('grip-autocomplete');
             if (!input || !list) return;
-            // Remove previous listeners by cloning
-            const newInput = input.cloneNode(true);
-            input.parentNode.replaceChild(newInput, input);
-            input = newInput;
+            if (input._autocompleteInitialized) return; // Prevent duplicate listeners
+            input._autocompleteInitialized = true;
             let currentFocus = -1;
 
             input.addEventListener('input', function() {
                 const val = this.value.trim().toLowerCase();
                 list.innerHTML = '';
+                console.log('Grip input event fired. Value:', val);
                 if (!val) return;
                 const matches = gripList.filter(g => g.toLowerCase().includes(val)).slice(0, 8);
+                console.log('Autocomplete matches:', matches);
                 matches.forEach(grip => {
                     const item = document.createElement('div');
                     item.className = 'autocomplete-item';
