@@ -166,7 +166,7 @@
             font-size: 2.5rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             line-height: 1;
         }
 
@@ -927,9 +927,11 @@
                 <i class="fas fa-bars menu-icon"></i>
             </div>
 
+            <div class="question-number" id="current-question-number" style="display: none;">1</div>
+
             <div class="progress-dots" id="progress-dots">
                 <!-- Dots will be generated dynamically -->
-    </div>
+            </div>
 
             <div id="survey-pages">
                 <!-- Welcome Page -->
@@ -1002,7 +1004,6 @@
 
                 <!-- Question 1: Age -->
                 <div class="survey-page" data-page="2">
-                    <div class="question-number">1</div>
                     <h2 class="question-text">What's your age?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="age-value">25-34</div>
@@ -1016,7 +1017,6 @@
 
                 <!-- Question 2: Gender -->
                 <div class="survey-page" data-page="3">
-                    <div class="question-number">2</div>
                     <h2 class="question-text">What's your gender?</h2>
                     <div class="options-container">
                         <input type="radio" id="gender-male" name="gender" value="Male">
@@ -1027,12 +1027,11 @@
                         
                         <input type="radio" id="gender-prefer-not" name="gender" value="Prefer not to say">
                         <label for="gender-prefer-not" class="option-button">Prefer not to say</label>
-      </div>
-    </div>
+                    </div>
+                </div>
 
                 <!-- Question 3: Handicap -->
                 <div class="survey-page" data-page="4">
-                    <div class="question-number">3</div>
                     <h2 class="question-text">What is your handicap?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="handicap-value">10-14</div>
@@ -1046,7 +1045,6 @@
 
                 <!-- Question 4: Rounds per year -->
                 <div class="survey-page" data-page="5">
-                    <div class="question-number">4</div>
                     <h2 class="question-text">How many rounds a year do you play?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="rounds-value">40</div>
@@ -1060,7 +1058,6 @@
 
                 <!-- Question 5: Current grip size -->
                 <div class="survey-page" data-page="6">
-                    <div class="question-number">5</div>
                     <h2 class="question-text">What size are your current grips? (If you know)</h2>
                     <div class="options-container">
                         <input type="radio" id="grip-size-undersize" name="current-grip-size" value="Undersize">
@@ -1082,7 +1079,6 @@
 
                 <!-- Question 6: Current grip model -->
                 <div class="survey-page" data-page="7">
-                    <div class="question-number">6</div>
                     <h2 class="question-text">What model are your current grips?</h2>
                     <p style="text-align: center; color: #666; margin: 8px 0 20px 0; font-size: 0.9rem;">(if you know)</p>
                     <div class="options-container" style="margin-bottom:0;">
@@ -1108,7 +1104,6 @@
 
                 <!-- Question 7: Physical conditions -->
                 <div class="survey-page" data-page="9">
-                    <div class="question-number">7</div>
                     <h2 class="question-text">Do you experience any of the following? (Check all that apply)</h2>
                     <div class="options-container">
                         <input type="checkbox" id="condition-arthritis" name="physical-condition" value="Arthritis">
@@ -1127,7 +1122,6 @@
 
                 <!-- Question 8: Moisture control -->
                 <div class="survey-page" data-page="10">
-                    <div class="question-number">8</div>
                     <h2 class="question-text">Do your grips need to help with moisture control?</h2>
                     <div class="options-container">
                         <input type="radio" id="moisture-yes" name="moisture-control" value="Yes, I struggle with slippage">
@@ -1140,7 +1134,6 @@
 
                 <!-- Question 9: Grip feel -->
                 <div class="survey-page" data-page="11">
-                    <div class="question-number">9</div>
                     <h2 class="question-text">How would you describe your current grip's feel?</h2>
                     <div class="options-container">
                         <input type="radio" id="feel-too-soft" name="grip-feel" value="Too soft">
@@ -1162,7 +1155,6 @@
 
                 <!-- Question 10: Swing hand -->
                 <div class="survey-page" data-page="12">
-                    <div class="question-number">10</div>
                     <h2 class="question-text">Which hand do you swing with?</h2>
                     <div class="options-container" style="flex-direction: row; max-width: 300px; margin: 0 auto;">
                         <input type="radio" id="swing-left" name="swing-hand" value="Left">
@@ -1175,7 +1167,6 @@
 
                 <!-- Question 11: Iron shot shape -->
                 <div class="survey-page" data-page="13">
-                    <div class="question-number">11</div>
                     <h2 class="question-text">What's your typical iron shot shape?</h2>
                     <div class="hand-diagram">
                         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -1204,7 +1195,6 @@
 
                 <!-- Question 12: Driver shot shape -->
                 <div class="survey-page" data-page="14">
-                    <div class="question-number">12</div>
                     <h2 class="question-text">What's your typical driver shot shape?</h2>
                     <div class="hand-diagram">
                         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -1244,7 +1234,6 @@
 
                 <!-- Question 13: Change iron shot shape -->
                 <div class="survey-page" data-page="16">
-                    <div class="question-number">13</div>
                     <h2 class="question-text">Do you want to change your iron shot shape?</h2>
                     <div class="options-container">
                         <input type="radio" id="iron-change-straighter" name="iron-shot-change" value="Yes, I want straighter shots">
@@ -1263,7 +1252,6 @@
 
                 <!-- Question 14: Change driver shot shape -->
                 <div class="survey-page" data-page="17">
-                    <div class="question-number">14</div>
                     <h2 class="question-text">Do you want to change your driver shot shape?</h2>
                     <div class="options-container">
                         <input type="radio" id="driver-change-straighter" name="driver-shot-change" value="Yes, I want straighter shots">
@@ -1282,7 +1270,6 @@
 
                 <!-- Question 15: Grip improvements -->
                 <div class="survey-page" data-page="18">
-                    <div class="question-number">15</div>
                     <h2 class="question-text">What do you want to improve with your new grips? (check all that apply)</h2>
                     <div class="options-container">
                         <input type="checkbox" id="improve-fit" name="grip-improvements" value="Better fit">
@@ -1424,6 +1411,24 @@
                     page.classList.remove('active');
                 }
             });
+
+            // Update question number display
+            const questionNumberEl = document.getElementById('current-question-number');
+            if (questionNumberEl) {
+                // Map page index to question number
+                const questionNumberMap = {
+                    2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6,  // Section 1
+                    9: 7, 10: 8, 11: 9, 12: 10, 13: 11, 14: 12,  // Section 2
+                    16: 13, 17: 14, 18: 15  // Section 3
+                };
+                
+                if (questionNumberMap[pageIndex]) {
+                    questionNumberEl.textContent = questionNumberMap[pageIndex];
+                    questionNumberEl.style.display = 'block';
+                } else {
+                    questionNumberEl.style.display = 'none';
+                }
+            }
 
             // Initialize grip autocomplete if on grip input page
             if (pageIndex === 7) {
