@@ -1872,7 +1872,7 @@
                 </div>
 
                 <!-- Completion Page -->
-                <div class="survey-page" data-page="21">
+                <div class="survey-page" data-page="22">
                     <div class="welcome-content">
                         <div class="question-number" style="color: #2DD28F;">✓</div>
                         <h1>Survey Complete!</h1>
@@ -2022,6 +2022,12 @@
         function isPageValid() {
             const currentPageEl = pages[currentPage];
             
+            // Special case for photo upload page
+            if (currentPage === 21) {
+                const photoPreview = document.getElementById('photo-preview');
+                return photoPreview && photoPreview.style.display !== 'none';
+            }
+            
             const inputs = currentPageEl.querySelectorAll('input[type="radio"], input[type="checkbox"], input[type="text"]');
             
             if (inputs.length > 0) {
@@ -2039,7 +2045,7 @@
         function updateContinueButton() {
             if (currentPage === totalPages - 2) {
                 continueButton.textContent = 'Submit';
-          } else {
+            } else {
                 continueButton.textContent = 'Continue';
             }
             
@@ -2383,6 +2389,7 @@
                         cameraPlaceholder.style.display = 'none';
                         photoPreview.style.display = 'block';
                         photoActions.style.display = 'block';
+                        updateContinueButton(); // Enable submit button
                     };
                     reader.readAsDataURL(file);
                 }
@@ -2395,6 +2402,7 @@
                 photoPreview.style.display = 'none';
                 photoActions.style.display = 'none';
                 cameraInput.value = '';
+                updateContinueButton(); // Disable submit button
             });
         }
 
