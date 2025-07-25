@@ -1330,13 +1330,6 @@
                 }, 100);
             }
 
-            // Initialize grip autocomplete if on grip input page
-            if (pageIndex === 11) {
-                setTimeout(() => {
-                    setupGripAutocomplete();
-                }, 100);
-            }
-
             // Update navigation visibility
             if (pageIndex === 0) {
                 // Welcome page
@@ -1599,6 +1592,7 @@
         // Initial setup
         initProgressDots();
         showPage(currentPage);
+        setupGripAutocomplete(); // Only call once after DOM is ready
   </script>
 </body>
 </html> 
