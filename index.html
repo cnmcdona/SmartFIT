@@ -1,16 +1,14 @@
-<!-- Trigger redeploy: cache bust -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="format-detection" content="telephone=no">
     <title>SmartFIT Golf Grip Survey</title>
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
@@ -18,65 +16,73 @@
     <!-- Three.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
+        /* Global dark gradient background */
         html, body {
             height: 100%;
+            min-height: 100vh;
         }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #23272F 0%, #181A20 100%);
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            width: 100vw;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
-            background: linear-gradient(180deg, #23272F 0%, #181A20 100%);
+        }
+        .survey-container {
+            width: 100vw;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
+            padding: 0;
+            background: none;
         }
-
-        /* Remove card and container backgrounds */
-        .survey-container, .survey-card {
-            background: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            padding: 0 !important;
-            margin: 0 auto !important;
-            width: 100vw !important;
-            max-width: 100vw !important;
-            height: 100vh !important;
-            min-height: 100vh !important;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-        }
-
-        /* Progress Bar */
-        .progress-bar-container {
+        .survey-card {
+            background: none;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0;
             width: 100vw;
             max-width: 100vw;
-            padding: 0 0 24px 0;
-            margin-top: 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 0;
+        }
+        /* Progress bar */
+        .progress-bar-container {
+            width: 100vw;
+            max-width: 500px;
+            margin: 0 auto 24px auto;
+            padding: 0 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        .progress-label {
+        .progress-bar-label {
             color: #fff;
             font-size: 0.95rem;
             font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
+            letter-spacing: 0.04em;
             margin-bottom: 8px;
+            text-align: center;
         }
         .progress-bar {
-            width: 180px;
+            width: 100%;
             height: 4px;
             background: #353945;
             border-radius: 2px;
             overflow: hidden;
-            margin: 0 auto;
+            margin-bottom: 0;
         }
         .progress-bar-inner {
             height: 100%;
@@ -84,184 +90,194 @@
             border-radius: 2px;
             transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
         }
-
+        /* Top nav */
+        .top-nav {
+            width: 100vw;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 24px 24px 0 24px;
+            position: relative;
+        }
+        .back-arrow {
+            color: #8FF36A;
+            font-size: 1.7rem;
+            cursor: pointer;
+            margin-right: 12px;
+            min-width: 36px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         /* Icon */
         .question-icon {
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 24px auto;
-        }
-        .question-icon svg {
             width: 48px;
             height: 48px;
-            display: block;
         }
-
-        /* Question Typography */
+        /* Question text */
         .question-text {
-            color: #fff;
             font-size: 2rem;
             font-weight: 800;
+            color: #fff;
             text-align: center;
             margin-bottom: 12px;
             margin-top: 0;
-            letter-spacing: -0.01em;
+            line-height: 1.2;
         }
-        .question-subtext {
-            color: #b0b4be;
+        .question-desc {
             font-size: 1.05rem;
-            font-weight: 400;
+            color: #B0B3B8;
             text-align: center;
             margin-bottom: 32px;
-            margin-top: 0;
+            font-weight: 400;
+            line-height: 1.5;
         }
-
-        /* Slider Question Styles */
-        .slider-question {
+        /* Slider */
+        .slider-container {
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto 40px auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100vw;
-            max-width: 100vw;
-            margin-bottom: 32px;
         }
+        /* Slider value polish */
         .slider-value {
+            font-size: 3.2rem;
+            font-weight: 900;
             color: #fff;
-            font-size: 3rem;
-            font-weight: 800;
             text-align: center;
-            margin-bottom: 8px;
-        }
-        .slider-sub {
-            color: #b0b4be;
-            font-size: 1rem;
-            text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.03em;
         }
         .slider-container {
-            width: 90vw;
-            max-width: 340px;
-            margin: 0 auto 8px auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            margin-bottom: 48px;
+        }
+        /* Slot machine polish */
+        .slot-machine-container {
+            margin-bottom: 48px;
+        }
+        .slot-option {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            opacity: 0.5;
+            transition: all 0.2s;
+        }
+        .slot-option.active {
+            color: #8FF36A;
+            opacity: 1;
+            font-size: 2.7rem;
+        }
+        /* Option button polish */
+        .option-button {
+            min-height: 56px;
+            font-size: 1.25rem;
+            border-radius: 999px;
+            margin-bottom: 20px;
+        }
+        .option-button.selected, .option-button:active {
+            background: #8FF36A;
+            color: #23272F;
+            border-color: #8FF36A;
+            font-weight: 900;
+        }
+        .option-button:last-child { margin-bottom: 0; }
+        /* Touch target for mobile */
+        @media (max-width: 640px) {
+            .slider-value { font-size: 2.3rem; }
+            .slot-option { font-size: 1.5rem; }
+            .slot-option.active { font-size: 2rem; }
+            .option-button { font-size: 1.1rem; min-height: 48px; }
         }
         input[type="range"] {
             -webkit-appearance: none;
             appearance: none;
             width: 100%;
-            height: 6px;
+            height: 8px;
             background: #353945;
-            border-radius: 3px;
+            border-radius: 4px;
             outline: none;
-            margin: 0 0 8px 0;
+            margin: 15px 0 0 0;
         }
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
             width: 32px;
             height: 32px;
-            background: #fff;
+            background: #8FF36A;
             border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-            border: 4px solid #4fd1c5;
             cursor: pointer;
-            transition: background 0.2s;
+            border: 4px solid #23272F;
+            box-shadow: 0 2px 8px rgba(143, 243, 106, 0.25);
         }
         input[type="range"]::-moz-range-thumb {
             width: 32px;
             height: 32px;
-            background: #fff;
+            background: #8FF36A;
             border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-            border: 4px solid #4fd1c5;
             cursor: pointer;
-            transition: background 0.2s;
+            border: 4px solid #23272F;
+            box-shadow: 0 2px 8px rgba(143, 243, 106, 0.25);
         }
-        input[type="range"]::-ms-thumb {
-            width: 32px;
-            height: 32px;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-            border: 4px solid #4fd1c5;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        input[type="range"]:focus {
-            outline: none;
-        }
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            font-size: 1rem;
-            color: #b0b4be;
-            margin-top: 0;
-        }
-        .slider-labels span {
-            flex: 1;
-            text-align: center;
-        }
-
-        /* Next Button */
+        /* Next button */
         .nav-container {
             width: 100vw;
-            max-width: 100vw;
+            max-width: 500px;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 0 24px 32px 24px;
             margin-top: auto;
-            margin-bottom: 32px;
-            padding: 0 0 0 0;
         }
         .nav-button.primary {
-            background: #3ecf4c;
-            color: #fff;
+            width: 100%;
+            background: #8FF36A;
+            color: #23272F;
             font-size: 1.25rem;
             font-weight: 700;
-            border-radius: 12px;
+            border-radius: 16px;
             border: none;
-            width: 90vw;
-            max-width: 340px;
             padding: 18px 0;
-            box-shadow: 0 4px 24px rgba(62, 207, 76, 0.15);
+            margin: 0;
+            box-shadow: 0 4px 24px rgba(143, 243, 106, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: background 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            transition: background 0.2s;
         }
         .nav-button.primary:disabled {
             background: #353945;
-            color: #b0b4be;
+            color: #B0B3B8;
             cursor: not-allowed;
         }
-        .nav-button.primary:hover:not(:disabled) {
-            background: #2ebf3c;
-            box-shadow: 0 6px 32px rgba(62, 207, 76, 0.22);
+        .nav-button.primary .arrow {
+            font-size: 1.3rem;
+            margin-left: 8px;
         }
-        .nav-button .fa-arrow-right {
-            font-size: 1.2em;
-        }
-
-        /* Remove old card, header, and dot styles */
-        .survey-header, .progress-dots, .question-number, .survey-card {
-            display: none !important;
-        }
-
-        /* Responsive tweaks */
-        @media (max-width: 480px) {
+        /* Responsive */
+        @media (max-width: 640px) {
+            .survey-container, .survey-card, .progress-bar-container, .top-nav, .nav-container {
+                max-width: 100vw;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
             .question-text {
                 font-size: 1.3rem;
             }
             .slider-value {
                 font-size: 2.2rem;
             }
-            .nav-button.primary {
-                font-size: 1.1rem;
-                padding: 14px 0;
+            .slider-container {
+                max-width: 95vw;
             }
         }
     </style>
@@ -269,60 +285,68 @@
 <body>
     <div class="survey-container">
         <div class="survey-card">
-            <!-- Progress Bar (visible on all but welcome/completion) -->
-            <div class="progress-bar-container" id="progress-bar-container" style="display: none;">
-                <div class="progress-label" id="progress-label">PERSONALIZE: <span id="progress-step">1</span> of 6</div>
+            <div class="top-nav">
+                <a href="#" class="back-arrow"><i class="fas fa-arrow-left"></i></a>
+                <div class="logo">
+                    <span>GR</span><span>I</span><span>P</span><span>script</span>
+                </div>
+                <i class="fas fa-bars menu-icon"></i>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar-label">Progress</div>
                 <div class="progress-bar">
-                    <div class="progress-bar-inner" id="progress-bar-inner" style="width: 0%"></div>
+                    <div class="progress-bar-inner" style="width: 0%;"></div>
                 </div>
             </div>
 
             <div id="survey-pages">
                 <!-- Welcome Page -->
                 <div class="survey-page active welcome-page" data-page="0">
-                    <div class="golf-graphic">
-                        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                            <g opacity="0.8">
-                                <!-- Golf ball path -->
-                                <path d="M 50 350 Q 200 100 350 200" stroke="#4fd1c5" stroke-width="40" fill="none" stroke-linecap="round" opacity="0.4"/>
-                                <circle cx="350" cy="200" r="30" fill="#4fd1c5" opacity="0.6"/>
-                                
-                                <!-- Additional decorative elements -->
-                                <circle cx="150" cy="250" r="60" fill="#4fd1c5" opacity="0.2"/>
-                                <circle cx="280" cy="320" r="80" fill="#4fd1c5" opacity="0.15"/>
-                            </g>
+                    <div class="question-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
-                    <div class="welcome-content" style="position: relative; z-index: 1;">
-                        <h1>Welcome to the SmartFIT™ Experience</h1>
-                        <p>The most comprehensive and advanced grip fitting technology available to golfers.</p>
-                        <button class="begin-button" id="begin-button">BEGIN</button>
+                    <div class="question-text">Welcome to the SmartFIT™ Experience</div>
+                    <div class="question-desc">The most comprehensive and advanced grip fitting technology available to golfers.</div>
+                    <div class="nav-container" style="margin-top: 32px;">
+                        <button class="nav-button primary" id="begin-button">Begin <span class="arrow">→</span></button>
                     </div>
                 </div>
 
-                <!-- Section 1 Intro (restyled) -->
+                <!-- Section 1 Intro -->
                 <div class="survey-page" data-page="1">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">Player Profile</div>
-                    <div class="question-subtext">In this section, we'll learn about your player profile. This helps us understand your general golfing background.</div>
+                    <div class="question-desc">In this section, we'll learn about your player profile. This helps us understand your general golfing background.</div>
                     <div class="nav-container">
-                        <button class="nav-button primary" id="section1-continue">Continue <i class="fas fa-arrow-right"></i></button>
+                        <button class="nav-button primary" id="section1-continue">Continue <span class="arrow">→</span></button>
                     </div>
                 </div>
 
-                <!-- Question 1: Age (restyled, slot machine placeholder) -->
+                <!-- Question 1: Age -->
                 <div class="survey-page" data-page="2">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">What's your age?</div>
-                    <div class="question-subtext">Select your age group to help us personalize your experience.</div>
+                    <div class="question-desc">Select your age group.</div>
                     <div class="slot-machine-container">
                         <div class="slot-machine">
                             <div class="slot-window">
@@ -340,227 +364,239 @@
                     </div>
                 </div>
 
-                <!-- Question 2: Gender (restyled) -->
+                <!-- Question 2: Gender -->
                 <div class="survey-page" data-page="3">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">What's your gender?</div>
-                    <div class="question-subtext">This helps us tailor your recommendations.</div>
-                    <div class="options-container" style="flex-direction: row; justify-content: center; gap: 18px;">
+                    <div class="question-desc">Please select your gender.</div>
+                    <div class="options-container">
                         <input type="radio" id="gender-male" name="gender" value="Male">
-                        <label for="gender-male" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.3rem; padding: 18px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Male</label>
+                        <label for="gender-male" class="option-button">Male</label>
                         <input type="radio" id="gender-female" name="gender" value="Female">
-                        <label for="gender-female" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.3rem; padding: 18px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Female</label>
+                        <label for="gender-female" class="option-button">Female</label>
                         <input type="radio" id="gender-prefer-not" name="gender" value="Prefer not to say">
-                        <label for="gender-prefer-not" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.3rem; padding: 18px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Prefer not to say</label>
+                        <label for="gender-prefer-not" class="option-button">Prefer not to say</label>
                     </div>
                 </div>
 
-                <!-- Question 3: Handicap (PREVIEW - NEW STYLE) -->
+                <!-- Question 3: Handicap -->
                 <div class="survey-page" data-page="4">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">What's your approx. handicap?</div>
-                    <div class="question-subtext">Let us know how you're currently playing so we can help set attainable targets for you.</div>
-                    <div class="slider-question">
+                    <div class="question-desc">Let us know how you're currently playing so we can help set attainable targets for you.</div>
+                    <div class="slider-container">
                         <div class="slider-value" id="handicap-value">14</div>
-                        <div class="slider-sub" id="handicap-sub">Avg. Score of 77</div>
-                        <div class="slider-container">
-                            <input type="range" id="handicap-slider" name="handicap" min="0" max="36" value="14">
-                            <div class="slider-labels">
-                                <span>Tour Pro</span>
-                                <span>Beginner</span>
-                            </div>
+                        <input type="range" id="handicap-slider" name="handicap" min="0" max="36" value="14">
+                        <div class="slider-labels">
+                            <span>Tour Pro</span>
+                            <span>Beginner</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Question 4: Rounds per year (PREVIEW - NEW STYLE) -->
+                <!-- Question 4: Rounds per year -->
                 <div class="survey-page" data-page="5">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">How many times a year do you play?</div>
-                    <div class="question-subtext">We will make sure your target is reasonable based on how frequently you play.</div>
-                    <div class="slider-question">
+                    <div class="question-desc">We will make sure your target is reasonable based on how frequently you play.</div>
+                    <div class="slider-container">
                         <div class="slider-value" id="rounds-value">60</div>
-                        <div class="slider-container">
-                            <input type="range" id="rounds-slider" name="rounds-per-year" min="5" max="100" value="60" step="5">
-                            <div class="slider-labels">
-                                <span>Rarely</span>
-                                <span>Constantly</span>
-                            </div>
+                        <input type="range" id="rounds-slider" name="rounds-per-year" min="5" max="100" value="60" step="5">
+                        <div class="slider-labels">
+                            <span>Rarely</span>
+                            <span>Constantly</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section 2 Intro (restyled) -->
+                <!-- Section 2 Intro -->
                 <div class="survey-page" data-page="6">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">Preferences & Physical Considerations</div>
-                    <div class="question-subtext">Now, tell us about any physical considerations and grip preferences. This helps us understand any physical factors that may affect your grip recommendation.</div>
+                    <div class="question-desc">Now, tell us about any physical considerations and grip preferences. This helps us understand any physical factors that may affect your grip recommendation.</div>
                     <div class="nav-container">
-                        <button class="nav-button primary" id="section2-continue">Continue <i class="fas fa-arrow-right"></i></button>
+                        <button class="nav-button primary" id="section2-continue">Continue <span class="arrow">→</span></button>
                     </div>
                 </div>
 
-                <!-- Question 5: Physical conditions (restyled) -->
+                <!-- Question 5: Physical conditions -->
                 <div class="survey-page" data-page="7">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">Do you experience any of the following?</div>
-                    <div class="question-subtext">Select all that apply.</div>
-                    <div class="options-container" style="flex-direction: column; align-items: center; gap: 18px;">
+                    <div class="question-desc">Select all that apply.</div>
+                    <div class="options-container">
                         <input type="checkbox" id="condition-arthritis" name="physical-condition" value="Arthritis">
-                        <label for="condition-arthritis" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Arthritis</label>
+                        <label for="condition-arthritis" class="option-button">Arthritis</label>
                         <input type="checkbox" id="condition-limited" name="physical-condition" value="Limited Hand Strength">
-                        <label for="condition-limited" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Limited Hand Strength</label>
+                        <label for="condition-limited" class="option-button">Limited Hand Strength</label>
                         <input type="checkbox" id="condition-tendinitis" name="physical-condition" value="Tendinitis">
-                        <label for="condition-tendinitis" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Tendinitis</label>
+                        <label for="condition-tendinitis" class="option-button">Tendinitis</label>
                         <input type="checkbox" id="condition-none" name="physical-condition" value="None of the above">
-                        <label for="condition-none" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">None of the above</label>
+                        <label for="condition-none" class="option-button">None of the above</label>
                     </div>
                 </div>
 
-                <!-- Question 6: Moisture control (restyled) -->
+                <!-- Question 6: Moisture control -->
                 <div class="survey-page" data-page="8">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">Do you need enhanced moisture control?</div>
-                    <div class="question-subtext">Let us know if you struggle with grip slippage.</div>
-                    <div class="options-container" style="flex-direction: row; justify-content: center; gap: 18px;">
+                    <div class="question-desc">Let us know if you struggle with grip slippage due to moisture.</div>
+                    <div class="options-container">
                         <input type="radio" id="moisture-yes" name="moisture-control" value="Yes, I struggle with slippage">
-                        <label for="moisture-yes" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Yes, I struggle with slippage</label>
+                        <label for="moisture-yes" class="option-button">Yes, I struggle with slippage</label>
                         <input type="radio" id="moisture-no" name="moisture-control" value="No, moisture isn't an issue">
-                        <label for="moisture-no" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">No, moisture isn't an issue</label>
+                        <label for="moisture-no" class="option-button">No, moisture isn't an issue</label>
                     </div>
                 </div>
 
-                <!-- Question 7: Grip feel (restyled) -->
+                <!-- Question 7: Grip feel -->
                 <div class="survey-page" data-page="9">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">How would you describe your current grip's feel?</div>
-                    <div class="question-subtext">Select the option that best matches your current grip.</div>
-                    <div class="options-container" style="flex-direction: column; align-items: center; gap: 18px;">
+                    <div class="question-desc">Select the option that best describes your current grip feel.</div>
+                    <div class="options-container">
                         <input type="radio" id="feel-too-soft" name="grip-feel" value="Too soft">
-                        <label for="feel-too-soft" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Too soft</label>
+                        <label for="feel-too-soft" class="option-button">Too soft</label>
                         <input type="radio" id="feel-slightly-soft" name="grip-feel" value="Slightly soft">
-                        <label for="feel-slightly-soft" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Slightly soft</label>
+                        <label for="feel-slightly-soft" class="option-button">Slightly soft</label>
                         <input type="radio" id="feel-just-right" name="grip-feel" value="Just right">
-                        <label for="feel-just-right" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Just right</label>
+                        <label for="feel-just-right" class="option-button">Just right</label>
                         <input type="radio" id="feel-slightly-firm" name="grip-feel" value="Slightly firm">
-                        <label for="feel-slightly-firm" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Slightly firm</label>
+                        <label for="feel-slightly-firm" class="option-button">Slightly firm</label>
                         <input type="radio" id="feel-too-firm" name="grip-feel" value="Too firm">
-                        <label for="feel-too-firm" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Too firm</label>
+                        <label for="feel-too-firm" class="option-button">Too firm</label>
                     </div>
                 </div>
 
-                <!-- Question 8: Current grip size (restyled) -->
+                <!-- Question 8: Current grip size -->
                 <div class="survey-page" data-page="10">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">What size are your current grips?</div>
-                    <div class="question-subtext">If you don't know, select "I don't know".</div>
-                    <div class="options-container" style="flex-direction: column; align-items: center; gap: 18px;">
+                    <div class="question-desc">Select the size of your current grips.</div>
+                    <div class="options-container">
                         <input type="radio" id="size-undersize" name="grip-size" value="Undersize">
-                        <label for="size-undersize" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Undersize</label>
+                        <label for="size-undersize" class="option-button">Undersize</label>
                         <input type="radio" id="size-standard" name="grip-size" value="Standard">
-                        <label for="size-standard" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Standard</label>
+                        <label for="size-standard" class="option-button">Standard</label>
                         <input type="radio" id="size-midsize" name="grip-size" value="Midsize">
-                        <label for="size-midsize" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Midsize</label>
+                        <label for="size-midsize" class="option-button">Midsize</label>
                         <input type="radio" id="size-jumbo" name="grip-size" value="Jumbo">
-                        <label for="size-jumbo" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Jumbo</label>
+                        <label for="size-jumbo" class="option-button">Jumbo</label>
                         <input type="radio" id="size-dont-know" name="grip-size" value="I don't know">
-                        <label for="size-dont-know" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.15rem; padding: 16px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">I don't know</label>
+                        <label for="size-dont-know" class="option-button">I don't know</label>
                     </div>
                 </div>
 
-                <!-- Question 9: Swing hand (restyled) -->
+                <!-- Question 9: Swing hand -->
                 <div class="survey-page" data-page="11">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">Which hand do you swing with?</div>
-                    <div class="question-subtext">Select your dominant swing hand.</div>
-                    <div class="options-container" style="flex-direction: row; justify-content: center; gap: 18px;">
+                    <div class="question-desc">Select your dominant swing hand.</div>
+                    <div class="options-container" style="flex-direction: row; max-width: 300px; margin: 0 auto;">
                         <input type="radio" id="swing-left" name="swing-hand" value="Left">
-                        <label for="swing-left" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.3rem; padding: 18px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Left</label>
-                        <input type="radio" id="swing-right" name="swing-hand" value="Right">
-                        <label for="swing-right" class="option-button" style="background: none; border: none; color: #fff; font-size: 1.3rem; padding: 18px 32px; border-radius: 8px; transition: background 0.2s, color 0.2s;">Right</label>
+                        <label for="swing-left" class="option-button" style="flex: 1;">Left</label>
+                        <input type="radio" id="swing-right" name="swing-hand" value="Right" checked>
+                        <label for="swing-right" class="option-button" style="flex: 1;">Right</label>
                     </div>
                 </div>
 
-                <!-- Question 10: Iron shot shape (restyled, keep SVG) -->
+                <!-- Question 10: Iron shot shape -->
                 <div class="survey-page" data-page="12">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
                     <div class="question-text">What's your typical iron shot shape?</div>
-                    <div class="question-subtext">Use the slider to indicate your most common shot shape.</div>
-                    <div class="hand-diagram">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Simplified hand and club illustration -->
-                            <g id="hand-illustration">
-                                <!-- Club shaft -->
-                                <line x1="100" y1="20" x2="100" y2="180" stroke="#718096" stroke-width="4" stroke-linecap="round"/>
-                                <!-- Hands -->
-                                <ellipse cx="100" cy="100" rx="25" ry="35" fill="#fbbf24" opacity="0.8"/>
-                                <ellipse cx="100" cy="120" rx="25" ry="35" fill="#f59e0b" opacity="0.8"/>
-                                <!-- Ball path indicator -->
-                                <path id="shot-path" d="M 100 180 Q 100 150 100 120" stroke="#4fd1c5" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="slider-question">
-                        <div class="slider-container">
-                            <input type="range" id="iron-shot-slider" name="iron-shot-shape" min="0" max="6" value="3" step="1">
-                            <div class="slider-labels">
-                                <span>Pull Hook</span>
-                                <span>Push Slice</span>
-                            </div>
+                    <div class="question-desc">Use the slider to indicate your most common iron shot shape.</div>
+                    <div class="slider-container">
+                        <input type="range" id="iron-shot-slider" name="iron-shot-shape" min="0" max="6" value="3" step="1">
+                        <div class="slider-labels">
+                            <span>Pull Hook</span>
+                            <span>Push Slice</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Completion Page (restyled) -->
+                <!-- Completion Page -->
                 <div class="survey-page" data-page="13">
                     <div class="question-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 8L30 24L44 24L32 32L36 44L24 36L12 44L16 32L4 24L18 24L24 8Z" stroke="#3ecf4c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
+                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
                         </svg>
                     </div>
-                    <div class="question-text" style="color: #3ecf4c;">✓ Survey Complete!</div>
-                    <div class="question-subtext">Thank you for completing the SmartFIT grip assessment. Your personalized grip recommendations are being prepared.</div>
-                    <div class="success-message" id="success-message" style="display: block; color: #fff; background: none; font-size: 1.2rem; font-weight: 600;">Your responses have been saved successfully!</div>
+                    <div class="question-text">Survey Complete!</div>
+                    <div class="question-desc">Thank you for completing the SmartFIT grip assessment. Your personalized grip recommendations are being prepared.</div>
+                    <div class="success-message" id="success-message" style="display: block; background: none; color: #8FF36A; font-size: 1.2rem; font-weight: 700; margin-top: 32px;">Your responses have been saved successfully!</div>
                 </div>
             </div>
 
@@ -568,9 +604,10 @@
                 <button class="nav-button secondary" id="back-button">Back</button>
                 <button class="nav-button primary" id="continue-button">Continue</button>
             </div>
-        </div>
+    </div>
+  </div>
 
-    <script>
+  <script>
         // Survey state
         let currentPage = 0;
         const totalPages = 14; // Including welcome and completion
@@ -582,11 +619,7 @@
         const backButton = document.getElementById('back-button');
         const continueButton = document.getElementById('continue-button');
         const navContainer = document.getElementById('nav-container');
-        const progressBarContainer = document.getElementById('progress-bar-container');
-        const progressLabel = document.getElementById('progress-label');
-        const progressStep = document.getElementById('progress-step');
-        const progressBarInner = document.getElementById('progress-bar-inner');
-
+        const progressDots = document.getElementById('progress-dots');
 
         // Slot machine functionality
         function initSlotMachine() {
@@ -704,16 +737,50 @@
             });
         }
 
-        // Update progress bar
-        function updateProgressBar() {
-            const currentStep = currentPage - 1; // Adjust for welcome page
-            progressStep.textContent = currentStep + 1;
-            const progressPercentage = ((currentStep + 1) / (totalPages - 2)) * 100;
-            progressBarInner.style.width = `${progressPercentage}%`;
-            progressBarContainer.style.display = 'block';
+        // Initialize progress dots
+        function initProgressDots() {
+            progressDots.innerHTML = '';
+            for (let i = 0; i < totalPages - 2; i++) { // Exclude welcome and completion
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                progressDots.appendChild(dot);
+            }
         }
 
-        // Show page
+        // Update progress dots
+        function updateProgressDots() {
+            const dots = progressDots.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                if (index === currentPage - 1) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // --- Progress Bar Logic ---
+        const progressBarInner = document.querySelector('.progress-bar-inner');
+        const progressBarLabel = document.querySelector('.progress-bar-label');
+        const totalSteps = 12; // Number of main steps (excluding welcome, section intros, and completion)
+        const stepPages = [2,3,4,5,7,8,9,10,11,12]; // Pages that are main steps (for progress)
+
+        function updateProgressBar() {
+            // Find the current step index (1-based)
+            let stepIndex = stepPages.indexOf(currentPage) + 1;
+            if (stepIndex < 1) stepIndex = 0;
+            // Progress percent
+            const percent = stepIndex > 0 ? (stepIndex / stepPages.length) * 100 : 0;
+            progressBarInner.style.width = percent + '%';
+            // Label: e.g. PERSONALIZE: 3 of 6
+            if (stepIndex > 0) {
+                progressBarLabel.textContent = `PERSONALIZE: ${stepIndex} of ${stepPages.length}`;
+            } else {
+                progressBarLabel.textContent = '';
+            }
+        }
+
+        // --- Navigation Button Logic ---
         function showPage(pageIndex) {
             pages.forEach((page, index) => {
                 if (index === pageIndex) {
@@ -723,32 +790,26 @@
                 }
             });
 
-            // Initialize slot machine if on age question
-            if (pageIndex === 2) {
-                setTimeout(() => {
-                    initSlotMachine();
-                }, 100);
-            }
+            // Progress bar
+            updateProgressBar();
 
-            // Update navigation and progress bar visibility
+            // Show/hide nav buttons
             if (pageIndex === 0) {
-                // Welcome page
                 navContainer.style.display = 'none';
-                progressBarContainer.style.display = 'none';
+                document.querySelector('.top-nav').style.visibility = 'hidden';
             } else if (pageIndex === totalPages - 1) {
-                // Completion page
                 navContainer.style.display = 'none';
-                progressBarContainer.style.display = 'none';
+                document.querySelector('.top-nav').style.visibility = 'hidden';
             } else if (pageIndex === 1 || pageIndex === 6) {
-                // Section intro pages
-                navContainer.style.display = 'none';
-                progressBarContainer.style.display = 'none';
-            } else {
-                // Regular question pages
                 navContainer.style.display = 'flex';
-                progressBarContainer.style.display = 'block';
-                backButton.style.display = pageIndex > 1 ? 'block' : 'none';
-                updateProgressBar();
+                continueButton.style.display = 'block';
+                backButton.style.display = 'none';
+                document.querySelector('.top-nav').style.visibility = 'visible';
+            } else {
+                navContainer.style.display = 'flex';
+                continueButton.style.display = 'block';
+                backButton.style.display = pageIndex > 2 ? 'block' : 'none';
+                document.querySelector('.top-nav').style.visibility = 'visible';
             }
 
             updateContinueButton();
@@ -823,7 +884,6 @@
         function handleSliderUpdate(e) {
             if (e.target.id === 'handicap-slider') {
                 document.getElementById('handicap-value').textContent = e.target.value;
-                document.getElementById('handicap-sub').textContent = `Avg. Score of ${e.target.value}`;
             }
             if (e.target.id === 'rounds-slider') {
                 const val = parseInt(e.target.value, 10);
@@ -865,7 +925,8 @@
         document.getElementById('survey-pages').addEventListener('input', handleSliderUpdate);
 
         // Initial setup
+        initProgressDots();
         showPage(currentPage);
-    </script>
+  </script>
 </body>
 </html> 
