@@ -16,391 +16,865 @@
     <!-- Three.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        /* Global dark gradient background */
-        html, body {
-            height: 100%;
-            min-height: 100vh;
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(180deg, #23272F 0%, #181A20 100%);
+            background-color: #f5f5f5;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            color: #fff;
+            max-height: 100vh;
+            overflow: hidden;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            touch-action: manipulation;
         }
+
         .survey-container {
-            width: 100vw;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 0;
-            background: none;
-        }
-        .survey-card {
-            background: none;
-            box-shadow: none;
-            border-radius: 0;
-            padding: 0;
-            width: 100vw;
-            max-width: 100vw;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            margin: 0;
-        }
-        /* Progress bar */
-        .progress-bar-container {
-            width: 100vw;
-            max-width: 500px;
-            margin: 0 auto 24px auto;
-            padding: 0 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .progress-bar-label {
-            color: #fff;
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        .progress-bar {
             width: 100%;
-            height: 4px;
-            background: #353945;
-            border-radius: 2px;
-            overflow: hidden;
-            margin-bottom: 0;
-        }
-        .progress-bar-inner {
-            height: 100%;
-            background: #fff;
-            border-radius: 2px;
-            transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
-        }
-        /* Top nav */
-        .top-nav {
-            width: 100vw;
             max-width: 500px;
+            height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            margin: 0 auto;
+            padding: 0;
             display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 24px 24px 0 24px;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        .survey-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+            height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+            max-height: 600px;
+            display: flex;
+            flex-direction: column;
             position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 100%;
+            margin: 10px;
         }
-        .back-arrow {
-            color: #8FF36A;
-            font-size: 1.7rem;
+
+        /* Header */
+        .survey-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+            min-height: 44px; /* iOS minimum touch target */
+            padding-top: 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .logo span:nth-child(1) {
+            color: #1a1a1a;
+        }
+
+        .logo span:nth-child(2) {
+            color: #1a1a1a;
+        }
+
+        .logo span:nth-child(3) {
+            color: #4fd1c5;
+        }
+
+        .menu-icon {
+            font-size: 1.25rem;
+            color: #cbd5e0;
             cursor: pointer;
-            margin-right: 12px;
-            min-width: 36px;
-            min-height: 36px;
+            min-width: 44px;
+            min-height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        /* Icon */
-        .question-icon {
+
+        /* Progress indicator */
+        .progress-dots {
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin: 0 auto 24px auto;
-            width: 48px;
-            height: 48px;
+            gap: 6px;
+            margin-bottom: 20px;
+            flex-shrink: 0;
         }
-        /* Question text */
+
+        .progress-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background-color: #4fd1c5;
+            width: 20px;
+            border-radius: 3px;
+        }
+
+        /* Question styling */
+        .question-number {
+            color: #4fd1c5;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
         .question-text {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
             text-align: center;
-            margin-bottom: 12px;
-            margin-top: 0;
-            line-height: 1.2;
+            margin-bottom: 25px;
+            line-height: 1.3;
         }
-        .question-desc {
-            font-size: 1.05rem;
-            color: #B0B3B8;
-            text-align: center;
-            margin-bottom: 32px;
-            font-weight: 400;
+
+        .section-intro {
+            background-color: #e6fffa;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-intro h2 {
+            color: #4fd1c5;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .section-intro p {
+            color: #4a5568;
+            font-size: 0.95rem;
             line-height: 1.5;
         }
-        /* Slider */
-        .slider-container {
-            width: 100%;
-            max-width: 340px;
-            margin: 0 auto 40px auto;
+
+        /* Welcome page specific styles */
+        .welcome-page {
+            position: relative;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-        }
-        /* Slider value polish */
-        .slider-value {
-            font-size: 3.2rem;
-            font-weight: 900;
-            color: #fff;
             text-align: center;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.03em;
+            padding: 20px;
+            height: 100%;
         }
-        .slider-container {
-            margin-bottom: 48px;
-        }
-        /* Slot machine polish */
-        .slot-machine-container {
-            margin-bottom: 48px;
-        }
-        .slot-option {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #fff;
-            opacity: 0.5;
-            transition: all 0.2s;
-        }
-        .slot-option.active {
-            color: #8FF36A;
-            opacity: 1;
-            font-size: 2.7rem;
-        }
-        /* Option button polish */
-        .option-button {
-            min-height: 56px;
-            font-size: 1.25rem;
-            border-radius: 999px;
+
+        .welcome-content h1 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            color: #4fd1c5;
             margin-bottom: 20px;
+            line-height: 1.2;
+            max-width: 400px;
         }
-        .option-button.selected, .option-button:active {
-            background: #8FF36A;
-            color: #23272F;
-            border-color: #8FF36A;
-            font-weight: 900;
+
+        .welcome-content p {
+            font-size: 1.125rem;
+            color: #2d3748;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            max-width: 400px;
+            font-weight: 400;
         }
-        .option-button:last-child { margin-bottom: 0; }
-        /* Touch target for mobile */
-        @media (max-width: 640px) {
-            .slider-value { font-size: 2.3rem; }
-            .slot-option { font-size: 1.5rem; }
-            .slot-option.active { font-size: 2rem; }
-            .option-button { font-size: 1.1rem; min-height: 48px; }
+
+        .begin-button {
+            background-color: #60a5fa;
+            color: white;
+            padding: 15px 50px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+            min-height: 44px;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
+
+        .begin-button:hover {
+            background-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
+        }
+
+        .begin-button:active {
+            transform: translateY(0);
+        }
+
+        /* Golf graphic */
+        .golf-graphic {
+            position: absolute;
+            right: -80px;
+            bottom: -40px;
+            width: 300px;
+            height: 300px;
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .golf-graphic svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Options */
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .option-button {
+            background-color: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            user-select: none;
+        }
+
+        .option-button:hover {
+            border-color: #4fd1c5;
+            background-color: #f0fdfa;
+        }
+
+        .option-button.selected {
+            background-color: #4fd1c5;
+            border-color: #4fd1c5;
+            color: white;
+        }
+
+        .option-button:active {
+            transform: scale(0.98);
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        /* Sliders */
+        .slider-container {
+            margin: 20px 0;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slider-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #4fd1c5;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
         input[type="range"] {
             -webkit-appearance: none;
             appearance: none;
             width: 100%;
             height: 8px;
-            background: #353945;
+            background: #e2e8f0;
             border-radius: 4px;
             outline: none;
-            margin: 15px 0 0 0;
+            margin: 15px 0;
+            touch-action: manipulation;
         }
+
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 32px;
-            height: 32px;
-            background: #8FF36A;
+            width: 24px;
+            height: 24px;
+            background: #4fd1c5;
             border-radius: 50%;
             cursor: pointer;
-            border: 4px solid #23272F;
-            box-shadow: 0 2px 8px rgba(143, 243, 106, 0.25);
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(79, 209, 197, 0.5);
+            min-width: 24px;
+            min-height: 24px;
         }
+
         input[type="range"]::-moz-range-thumb {
-            width: 32px;
-            height: 32px;
-            background: #8FF36A;
+            width: 24px;
+            height: 24px;
+            background: #4fd1c5;
             border-radius: 50%;
             cursor: pointer;
-            border: 4px solid #23272F;
-            box-shadow: 0 2px 8px rgba(143, 243, 106, 0.25);
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(79, 209, 197, 0.5);
+            min-width: 24px;
+            min-height: 24px;
         }
-        /* Next button */
-        .nav-container {
-            width: 100vw;
-            max-width: 500px;
+
+        .slider-labels {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0 24px 32px 24px;
-            margin-top: auto;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 8px;
         }
-        .nav-button.primary {
+
+        /* Text input */
+        input[type="text"] {
             width: 100%;
-            background: #8FF36A;
-            color: #23272F;
-            font-size: 1.25rem;
-            font-weight: 700;
-            border-radius: 16px;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            color: #2d3748;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            min-height: 44px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4fd1c5;
+            background-color: #f0fdfa;
+        }
+
+        input[type="text"]::placeholder {
+            color: #a0aec0;
+        }
+
+        /* Navigation buttons */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 15px;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .nav-button {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
             border: none;
-            padding: 18px 0;
-            margin: 0;
-            box-shadow: 0 4px 24px rgba(143, 243, 106, 0.15);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            user-select: none;
         }
-        .nav-button.primary:disabled {
-            background: #353945;
-            color: #B0B3B8;
+
+        .nav-button.primary {
+            background-color: #60a5fa;
+            color: white;
+        }
+
+        .nav-button.primary:hover {
+            background-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.4);
+        }
+
+        .nav-button.primary:active {
+            transform: translateY(0);
+        }
+
+        .nav-button.secondary {
+            background-color: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .nav-button.secondary:hover {
+            background-color: #cbd5e0;
+        }
+
+        .nav-button.secondary:active {
+            transform: scale(0.98);
+        }
+
+        .nav-button:disabled {
+            background-color: #e2e8f0;
+            color: #a0aec0;
             cursor: not-allowed;
+            transform: none;
         }
-        .nav-button.primary .arrow {
-            font-size: 1.3rem;
-            margin-left: 8px;
+
+        /* Shot diagram */
+        .shot-diagram-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            height: 200px;
+            margin: 30px auto;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #f7fafc;
         }
-        /* Responsive */
-        @media (max-width: 640px) {
-            .survey-container, .survey-card, .progress-bar-container, .top-nav, .nav-container {
-                max-width: 100vw;
-                padding-left: 12px;
-                padding-right: 12px;
-            }
-            .question-text {
-                font-size: 1.3rem;
-            }
-            .slider-value {
-                font-size: 2.2rem;
-            }
-            .slider-container {
-                max-width: 95vw;
-            }
+
+        .shot-diagram-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            z-index: 10;
         }
-        /* Typeform-style transitions */
+
+        .shot-diagram-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Hand diagram */
+        .hand-diagram {
+            width: 150px;
+            height: 150px;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hand-diagram svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Survey pages */
         .survey-page {
             display: none;
             flex-direction: column;
-            align-items: center;
-            animation: fadeIn 0.5s cubic-bezier(0.4,0,0.2,1);
-            min-height: 400px;
+            flex-grow: 1;
+            animation: fadeIn 0.4s ease-out;
+            height: 100%;
+            overflow: hidden;
         }
+
         .survey-page.active {
             display: flex;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        /* Hide Next button for single-choice */
-        .nav-button.primary.hide-next {
-            display: none !important;
+        /* Success message */
+        .success-message {
+            background-color: #e6fffa;
+            color: #2c7a7b;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: none;
+            margin-top: 20px;
         }
 
-        /* Keep nav at bottom */
-        .nav-container {
-            position: fixed;
-            left: 0; right: 0; bottom: 0;
-            background: linear-gradient(180deg, transparent 0%, #181A20 80%);
-            z-index: 10;
+        /* Slot Machine Styles */
+        .slot-machine-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 260px;
+            margin: 40px 0 30px 0;
+            flex-grow: 1;
+            width: 100%;
         }
 
-        /* Keep progress bar fixed */
-        .progress-bar-container {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            background: linear-gradient(180deg, #23272F 90%, transparent 100%);
-            z-index: 10;
+        .slot-machine {
+            position: relative;
+            width: 90%;
+            max-width: 420px;
+            height: 220px;
+            overflow: hidden;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            touch-action: pan-y;
         }
 
-        /* Keep top nav fixed */
-        .top-nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 11;
-            background: linear-gradient(180deg, #23272F 100%, transparent 100%);
+        .slot-window {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
-        /* Add padding to survey-card for fixed navs */
-        .survey-card {
-            padding-top: 110px;
-            padding-bottom: 100px;
+        .slot-options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            position: relative;
         }
 
+        .slot-option {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            font-weight: 600;
+            color: #4a5568;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(100%);
+            opacity: 0.3;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .slot-option.active {
+            transform: translateY(0);
+            opacity: 1;
+            color: #2d3748;
+            font-weight: 700;
+            font-size: 3.2rem;
+        }
+
+        .slot-option:not(.active) {
+            transform: translateY(100%);
+            opacity: 0.3;
+        }
+
+        /* Remove highlight bar */
+        .slot-highlight {
+            display: none;
+        }
+
+        /* Add subtle scroll indicators */
+        .slot-machine::before,
+        .slot-machine::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .slot-machine::before {
+            top: 25px;
+            border-bottom: 16px solid #cbd5e0;
+        }
+
+        .slot-machine::after {
+            bottom: 25px;
+            border-top: 16px solid #cbd5e0;
+        }
+
+        .slot-machine:hover::before {
+            border-bottom-color: #4fd1c5;
+            opacity: 0.6;
+        }
+
+        .slot-machine:hover::after {
+            border-top-color: #4fd1c5;
+            opacity: 0.6;
+        }
+
+        /* Responsive */
         @media (max-width: 640px) {
-            .survey-card { padding-top: 90px; padding-bottom: 80px; }
+            .survey-container {
+                padding: 0;
+                padding-top: env(safe-area-inset-top);
+                align-items: flex-start;
+            }
+            
+            .survey-card {
+                padding: 15px;
+                height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+                height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+                border-radius: 20px;
+                margin: 10px;
+            }
+
+            .question-text {
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+            }
+
+            .question-number {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+
+            .slider-value {
+                font-size: 2rem;
+            }
+
+            .welcome-content h1 {
+                font-size: 1.75rem;
+            }
+
+            .welcome-content p {
+                font-size: 1rem;
+            }
+
+            .begin-button {
+                padding: 12px 40px;
+                font-size: 0.95rem;
+            }
+
+            .options-container {
+                gap: 6px;
+            }
+
+            .option-button {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .nav-button {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            /* Slot machine mobile styles */
+            .slot-machine-container {
+                height: 180px;
+                margin: 20px 0;
+            }
+
+            .slot-machine {
+                width: 98%;
+                max-width: 98vw;
+                height: 140px;
+            }
+
+            .slot-option {
+                font-size: 2rem;
+            }
+
+            .slot-option.active {
+                font-size: 2.3rem;
+            }
+
+            .slot-highlight {
+                height: 35px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .survey-card {
+                max-height: calc(95vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+                max-height: calc(95dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+            }
+            
+            .question-number {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+                margin-bottom: 15px;
+            }
+            
+            .slider-value {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+            
+            .welcome-content h1 {
+                font-size: 1.75rem;
+                margin-bottom: 15px;
+            }
+            
+            .welcome-content p {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+            
+            .begin-button {
+                padding: 12px 40px;
+            }
+        }
+
+        /* iPhone specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            .survey-container {
+                height: 100vh;
+                height: 100dvh;
+                padding-top: env(safe-area-inset-top);
+                align-items: flex-start;
+            }
+            
+            .survey-card {
+                height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+                height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+                margin: 10px;
+            }
+            
+            input[type="range"] {
+                -webkit-appearance: none;
+            }
+            
+            .option-button,
+            .nav-button,
+            .begin-button {
+                -webkit-tap-highlight-color: transparent;
+            }
+        }
+
+        /* Prevent zoom on input focus */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            input[type="text"] {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="survey-container">
         <div class="survey-card">
-            <div class="top-nav">
-                <a href="#" class="back-arrow"><i class="fas fa-arrow-left"></i></a>
+            <div class="survey-header">
                 <div class="logo">
                     <span>GR</span><span>I</span><span>P</span><span>script</span>
                 </div>
                 <i class="fas fa-bars menu-icon"></i>
             </div>
 
-            <div class="progress-bar-container">
-                <div class="progress-bar-label">Progress</div>
-                <div class="progress-bar">
-                    <div class="progress-bar-inner" style="width: 0%;"></div>
-                </div>
-            </div>
+            <div class="progress-dots" id="progress-dots">
+                <!-- Dots will be generated dynamically -->
+    </div>
 
             <div id="survey-pages">
                 <!-- Welcome Page -->
                 <div class="survey-page active welcome-page" data-page="0">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
+                    <div class="golf-graphic">
+                        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                            <g opacity="0.8">
+                                <!-- Golf ball path -->
+                                <path d="M 50 350 Q 200 100 350 200" stroke="#4fd1c5" stroke-width="40" fill="none" stroke-linecap="round" opacity="0.4"/>
+                                <circle cx="350" cy="200" r="30" fill="#4fd1c5" opacity="0.6"/>
+                                
+                                <!-- Additional decorative elements -->
+                                <circle cx="150" cy="250" r="60" fill="#4fd1c5" opacity="0.2"/>
+                                <circle cx="280" cy="320" r="80" fill="#4fd1c5" opacity="0.15"/>
+                            </g>
                         </svg>
+      </div>
+                    <div class="welcome-content" style="position: relative; z-index: 1;">
+                        <h1>Welcome to the SmartFIT™ Experience</h1>
+                        <p>The most comprehensive and advanced grip fitting technology available to golfers.</p>
+                        <button class="begin-button" id="begin-button">BEGIN</button>
                     </div>
-                    <div class="question-text">Welcome to the SmartFIT™ Experience</div>
-                    <div class="question-desc">The most comprehensive and advanced grip fitting technology available to golfers.</div>
-                    <div class="nav-container" style="margin-top: 32px;">
-                        <button class="nav-button primary" id="begin-button">Begin <span class="arrow">→</span></button>
-                    </div>
-                </div>
+    </div>
 
                 <!-- Section 1 Intro -->
                 <div class="survey-page" data-page="1">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">Player Profile</div>
-                    <div class="question-desc">In this section, we'll learn about your player profile. This helps us understand your general golfing background.</div>
+                    <div class="section-intro">
+                        <h2>Player Profile</h2>
+                        <p>In this section, we'll learn about your player profile. This helps us understand your general golfing background.</p>
+      </div>
                     <div class="nav-container">
-                        <button class="nav-button primary" id="section1-continue">Continue <span class="arrow">→</span></button>
-                    </div>
-                </div>
+                        <button class="nav-button primary" id="section1-continue">Continue</button>
+    </div>
+    </div>
 
                 <!-- Question 1: Age -->
                 <div class="survey-page" data-page="2">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">What's your age?</div>
-                    <div class="question-desc">Select your age group.</div>
+                    <div class="question-number">1</div>
+                    <h2 class="question-text">What's your age?</h2>
                     <div class="slot-machine-container">
                         <div class="slot-machine">
                             <div class="slot-window">
@@ -414,221 +888,175 @@
                                     <div class="slot-option" data-value="65+">65+</div>
                                 </div>
                             </div>
+                            <div class="slot-highlight"></div>
                         </div>
                     </div>
-                </div>
+    </div>
 
                 <!-- Question 2: Gender -->
                 <div class="survey-page" data-page="3">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">What's your gender?</div>
-                    <div class="question-desc">Please select your gender.</div>
+                    <div class="question-number">2</div>
+                    <h2 class="question-text">What's your gender?</h2>
                     <div class="options-container">
                         <input type="radio" id="gender-male" name="gender" value="Male">
                         <label for="gender-male" class="option-button">Male</label>
+                        
                         <input type="radio" id="gender-female" name="gender" value="Female">
                         <label for="gender-female" class="option-button">Female</label>
+                        
                         <input type="radio" id="gender-prefer-not" name="gender" value="Prefer not to say">
                         <label for="gender-prefer-not" class="option-button">Prefer not to say</label>
-                    </div>
-                </div>
+      </div>
+    </div>
 
                 <!-- Question 3: Handicap -->
                 <div class="survey-page" data-page="4">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">What's your approx. handicap?</div>
-                    <div class="question-desc">Let us know how you're currently playing so we can help set attainable targets for you.</div>
+                    <div class="question-number">3</div>
+                    <h2 class="question-text">What's your approx. handicap?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="handicap-value">14</div>
                         <input type="range" id="handicap-slider" name="handicap" min="0" max="36" value="14">
                         <div class="slider-labels">
-                            <span>Tour Pro</span>
+                            <span>Professional</span>
                             <span>Beginner</span>
-                        </div>
+      </div>
                     </div>
-                </div>
+    </div>
 
                 <!-- Question 4: Rounds per year -->
                 <div class="survey-page" data-page="5">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">How many times a year do you play?</div>
-                    <div class="question-desc">We will make sure your target is reasonable based on how frequently you play.</div>
+                    <div class="question-number">4</div>
+                    <h2 class="question-text">How many times a year do you play?</h2>
                     <div class="slider-container">
                         <div class="slider-value" id="rounds-value">60</div>
                         <input type="range" id="rounds-slider" name="rounds-per-year" min="5" max="100" value="60" step="5">
                         <div class="slider-labels">
                             <span>Rarely</span>
-                            <span>Constantly</span>
-                        </div>
+                            <span>Frequently</span>
+      </div>
                     </div>
-                </div>
+    </div>
 
                 <!-- Section 2 Intro -->
                 <div class="survey-page" data-page="6">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">Preferences & Physical Considerations</div>
-                    <div class="question-desc">Now, tell us about any physical considerations and grip preferences. This helps us understand any physical factors that may affect your grip recommendation.</div>
+                    <div class="section-intro">
+                        <h2>Preferences & Physical Considerations</h2>
+                        <p>Now, tell us about any physical considerations and grip preferences. This helps us understand any physical factors that may affect your grip recommendation.</p>
+      </div>
                     <div class="nav-container">
-                        <button class="nav-button primary" id="section2-continue">Continue <span class="arrow">→</span></button>
+                        <button class="nav-button primary" id="section2-continue">Continue</button>
                     </div>
-                </div>
+    </div>
 
                 <!-- Question 5: Physical conditions -->
                 <div class="survey-page" data-page="7">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">Do you experience any of the following?</div>
-                    <div class="question-desc">Select all that apply.</div>
+                    <div class="question-number">5</div>
+                    <h2 class="question-text">Do you experience any of the following?</h2>
                     <div class="options-container">
                         <input type="checkbox" id="condition-arthritis" name="physical-condition" value="Arthritis">
                         <label for="condition-arthritis" class="option-button">Arthritis</label>
+                        
                         <input type="checkbox" id="condition-limited" name="physical-condition" value="Limited Hand Strength">
                         <label for="condition-limited" class="option-button">Limited Hand Strength</label>
+                        
                         <input type="checkbox" id="condition-tendinitis" name="physical-condition" value="Tendinitis">
                         <label for="condition-tendinitis" class="option-button">Tendinitis</label>
+                        
                         <input type="checkbox" id="condition-none" name="physical-condition" value="None of the above">
                         <label for="condition-none" class="option-button">None of the above</label>
-                    </div>
-                </div>
+      </div>
+    </div>
 
                 <!-- Question 6: Moisture control -->
                 <div class="survey-page" data-page="8">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">Do you need enhanced moisture control?</div>
-                    <div class="question-desc">Let us know if you struggle with grip slippage due to moisture.</div>
+                    <div class="question-number">6</div>
+                    <h2 class="question-text">Do you need enhanced moisture control?</h2>
                     <div class="options-container">
                         <input type="radio" id="moisture-yes" name="moisture-control" value="Yes, I struggle with slippage">
                         <label for="moisture-yes" class="option-button">Yes, I struggle with slippage</label>
+                        
                         <input type="radio" id="moisture-no" name="moisture-control" value="No, moisture isn't an issue">
                         <label for="moisture-no" class="option-button">No, moisture isn't an issue</label>
-                    </div>
-                </div>
+      </div>
+    </div>
 
                 <!-- Question 7: Grip feel -->
                 <div class="survey-page" data-page="9">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">How would you describe your current grip's feel?</div>
-                    <div class="question-desc">Select the option that best describes your current grip feel.</div>
+                    <div class="question-number">7</div>
+                    <h2 class="question-text">How would you describe your current grip's feel?</h2>
                     <div class="options-container">
                         <input type="radio" id="feel-too-soft" name="grip-feel" value="Too soft">
                         <label for="feel-too-soft" class="option-button">Too soft</label>
+                        
                         <input type="radio" id="feel-slightly-soft" name="grip-feel" value="Slightly soft">
                         <label for="feel-slightly-soft" class="option-button">Slightly soft</label>
+                        
                         <input type="radio" id="feel-just-right" name="grip-feel" value="Just right">
                         <label for="feel-just-right" class="option-button">Just right</label>
+                        
                         <input type="radio" id="feel-slightly-firm" name="grip-feel" value="Slightly firm">
                         <label for="feel-slightly-firm" class="option-button">Slightly firm</label>
+                        
                         <input type="radio" id="feel-too-firm" name="grip-feel" value="Too firm">
                         <label for="feel-too-firm" class="option-button">Too firm</label>
-                    </div>
-                </div>
+      </div>
+    </div>
 
                 <!-- Question 8: Current grip size -->
                 <div class="survey-page" data-page="10">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">What size are your current grips?</div>
-                    <div class="question-desc">Select the size of your current grips.</div>
+                    <div class="question-number">8</div>
+                    <h2 class="question-text">What size are your current grips?</h2>
                     <div class="options-container">
                         <input type="radio" id="size-undersize" name="grip-size" value="Undersize">
                         <label for="size-undersize" class="option-button">Undersize</label>
+                        
                         <input type="radio" id="size-standard" name="grip-size" value="Standard">
                         <label for="size-standard" class="option-button">Standard</label>
+                        
                         <input type="radio" id="size-midsize" name="grip-size" value="Midsize">
                         <label for="size-midsize" class="option-button">Midsize</label>
+                        
                         <input type="radio" id="size-jumbo" name="grip-size" value="Jumbo">
                         <label for="size-jumbo" class="option-button">Jumbo</label>
+                        
                         <input type="radio" id="size-dont-know" name="grip-size" value="I don't know">
                         <label for="size-dont-know" class="option-button">I don't know</label>
-                    </div>
-                </div>
+      </div>
+    </div>
 
                 <!-- Question 9: Swing hand -->
                 <div class="survey-page" data-page="11">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
-                    </div>
-                    <div class="question-text">Which hand do you swing with?</div>
-                    <div class="question-desc">Select your dominant swing hand.</div>
+                    <div class="question-number">9</div>
+                    <h2 class="question-text">Which hand do you swing with?</h2>
                     <div class="options-container" style="flex-direction: row; max-width: 300px; margin: 0 auto;">
                         <input type="radio" id="swing-left" name="swing-hand" value="Left">
                         <label for="swing-left" class="option-button" style="flex: 1;">Left</label>
+                        
                         <input type="radio" id="swing-right" name="swing-hand" value="Right" checked>
                         <label for="swing-right" class="option-button" style="flex: 1;">Right</label>
-                    </div>
-                </div>
+      </div>
+    </div>
 
                 <!-- Question 10: Iron shot shape -->
                 <div class="survey-page" data-page="12">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
+                    <div class="question-number">10</div>
+                    <h2 class="question-text">What's your typical iron shot shape?</h2>
+                    <div class="hand-diagram">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Simplified hand and club illustration -->
+                            <g id="hand-illustration">
+                                <!-- Club shaft -->
+                                <line x1="100" y1="20" x2="100" y2="180" stroke="#718096" stroke-width="4" stroke-linecap="round"/>
+                                
+                                <!-- Hands -->
+                                <ellipse cx="100" cy="100" rx="25" ry="35" fill="#fbbf24" opacity="0.8"/>
+                                <ellipse cx="100" cy="120" rx="25" ry="35" fill="#f59e0b" opacity="0.8"/>
+                                
+                                <!-- Ball path indicator -->
+                                <path id="shot-path" d="M 100 180 Q 100 150 100 120" stroke="#4fd1c5" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+                            </g>
                         </svg>
-                    </div>
-                    <div class="question-text">What's your typical iron shot shape?</div>
-                    <div class="question-desc">Use the slider to indicate your most common iron shot shape.</div>
+      </div>
                     <div class="slider-container">
                         <input type="range" id="iron-shot-slider" name="iron-shot-shape" min="0" max="6" value="3" step="1">
                         <div class="slider-labels">
@@ -636,23 +1064,20 @@
                             <span>Push Slice</span>
                         </div>
                     </div>
-                </div>
+    </div>
 
                 <!-- Completion Page -->
                 <div class="survey-page" data-page="13">
-                    <div class="question-icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 18L16 32L24 18L32 32L40 18" stroke="#8FF36A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="24" cy="18" r="2.5" fill="#8FF36A"/>
-                            <circle cx="40" cy="18" r="2.5" fill="#8FF36A"/>
-                        </svg>
+                    <div class="welcome-content">
+                        <div class="question-number" style="color: #4fd1c5;">✓</div>
+                        <h1>Survey Complete!</h1>
+                        <p>Thank you for completing the SmartFIT grip assessment. Your personalized grip recommendations are being prepared.</p>
+                        <div class="success-message" id="success-message" style="display: block;">
+                            Your responses have been saved successfully!
+      </div>
                     </div>
-                    <div class="question-text">Survey Complete!</div>
-                    <div class="question-desc">Thank you for completing the SmartFIT grip assessment. Your personalized grip recommendations are being prepared.</div>
-                    <div class="success-message" id="success-message" style="display: block; background: none; color: #8FF36A; font-size: 1.2rem; font-weight: 700; margin-top: 32px;">Your responses have been saved successfully!</div>
                 </div>
-            </div>
+    </div>
 
             <div class="nav-container" id="nav-container">
                 <button class="nav-button secondary" id="back-button">Back</button>
@@ -813,59 +1238,44 @@
             });
         }
 
-        // --- Progress Bar Logic ---
-        const progressBarInner = document.querySelector('.progress-bar-inner');
-        const progressBarLabel = document.querySelector('.progress-bar-label');
-        const totalSteps = 12; // Number of main steps (excluding welcome, section intros, and completion)
-        const stepPages = [2,3,4,5,7,8,9,10,11,12]; // Pages that are main steps (for progress)
-
-        function updateProgressBar() {
-            // Find the current step index (1-based)
-            let stepIndex = stepPages.indexOf(currentPage) + 1;
-            if (stepIndex < 1) stepIndex = 0;
-            // Progress percent
-            const percent = stepIndex > 0 ? (stepIndex / stepPages.length) * 100 : 0;
-            progressBarInner.style.width = percent + '%';
-            // Label: e.g. PERSONALIZE: 3 of 6
-            if (stepIndex > 0) {
-                progressBarLabel.textContent = `PERSONALIZE: ${stepIndex} of ${stepPages.length}`;
-            } else {
-                progressBarLabel.textContent = '';
-            }
-        }
-
-        // --- Navigation Button Logic ---
+        // Show page
         function showPage(pageIndex) {
             pages.forEach((page, index) => {
                 if (index === pageIndex) {
                     page.classList.add('active');
-                } else {
+        } else {
                     page.classList.remove('active');
                 }
             });
 
-            // Progress bar
-            updateProgressBar();
-
-            // Show/hide nav buttons
-            if (pageIndex === 0) {
-                navContainer.style.display = 'none';
-                document.querySelector('.top-nav').style.visibility = 'hidden';
-            } else if (pageIndex === totalPages - 1) {
-                navContainer.style.display = 'none';
-                document.querySelector('.top-nav').style.visibility = 'hidden';
-            } else if (pageIndex === 1 || pageIndex === 6) {
-                navContainer.style.display = 'flex';
-                continueButton.style.display = 'block';
-                backButton.style.display = 'none';
-                document.querySelector('.top-nav').style.visibility = 'visible';
-            } else {
-                navContainer.style.display = 'flex';
-                continueButton.style.display = 'block';
-                backButton.style.display = pageIndex > 2 ? 'block' : 'none';
-                document.querySelector('.top-nav').style.visibility = 'visible';
+            // Initialize slot machine if on age question
+            if (pageIndex === 2) {
+                setTimeout(() => {
+                    initSlotMachine();
+                }, 100);
             }
 
+            // Update navigation visibility
+            if (pageIndex === 0) {
+                // Welcome page
+                navContainer.style.display = 'none';
+                progressDots.style.display = 'none';
+            } else if (pageIndex === totalPages - 1) {
+                // Completion page
+                navContainer.style.display = 'none';
+                progressDots.style.display = 'none';
+            } else if (pageIndex === 1 || pageIndex === 6) {
+                // Section intro pages
+                navContainer.style.display = 'none';
+                progressDots.style.display = 'flex';
+            } else {
+                // Regular question pages
+                navContainer.style.display = 'flex';
+                progressDots.style.display = 'flex';
+                backButton.style.display = pageIndex > 1 ? 'block' : 'none';
+            }
+
+            updateProgressDots();
             updateContinueButton();
         }
 
@@ -977,53 +1387,6 @@
         continueButton.addEventListener('click', goToNextPage);
         document.getElementById('survey-pages').addEventListener('click', handleOptionSelection);
         document.getElementById('survey-pages').addEventListener('input', handleSliderUpdate);
-
-        // --- Typeform-style auto-advance and nav logic ---
-        function isSingleChoicePage(pageIndex) {
-            // Age (slot), gender, moisture, grip feel, grip size, swing hand
-            return [2,3,8,9,10,11].includes(pageIndex);
-        }
-        function isSliderPage(pageIndex) {
-            // Handicap, rounds, iron shot shape
-            return [4,5,12].includes(pageIndex);
-        }
-        function isMultiSelectPage(pageIndex) {
-            // Physical conditions
-            return [7].includes(pageIndex);
-        }
-        // Auto-advance for single-choice
-
-        document.getElementById('survey-pages').addEventListener('click', function(e) {
-            if (e.target.classList.contains('option-button')) {
-                const pageIndex = currentPage;
-                if (isSingleChoicePage(pageIndex)) {
-                    setTimeout(() => { goToNextPage(); }, 250);
-                }
-            }
-        });
-        // Auto-advance for slot machine
-        if (document.getElementById('age-options')) {
-            Array.from(document.getElementById('age-options').children).forEach(opt => {
-                opt.addEventListener('click', function() {
-                    if (currentPage === 2) setTimeout(() => { goToNextPage(); }, 250);
-                });
-            });
-        }
-        // Hide Next button for single-choice
-        const origUpdateContinueButton = updateContinueButton;
-        updateContinueButton = function() {
-            if (currentPage === totalPages - 2) {
-                continueButton.textContent = 'Submit';
-            } else {
-                continueButton.textContent = 'Continue';
-            }
-            continueButton.disabled = !isPageValid();
-            if (isSingleChoicePage(currentPage)) {
-                continueButton.classList.add('hide-next');
-            } else {
-                continueButton.classList.remove('hide-next');
-            }
-        };
 
         // Initial setup
         initProgressDots();
