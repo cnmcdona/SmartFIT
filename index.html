@@ -1853,12 +1853,10 @@
                     <h2 class="question-text">Take a photo of your hand</h2>
                     
                     <div id="camera-container" style="text-align: center; margin: 20px 0;">
-                        <div id="camera-placeholder" style="width: 300px; height: 400px; margin: 0 auto; border: 2px dashed #cbd5e0; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f7fafc;">
-                            <i class="fas fa-camera" style="font-size: 3rem; color: #cbd5e0; margin-bottom: 15px;"></i>
+                        <div id="camera-placeholder" style="width: 300px; height: 400px; margin: 0 auto; border: 2px dashed #cbd5e0; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f7fafc; cursor: pointer;">
                             <p style="color: #718096; font-size: 1rem;">Tap to open camera</p>
                         </div>
                         <input type="file" id="camera-input" accept="image/*" capture="environment" style="display: none;">
-                        <button id="open-camera-btn" class="nav-button primary" style="margin-top: 15px;">Open Camera</button>
                     </div>
                     
                     <div id="photo-preview" style="display: none; text-align: center; margin: 20px 0;">
@@ -2362,7 +2360,6 @@
 
         // Camera and photo functionality
         const cameraInput = document.getElementById('camera-input');
-        const openCameraBtn = document.getElementById('open-camera-btn');
         const cameraPlaceholder = document.getElementById('camera-placeholder');
         const photoPreview = document.getElementById('photo-preview');
         const capturedImage = document.getElementById('captured-image');
@@ -2370,8 +2367,8 @@
         const retakePhotoBtn = document.getElementById('retake-photo-btn');
         const confirmPhotoBtn = document.getElementById('confirm-photo-btn');
 
-        if (openCameraBtn) {
-            openCameraBtn.addEventListener('click', () => {
+        if (cameraPlaceholder) {
+            cameraPlaceholder.addEventListener('click', () => {
                 cameraInput.click();
             });
         }
@@ -2386,7 +2383,6 @@
                         cameraPlaceholder.style.display = 'none';
                         photoPreview.style.display = 'block';
                         photoActions.style.display = 'block';
-                        openCameraBtn.style.display = 'none';
                     };
                     reader.readAsDataURL(file);
                 }
@@ -2398,7 +2394,6 @@
                 cameraPlaceholder.style.display = 'flex';
                 photoPreview.style.display = 'none';
                 photoActions.style.display = 'none';
-                openCameraBtn.style.display = 'block';
                 cameraInput.value = '';
             });
         }
