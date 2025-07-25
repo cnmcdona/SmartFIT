@@ -915,6 +915,395 @@
             display: block;
             margin: 0 auto;
         }
+
+        /* Premium Animations and Transitions */
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(45, 210, 143, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(45, 210, 143, 0.6);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* Enhanced Survey Page Transitions */
+        .survey-page {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .survey-page.active {
+            display: flex;
+            animation: fadeInScale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .survey-page.slide-in-right {
+            animation: slideInFromRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .survey-page.slide-in-left {
+            animation: slideInFromLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Enhanced Question Text Animation */
+        .question-text {
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: #333333;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.3;
+            animation: slideUpFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+        }
+
+        /* Enhanced Question Number Animation */
+        .question-number {
+            color: #2DD28F;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1;
+            animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+        }
+
+        /* Enhanced Option Button Animations */
+        .option-button {
+            background-color: #FFFFFF;
+            border: 2px solid #E5E5EA;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333333;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(45, 210, 143, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .option-button:hover::before {
+            left: 100%;
+        }
+
+        .option-button:hover {
+            border-color: #2DD28F;
+            background-color: #E5E5EA;
+            box-shadow: 0 0 15px rgba(45, 210, 143, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .option-button.selected {
+            background-color: #2DD28F;
+            border-color: #2DD28F;
+            color: white;
+            box-shadow: 0 4px 20px rgba(45, 210, 143, 0.4);
+            animation: pulseGlow 2s infinite;
+        }
+
+        .option-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Enhanced Navigation Button Animations */
+        .nav-button {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        .nav-button.primary {
+            background-color: #5AC8FA;
+            color: white;
+        }
+
+        .nav-button.primary:hover {
+            background-color: #5AC8FA;
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(90, 200, 250, 0.4);
+        }
+
+        .nav-button.primary:active {
+            transform: translateY(0);
+        }
+
+        /* Enhanced Progress Dots Animation */
+        .progress-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .progress-dot.active {
+            background-color: #2DD28F;
+            width: 20px;
+            border-radius: 3px;
+            animation: pulseGlow 2s infinite;
+        }
+
+        /* Enhanced Slider Animations */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            outline: none;
+            margin: 15px 0;
+            touch-action: manipulation;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input[type="range"]:hover {
+            background: #d1d5db;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #2DD28F;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(45, 210, 143, 0.5);
+            min-width: 24px;
+            min-height: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(45, 210, 143, 0.7);
+        }
+
+        /* Enhanced Slider Value Animation */
+        .slider-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2DD28F;
+            text-align: center;
+            margin-bottom: 15px;
+            animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+        }
+
+        /* Enhanced Section Intro Animation */
+        .section-intro {
+            background-color: #E5E5EA;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeInScale 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+        }
+
+        /* Enhanced Welcome Page Animation */
+        .welcome-content h1 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            color: #2DD28F;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            max-width: 400px;
+            animation: slideUpFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+        }
+
+        .welcome-content p {
+            font-size: 1.125rem;
+            color: #333333;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            max-width: 400px;
+            font-weight: 400;
+            animation: slideUpFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both;
+        }
+
+        /* Enhanced Golf Graphic Animation */
+        .golf-graphic {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 300px;
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInScale 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.8s both;
+        }
+
+        /* Staggered Animation for Options */
+        .options-container .option-button:nth-child(1) { animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both; }
+        .options-container .option-button:nth-child(2) { animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both; }
+        .options-container .option-button:nth-child(3) { animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both; }
+        .options-container .option-button:nth-child(4) { animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.7s both; }
+        .options-container .option-button:nth-child(5) { animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.8s both; }
+        .options-container .option-button:nth-child(6) { animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.9s both; }
+
+        /* Enhanced Close Button Animation */
+        .close-icon {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .close-icon:hover {
+            transform: scale(1.1);
+            color: #2DD28F;
+        }
+
+        /* Enhanced Autocomplete Animation */
+        .autocomplete-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 1px solid #f0fdfa;
+            animation: slideUpFade 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .autocomplete-item:hover {
+            background-color: #f0fdfa;
+            transform: translateX(5px);
+        }
+
+        .autocomplete-item.active {
+            background-color: #2DD28F;
+            color: white;
+            transform: translateX(10px);
+        }
+
+        /* Enhanced Camera Interface Animation */
+        #camera-placeholder {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #camera-placeholder:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced Photo Preview Animation */
+        #captured-image {
+            animation: fadeInScale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
 </head>
 <body>
@@ -1372,6 +1761,7 @@
         let currentPage = 0;
         const totalPages = 23; // Including welcome and photo upload
         const surveyData = {};
+        let lastPage = 0; // Track previous page for directional animations
 
         // DOM elements
         const pages = document.querySelectorAll('.survey-page');
@@ -1402,13 +1792,24 @@
             });
         }
 
-        // Show page
+        // Enhanced show page with directional animations
         function showPage(pageIndex) {
+            // Remove all animation classes from previous page
+            pages.forEach(page => {
+                page.classList.remove('slide-in-right', 'slide-in-left', 'active');
+            });
+
+            // Determine animation direction
+            const direction = pageIndex > lastPage ? 'right' : 'left';
+            
             pages.forEach((page, index) => {
                 if (index === pageIndex) {
                     page.classList.add('active');
-                } else {
-                    page.classList.remove('active');
+                    if (direction === 'right') {
+                        page.classList.add('slide-in-right');
+                    } else if (direction === 'left') {
+                        page.classList.add('slide-in-left');
+                    }
                 }
             });
 
@@ -1463,7 +1864,7 @@
                 // Section intro pages
                 navContainer.style.display = 'none';
                 progressDots.style.display = 'flex';
-          } else {
+            } else {
                 // Regular question pages
                 navContainer.style.display = 'flex';
                 progressDots.style.display = 'flex';
@@ -1477,6 +1878,9 @@
             if (pageIndex === 21) {
                 setTimeout(autoSelectHandFromSwing, 100);
             }
+
+            // Update last page for next transition
+            lastPage = pageIndex;
         }
 
         // Check if current page is valid
@@ -1507,9 +1911,42 @@
             continueButton.disabled = !isPageValid();
         }
 
-        // Handle option selection
+        // Enhanced Navigation with micro-interactions
+        function goToNextPage() {
+            if (currentPage < totalPages - 1) {
+                // Add button press animation
+                continueButton.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    continueButton.style.transform = '';
+                }, 150);
+                
+                currentPage++;
+                showPage(currentPage);
+            }
+        }
+
+        function goToPrevPage() {
+            if (currentPage > 1) {
+                // Add button press animation
+                backButton.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    backButton.style.transform = '';
+                }, 150);
+                
+                currentPage--;
+                showPage(currentPage);
+            }
+        }
+
+        // Enhanced option selection with micro-interactions
         function handleOptionSelection(e) {
             if (e.target.classList.contains('option-button')) {
+                // Add selection animation
+                e.target.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    e.target.style.transform = '';
+                }, 150);
+
                 // Use the 'for' attribute to find the associated input
                 const inputId = e.target.getAttribute('for');
                 let input = null;
@@ -1550,21 +1987,42 @@
             }
         }
 
-        // Handle slider updates
+        // Enhanced slider updates with micro-interactions
         function handleSliderUpdate(e) {
             if (e.target.id === 'age-slider') {
                 const ageRanges = ['Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65+'];
                 const value = parseInt(e.target.value);
-                document.getElementById('age-value').textContent = ageRanges[value];
+                const valueEl = document.getElementById('age-value');
+                valueEl.textContent = ageRanges[value];
+                
+                // Add value change animation
+                valueEl.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    valueEl.style.transform = '';
+                }, 200);
             }
             if (e.target.id === 'handicap-slider') {
                 const handicapRanges = ['Scratch to 4', '5-9', '10-14', '15-20', '21+'];
                 const value = parseInt(e.target.value);
-                document.getElementById('handicap-value').textContent = handicapRanges[value];
+                const valueEl = document.getElementById('handicap-value');
+                valueEl.textContent = handicapRanges[value];
+                
+                // Add value change animation
+                valueEl.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    valueEl.style.transform = '';
+                }, 200);
             }
             if (e.target.id === 'rounds-slider') {
                 const val = parseInt(e.target.value, 10);
-                document.getElementById('rounds-value').textContent = val;
+                const valueEl = document.getElementById('rounds-value');
+                valueEl.textContent = val;
+                
+                // Add value change animation
+                valueEl.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    valueEl.style.transform = '';
+                }, 200);
             }
             if (e.target.id === 'iron-shot-slider') {
                 const shotShapes = ['Pull Hook', 'Hook', 'Pull', 'Draw', 'Straight', 'Push', 'Slice', 'Push Slice'];
@@ -1579,21 +2037,6 @@
         }
 
         // Navigation
-        function goToNextPage() {
-            if (currentPage < totalPages - 1) {
-                currentPage++;
-                showPage(currentPage);
-            }
-        }
-
-        function goToPrevPage() {
-            if (currentPage > 1) {
-                currentPage--;
-                showPage(currentPage);
-            }
-        }
-
-        // Event listeners
         document.getElementById('welcome-continue').addEventListener('click', () => {
             currentPage = 1;
             showPage(currentPage);
