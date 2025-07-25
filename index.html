@@ -143,11 +143,6 @@
             gap: 6px;
             margin-bottom: 20px;
             flex-shrink: 0;
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 10;
-            padding-top: 10px;
         }
 
         .progress-dot {
@@ -435,10 +430,6 @@
             padding-top: 15px;
             gap: 10px;
             flex-shrink: 0;
-            position: sticky;
-            bottom: 0;
-            background: white;
-            z-index: 10;
         }
 
         .nav-button {
@@ -560,22 +551,6 @@
 
         .survey-page.active {
             display: flex;
-        }
-
-        /* Create a centered content area */
-        .survey-page > *:not(.nav-container):not(.progress-dots) {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        /* Keep navigation at bottom */
-        .nav-container {
-            margin-top: auto;
-            width: 100%;
         }
 
         @keyframes fadeIn {
