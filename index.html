@@ -1354,10 +1354,9 @@
             updateContinueButton();
 
             // Initialize grip autocomplete if on page 11
-            if (pageIndex === 11 && !gripAutocompleteInitialized) {
+            if (pageIndex === 11) {
                 setTimeout(() => {
                     setupGripAutocomplete();
-                    gripAutocompleteInitialized = true;
                 }, 100);
             }
         }
@@ -1534,9 +1533,13 @@
 
         // --- Autocomplete Logic ---
         function setupGripAutocomplete() {
-            const input = document.getElementById('current-grip-input');
+            let input = document.getElementById('current-grip-input');
             const list = document.getElementById('grip-autocomplete');
             if (!input || !list) return;
+            // Remove previous listeners by cloning
+            const newInput = input.cloneNode(true);
+            input.parentNode.replaceChild(newInput, input);
+            input = newInput;
             let currentFocus = -1;
 
             input.addEventListener('input', function() {
