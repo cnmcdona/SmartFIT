@@ -1677,10 +1677,13 @@
                         </svg>
                     </div>
                     <div class="slider-container">
-                        <input type="range" id="driver-shot-slider" name="driver-shot-shape" min="0" max="7" value="4" step="1">
-                        <div class="slider-labels">
-                            <span>Pull Hook</span>
-                            <span>Push Slice</span>
+                        <div class="slider-value" id="driver-shot-value">Straight</div>
+                        <div class="slider-controls">
+                            <input type="range" id="driver-shot-slider" name="driver-shot-shape" min="0" max="7" value="4" step="1">
+                            <div class="slider-labels">
+                                <span>Pull Hook</span>
+                                <span>Push Slice</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2102,12 +2105,26 @@
             if (e.target.id === 'iron-shot-slider') {
                 const shotShapes = ['Pull Hook', 'Hook', 'Pull', 'Draw', 'Straight', 'Push', 'Slice', 'Push Slice'];
                 const value = parseInt(e.target.value);
-                // Update shot diagram or display value as needed
+                const valueEl = document.getElementById('iron-shot-value');
+                valueEl.textContent = shotShapes[value];
+                
+                // Add value change animation
+                valueEl.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    valueEl.style.transform = '';
+                }, 200);
             }
             if (e.target.id === 'driver-shot-slider') {
                 const shotShapes = ['Pull Hook', 'Hook', 'Pull', 'Draw', 'Straight', 'Push', 'Slice', 'Push Slice'];
                 const value = parseInt(e.target.value);
-                // Update shot diagram or display value as needed
+                const valueEl = document.getElementById('driver-shot-value');
+                valueEl.textContent = shotShapes[value];
+                
+                // Add value change animation
+                valueEl.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    valueEl.style.transform = '';
+                }, 200);
             }
         }
 
