@@ -1372,13 +1372,13 @@
                 const sensitivity = 0.5;
                 
                 if (Math.abs(deltaY) > 30) {
-                    if (deltaY > 0 && currentIndex > 0) {
-                        // Scroll down
-                        currentIndex--;
-                        startY = currentY;
-                    } else if (deltaY < 0 && currentIndex < slotOptions.length - 1) {
-                        // Scroll up
+                    if (deltaY > 0 && currentIndex < slotOptions.length - 1) {
+                        // Scroll down (iOS: go to next option)
                         currentIndex++;
+                        startY = currentY;
+                    } else if (deltaY < 0 && currentIndex > 0) {
+                        // Scroll up (iOS: go to previous option)
+                        currentIndex--;
                         startY = currentY;
                     }
                     updateSlotDisplay();
@@ -1406,13 +1406,13 @@
                 const sensitivity = 0.5;
                 
                 if (Math.abs(deltaY) > 30) {
-                    if (deltaY > 0 && currentIndex > 0) {
-                        // Scroll down
-                        currentIndex--;
-                        startY = currentY;
-                    } else if (deltaY < 0 && currentIndex < slotOptions.length - 1) {
-                        // Scroll up
+                    if (deltaY > 0 && currentIndex < slotOptions.length - 1) {
+                        // Scroll down (iOS: go to next option)
                         currentIndex++;
+                        startY = currentY;
+                    } else if (deltaY < 0 && currentIndex > 0) {
+                        // Scroll up (iOS: go to previous option)
+                        currentIndex--;
                         startY = currentY;
                     }
                     updateSlotDisplay();
