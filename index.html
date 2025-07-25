@@ -7,14 +7,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#2DD28F">
-    <meta name="msapplication-TileColor" content="#2DD28F">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="apple-mobile-web-app-title" content="SmartFIT">
-    <meta name="application-name" content="SmartFIT">
-    <meta name="msapplication-TileImage" content="icon-192.png">
-    <meta name="msapplication-config" content="browserconfig.xml">
-    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f5f5f5">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
     <title>SmartFIT Golf Grip Survey</title>
     <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -54,27 +49,33 @@
             background: #FFFFFF;
         }
         .survey-container {
-            min-height: 100vh;
-            min-height: 100dvh;
-            height: 100vh;
+            width: 100vw;
+            max-width: 100vw;
             height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100dvh;
+            margin: 0;
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            background: #FFFFFF;
             box-sizing: border-box;
-            overflow: hidden;
         }
         .survey-card {
-            flex: 1;
             background: #FFFFFF;
             border-radius: 0;
             box-shadow: none;
+            padding: 20px;
+            height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+            max-height: 100%;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
             position: relative;
-            min-height: 0;
+            overflow: hidden;
+            width: 100%;
+            max-width: 100vw;
+            margin: auto;
+            box-sizing: border-box;
         }
         /* Prevent scroll bounce and all scrolling */
         ::-webkit-scrollbar { display: none; }
@@ -218,50 +219,49 @@
             justify-content: space-between;
             align-items: center;
             text-align: center;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-            height: 100vh;
-            height: 100dvh;
-            min-height: 100vh;
-            min-height: 100dvh;
-            touch-action: pan-y;
-            box-sizing: border-box;
+            padding: 20px;
+            height: 100%;
+            min-height: 0;
         }
 
         .welcome-content {
-            position: relative;
-            z-index: 1;
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            max-width: 100%;
-            width: 100%;
+            z-index: 1;
+            position: relative;
         }
 
         .welcome-content h1 {
-            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            font-size: clamp(1.5rem, 5vw, 2.25rem);
             font-weight: 600;
             color: #2DD28F;
-            margin-bottom: clamp(15px, 4vw, 25px);
+            margin-bottom: clamp(15px, 3vw, 20px);
             line-height: 1.2;
-            max-width: 90vw;
+            max-width: 400px;
             animation: slideUpFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
         .welcome-content p {
-            font-size: clamp(1rem, 4vw, 1.25rem);
+            font-size: clamp(1rem, 3vw, 1.125rem);
             color: #333333;
-            margin-bottom: clamp(20px, 6vw, 40px);
+            margin-bottom: clamp(20px, 4vw, 30px);
             line-height: 1.5;
-            max-width: 90vw;
+            max-width: 400px;
             font-weight: 400;
             animation: slideUpFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both;
             word-wrap: break-word;
             overflow-wrap: break-word;
+        }
+
+        .welcome-page .nav-container {
+            flex-shrink: 0;
+            margin-top: auto;
+            padding-bottom: clamp(20px, 4vw, 30px);
         }
 
         .begin-button {
@@ -1507,81 +1507,6 @@
         .slider-question .slider-controls {
             flex: 0 0 auto;
         }
-
-        /* Premium Swipe Up to Begin Animation */
-        @keyframes swipeUpPulse {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: translateY(-10px) scale(1.05);
-                opacity: 0.8;
-            }
-        }
-
-        @keyframes swipeUpGlow {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(45, 210, 143, 0.3);
-            }
-            50% {
-                box-shadow: 0 0 30px rgba(45, 210, 143, 0.6);
-            }
-        }
-
-        .swipe-up-container {
-            position: fixed;
-            bottom: max(env(safe-area-inset-bottom) + 20px, 40px);
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            z-index: 100;
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            min-width: 200px;
-            max-width: 90vw;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .swipe-up-text {
-            color: #2DD28F;
-            font-size: clamp(0.9rem, 3vw, 1.1rem);
-            font-weight: 600;
-            text-align: center;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            animation: swipeUpPulse 2s ease-in-out infinite;
-            white-space: nowrap;
-        }
-
-        .swipe-up-icon {
-            width: clamp(40px, 8vw, 50px);
-            height: clamp(40px, 8vw, 50px);
-            background: linear-gradient(135deg, #2DD28F, #5AC8FA);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: swipeUpGlow 2s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .swipe-up-icon svg {
-            width: clamp(20px, 4vw, 25px);
-            height: clamp(20px, 4vw, 25px);
-            fill: white;
-            animation: swipeUpPulse 2s ease-in-out infinite;
-        }
     </style>
 </head>
 <body>
@@ -1598,24 +1523,65 @@
 
             <div class="progress-dots" id="progress-dots">
                 <!-- Dots will be generated dynamically -->
-            </div>
+    </div>
 
             <div id="survey-pages">
                 <!-- Welcome Page -->
                 <div class="survey-page active welcome-page" data-page="0">
+                    <div class="golf-graphic">
+                        <svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+                                    <feMerge> 
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <g opacity="0.8" filter="url(#glow)">
+                                <!-- Abstract glowing shape - stylized S-curve -->
+                                <!-- Top segment - C-shaped curve -->
+                                <path d="M 50 50 Q 80 30 110 50 Q 140 70 170 50" 
+                                      stroke="#2DD28F" 
+                                      stroke-width="12" 
+                                      fill="none" 
+                                      stroke-linecap="round"
+                                      opacity="0.9"/>
+                                
+                                <!-- Middle segments - angled rectangles -->
+                                <rect x="60" y="80" width="20" height="40" 
+                                      fill="#2DD28F" 
+                                      opacity="0.8" 
+                                      transform="rotate(-15 70 100)"/>
+                                <rect x="80" y="120" width="20" height="40" 
+                                      fill="#2DD28F" 
+                                      opacity="0.8" 
+                                      transform="rotate(10 90 140)"/>
+                                <rect x="100" y="160" width="20" height="40" 
+                                      fill="#2DD28F" 
+                                      opacity="0.8" 
+                                      transform="rotate(-5 110 180)"/>
+                                
+                                <!-- Bottom segment - wider trapezoidal base -->
+                                <path d="M 70 200 L 130 200 L 140 240 L 60 240 Z" 
+                                      fill="#2DD28F" 
+                                      opacity="0.7"/>
+                                
+                                <!-- Additional glow elements -->
+                                <circle cx="100" cy="150" r="60" fill="#2DD28F" opacity="0.1"/>
+                                <circle cx="100" cy="150" r="40" fill="#2DD28F" opacity="0.15"/>
+                            </g>
+                        </svg>
+      </div>
                     <div class="welcome-content" style="position: relative; z-index: 1;">
                         <h1>Welcome to the SmartFIT™ Experience</h1>
                         <p>The most comprehensive and advanced grip fitting technology available to golfers.</p>
                     </div>
-                    <div class="swipe-up-container" id="swipe-up-container">
-                        <div class="swipe-up-text">Swipe up to begin</div>
-                        <div class="swipe-up-icon">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
-                            </svg>
-                        </div>
+                    <div class="nav-container">
+                        <button class="nav-button primary" id="welcome-continue">Continue</button>
                     </div>
-                </div>
+    </div>
 
                 <!-- Section 1 Intro -->
                 <div class="survey-page" data-page="1">
@@ -1641,7 +1607,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+    </div>
 
                 <!-- Question 2: Gender -->
                 <div class="survey-page" data-page="3">
@@ -1656,7 +1622,7 @@
                         <input type="radio" id="gender-prefer-not" name="gender" value="Prefer not to say">
                         <label for="gender-prefer-not" class="option-button">Prefer not to say</label>
                     </div>
-                </div>
+    </div>
 
                 <!-- Question 3: Handicap -->
                 <div class="survey-page slider-question" data-page="4">
@@ -1668,10 +1634,10 @@
                             <div class="slider-labels">
                                 <span>Scratch to 4</span>
                                 <span>21+</span>
-                            </div>
+      </div>
                         </div>
                     </div>
-                </div>
+    </div>
 
                 <!-- Question 4: Rounds per year -->
                 <div class="survey-page slider-question" data-page="5">
@@ -1683,10 +1649,10 @@
                             <div class="slider-labels">
                                 <span>5</span>
                                 <span>80</span>
-                            </div>
+      </div>
                         </div>
                     </div>
-                </div>
+    </div>
 
                 <!-- Question 5: Current grip size -->
                 <div class="survey-page" data-page="6">
@@ -1706,8 +1672,8 @@
                         
                         <input type="radio" id="grip-size-dont-know" name="current-grip-size" value="I don't know">
                         <label for="grip-size-dont-know" class="option-button">I don't know</label>
-                    </div>
-                </div>
+      </div>
+    </div>
 
                 <!-- Question 6: Current grip model -->
                 <div class="survey-page" data-page="7">
@@ -1719,20 +1685,20 @@
                         <div style="margin-top:16px;">
                             <input type="radio" id="grip-dont-know" name="current-grip-radio" value="I Don't know">
                             <label for="grip-dont-know" class="option-button">I Don't know</label>
-                        </div>
+      </div>
                     </div>
-                </div>
+    </div>
 
                 <!-- Section 2 Intro -->
                 <div class="survey-page" data-page="8">
                     <div class="section-intro">
                         <h2>Physical Considerations & Grip Preferences</h2>
                         <p>Now, tell us about any physical considerations and grip preferences. This help us understand any physical factors that may affect your grip recommendation.</p>
-                    </div>
+      </div>
                     <div class="nav-container">
                         <button class="nav-button primary" id="section2-continue">Continue</button>
                     </div>
-                </div>
+    </div>
 
                 <!-- Question 7: Physical conditions -->
                 <div class="survey-page" data-page="9">
@@ -1749,8 +1715,8 @@
                         
                         <input type="checkbox" id="condition-none" name="physical-condition" value="None of the above">
                         <label for="condition-none" class="option-button">None of the above</label>
-                    </div>
-                </div>
+      </div>
+    </div>
 
                 <!-- Question 8: Moisture control -->
                 <div class="survey-page" data-page="10">
@@ -1814,8 +1780,8 @@
                                 <!-- Ball path indicator -->
                                 <path id="shot-path" d="M 100 180 Q 100 150 100 120" stroke="#2DD28F" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
                             </g>
-                        </svg>
-                    </div>
+        </svg>
+      </div>
                     <div class="slider-container">
                         <div class="slider-value" id="iron-shot-value">Straight</div>
                         <div class="slider-controls">
@@ -1826,7 +1792,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+    </div>
 
                 <!-- Question 12: Driver shot shape -->
                 <div class="survey-page slider-question" data-page="14">
@@ -1845,8 +1811,8 @@
                                 <!-- Ball path indicator -->
                                 <path id="shot-path" d="M 100 180 Q 100 150 100 120" stroke="#2DD28F" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
                             </g>
-                        </svg>
-                    </div>
+        </svg>
+      </div>
                     <div class="slider-container">
                         <div class="slider-value" id="driver-shot-value">Straight</div>
                         <div class="slider-controls">
@@ -1857,18 +1823,18 @@
                             </div>
                         </div>
                     </div>
-                </div>
+    </div>
 
                 <!-- Section 3 Intro -->
                 <div class="survey-page" data-page="15">
                     <div class="section-intro">
                         <h2>Goals</h2>
                         <p>Lastly, tell us about your goals. Tell us what you want to improve with your new grips.</p>
-                    </div>
+      </div>
                     <div class="nav-container">
                         <button class="nav-button primary" id="section3-continue">Continue</button>
                     </div>
-                </div>
+    </div>
 
                 <!-- Question 13: Change iron shot shape -->
                 <div class="survey-page" data-page="16">
@@ -1885,8 +1851,8 @@
                         
                         <input type="radio" id="iron-change-no" name="iron-shot-change" value="No, I like my current shape">
                         <label for="iron-change-no" class="option-button">No, I like my current shape</label>
-                    </div>
-                </div>
+      </div>
+    </div>
 
                 <!-- Question 14: Change driver shot shape -->
                 <div class="survey-page" data-page="17">
@@ -1903,8 +1869,8 @@
                         
                         <input type="radio" id="driver-change-no" name="driver-shot-change" value="No, I like my current shape">
                         <label for="driver-change-no" class="option-button">No, I like my current shape</label>
-                    </div>
-                </div>
+      </div>
+    </div>
 
                 <!-- Question 15: Grip improvements -->
                 <div class="survey-page" data-page="18">
@@ -1927,8 +1893,8 @@
                         
                         <input type="checkbox" id="improve-fatigue" name="grip-improvements" value="Less hand fatigue">
                         <label for="improve-fatigue" class="option-button">Less hand fatigue</label>
-                    </div>
-                </div>
+    </div>
+  </div>
 
                 <!-- Section 4 Intro: Hand Measurements -->
                 <div class="survey-page" data-page="19">
@@ -2075,7 +2041,7 @@
                 if (questionNumberMap[pageIndex]) {
                     questionNumberEl.textContent = questionNumberMap[pageIndex];
                     questionNumberEl.style.display = 'block';
-                } else {
+        } else {
                     questionNumberEl.style.display = 'none';
                 }
             }
@@ -2101,8 +2067,8 @@
 
             // Update navigation visibility
             if (pageIndex === 0) {
-                // Welcome page - hide nav container since we use swipe functionality
-                navContainer.style.display = 'none';
+                // Welcome page - show nav container for Continue button
+                navContainer.style.display = 'flex';
                 progressDots.style.display = 'none';
                 backButton.style.display = 'none';
             } else if (pageIndex === totalPages - 1) {
@@ -2153,7 +2119,7 @@
         function updateContinueButton() {
             if (currentPage === totalPages - 2) {
                 continueButton.textContent = 'Submit';
-            } else {
+          } else {
                 continueButton.textContent = 'Continue';
             }
             
@@ -2300,6 +2266,10 @@
         }
 
         // Navigation
+        document.getElementById('welcome-continue').addEventListener('click', () => {
+            currentPage = 1;
+            showPage(currentPage);
+        });
         document.getElementById('section1-continue').addEventListener('click', () => {
             currentPage = 2;
             showPage(currentPage);
@@ -2531,132 +2501,6 @@
         // Initial setup
         initProgressDots();
         showPage(currentPage);
-
-        // Premium Swipe Up to Begin functionality
-        const swipeUpContainer = document.getElementById('swipe-up-container');
-        let startY = 0;
-        let currentY = 0;
-        let isSwiping = false;
-        let swipeThreshold = 100; // Minimum swipe distance to trigger
-
-        console.log('Swipe container found:', swipeUpContainer); // Debug
-
-        if (swipeUpContainer) {
-            console.log('Swipe container dimensions:', swipeUpContainer.offsetWidth, 'x', swipeUpContainer.offsetHeight);
-            console.log('Swipe container position:', swipeUpContainer.offsetTop, swipeUpContainer.offsetLeft);
-            
-            // Touch events for mobile
-            swipeUpContainer.addEventListener('touchstart', (e) => {
-                console.log('Touch start detected at:', e.touches[0].clientX, e.touches[0].clientY);
-                startY = e.touches[0].clientY;
-                isSwiping = true;
-                swipeUpContainer.style.transform = 'translateX(-50%) scale(0.95)';
-            });
-
-            swipeUpContainer.addEventListener('touchmove', (e) => {
-                if (!isSwiping) return;
-                console.log('Touch move detected'); // Debug
-                currentY = e.touches[0].clientY;
-                const deltaY = startY - currentY;
-                
-                if (deltaY > 0) { // Swiping up
-                    const progress = Math.min(deltaY / swipeThreshold, 1);
-                    swipeUpContainer.style.transform = `translateX(-50%) translateY(-${progress * 20}px) scale(${1 - progress * 0.1})`;
-                }
-            });
-
-            swipeUpContainer.addEventListener('touchend', (e) => {
-                if (!isSwiping) return;
-                console.log('Touch end detected'); // Debug
-                const deltaY = startY - currentY;
-                
-                if (deltaY > swipeThreshold) {
-                    console.log('Swipe up successful!'); // Debug
-                    // Swipe up successful - trigger begin
-                    swipeUpContainer.style.transform = 'translateX(-50%) translateY(-50px) scale(0.8)';
-                    swipeUpContainer.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        currentPage = 1;
-                        showPage(currentPage);
-                    }, 300);
-                } else {
-                    // Reset position
-                    swipeUpContainer.style.transform = 'translateX(-50%) scale(1)';
-                }
-                
-                isSwiping = false;
-            });
-
-            // Mouse events for desktop
-            swipeUpContainer.addEventListener('mousedown', (e) => {
-                console.log('Mouse down detected'); // Debug
-                startY = e.clientY;
-                isSwiping = true;
-                swipeUpContainer.style.transform = 'translateX(-50%) scale(0.95)';
-            });
-
-            swipeUpContainer.addEventListener('mousemove', (e) => {
-                if (!isSwiping) return;
-                console.log('Mouse move detected'); // Debug
-                currentY = e.clientY;
-                const deltaY = startY - currentY;
-                
-                if (deltaY > 0) { // Swiping up
-                    const progress = Math.min(deltaY / swipeThreshold, 1);
-                    swipeUpContainer.style.transform = `translateX(-50%) translateY(-${progress * 20}px) scale(${1 - progress * 0.1})`;
-                }
-            });
-
-            swipeUpContainer.addEventListener('mouseup', (e) => {
-                if (!isSwiping) return;
-                console.log('Mouse up detected'); // Debug
-                const deltaY = startY - currentY;
-                
-                if (deltaY > swipeThreshold) {
-                    console.log('Swipe up successful!'); // Debug
-                    // Swipe up successful - trigger begin
-                    swipeUpContainer.style.transform = 'translateX(-50%) translateY(-50px) scale(0.8)';
-                    swipeUpContainer.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        currentPage = 1;
-                        showPage(currentPage);
-                    }, 300);
-                } else {
-                    // Reset position
-                    swipeUpContainer.style.transform = 'translateX(-50%) scale(1)';
-                }
-                
-                isSwiping = false;
-            });
-
-            // Click fallback for accessibility
-            swipeUpContainer.addEventListener('click', (e) => {
-                console.log('Click detected at:', e.clientX, e.clientY);
-                if (!isSwiping) {
-                    console.log('Click fallback triggered');
-                    swipeUpContainer.style.transform = 'translateX(-50%) translateY(-50px) scale(0.8)';
-                    swipeUpContainer.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        currentPage = 1;
-                        showPage(currentPage);
-                    }, 300);
-                }
-            });
-            
-            // Add a simple test click
-            setTimeout(() => {
-                console.log('Testing if element is clickable...');
-                swipeUpContainer.style.border = '2px solid red';
-                setTimeout(() => {
-                    swipeUpContainer.style.border = '';
-                }, 2000);
-            }, 1000);
-        } else {
-            console.log('Swipe container not found!'); // Debug
-        }
-    </script>
+  </script>
 </body>
 </html> 
