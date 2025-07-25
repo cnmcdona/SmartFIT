@@ -962,23 +962,15 @@
                 <div class="survey-page" data-page="2">
                     <div class="question-number">1</div>
                     <h2 class="question-text">What's your age?</h2>
-                    <div class="slot-machine-container">
-                        <div class="slot-machine">
-                            <div class="slot-window">
-                                <div class="slot-options" id="age-options">
-                                    <div class="slot-option" data-value="Under 18">Under 18</div>
-                                    <div class="slot-option" data-value="18-24">18-24</div>
-                                    <div class="slot-option" data-value="25-34">25-34</div>
-                                    <div class="slot-option" data-value="35-44">35-44</div>
-                                    <div class="slot-option" data-value="45-54">45-54</div>
-                                    <div class="slot-option" data-value="55-64">55-64</div>
-                                    <div class="slot-option" data-value="65+">65+</div>
-                                </div>
-                            </div>
-                            <div class="slot-highlight"></div>
+                    <div class="slider-container">
+                        <div class="slider-value" id="age-value">25-34</div>
+                        <input type="range" id="age-slider" name="age" min="0" max="6" value="2" step="1">
+                        <div class="slider-labels">
+                            <span>Under 18</span>
+                            <span>65+</span>
                         </div>
                     </div>
-    </div>
+                </div>
 
                 <!-- Question 2: Gender -->
                 <div class="survey-page" data-page="3">
@@ -1329,7 +1321,6 @@
         let currentPage = 0;
         const totalPages = 22; // Including welcome and photo upload
         const surveyData = {};
-        let selectedAge = null;
 
         // DOM elements
         const pages = document.querySelectorAll('.survey-page');
@@ -1337,210 +1328,6 @@
         const continueButton = document.getElementById('continue-button');
         const navContainer = document.getElementById('nav-container');
         const progressDots = document.getElementById('progress-dots');
-
-        // Slot machine functionality
-        function initSlotMachine() {
-            const slotOptions = document.querySelectorAll('.slot-option');
-            const slotMachine = document.querySelector('.slot-machine');
-            const slotOptionsContainer = document.querySelector('.slot-options');
-            let currentIndex = 0;
-            let isDragging = false;
-            let startY = 0;
-            let currentY = 0;
-            let velocity = 0;
-            let lastTime = 0;
-            let animationId = null;
-
-            // Set initial active option
-            if (slotOptions.length > 0) {
-                slotOptions[0].classList.add('active');
-                selectedAge = slotOptions[0].getAttribute('data-value');
-                slotMachine.classList.add('active');
-            }
-
-            // Touch events for mobile
-            slotMachine.addEventListener('touchstart', handleTouchStart, { passive: false });
-            slotMachine.addEventListener('touchmove', handleTouchMove, { passive: false });
-            slotMachine.addEventListener('touchend', handleTouchEnd, { passive: false });
-
-            // Mouse events for desktop
-            slotMachine.addEventListener('mousedown', handleMouseStart);
-            slotMachine.addEventListener('mousemove', handleMouseMove);
-            slotMachine.addEventListener('mouseup', handleMouseEnd);
-            slotMachine.addEventListener('mouseleave', handleMouseEnd);
-
-            function handleTouchStart(e) {
-                e.preventDefault();
-                isDragging = true;
-                startY = e.touches[0].clientY;
-                currentY = startY;
-                velocity = 0;
-                lastTime = Date.now();
-                cancelAnimationFrame(animationId);
-            }
-
-            function handleTouchMove(e) {
-                e.preventDefault();
-                if (!isDragging) return;
-                
-                const now = Date.now();
-                const deltaTime = now - lastTime;
-                const newY = e.touches[0].clientY;
-                const deltaY = newY - currentY;
-                
-                if (deltaTime > 0) {
-                    velocity = deltaY / deltaTime;
-                }
-                
-                currentY = newY;
-                lastTime = now;
-                
-                // Apply momentum scrolling
-                const sensitivity = 0.8;
-                if (Math.abs(deltaY) > 20) {
-                    if (deltaY > 0 && currentIndex < slotOptions.length - 1) {
-                        currentIndex++;
-                        startY = currentY;
-                    } else if (deltaY < 0 && currentIndex > 0) {
-                        currentIndex--;
-                        startY = currentY;
-                    }
-                    updateSlotDisplay();
-                }
-            }
-
-            function handleTouchEnd(e) {
-                e.preventDefault();
-                isDragging = false;
-                
-                // Apply momentum
-                if (Math.abs(velocity) > 0.5) {
-                    const momentum = Math.sign(velocity) * Math.min(Math.abs(velocity) * 10, 2);
-                    applyMomentum(momentum);
-                } else {
-                    snapToClosest();
-                }
-                
-                updateContinueButton();
-            }
-
-            function handleMouseStart(e) {
-                isDragging = true;
-                startY = e.clientY;
-                currentY = startY;
-                velocity = 0;
-                lastTime = Date.now();
-                cancelAnimationFrame(animationId);
-                e.preventDefault();
-            }
-
-            function handleMouseMove(e) {
-                if (!isDragging) return;
-                
-                const now = Date.now();
-                const deltaTime = now - lastTime;
-                const newY = e.clientY;
-                const deltaY = newY - currentY;
-                
-                if (deltaTime > 0) {
-                    velocity = deltaY / deltaTime;
-                }
-                
-                currentY = newY;
-                lastTime = now;
-                
-                const sensitivity = 0.8;
-                if (Math.abs(deltaY) > 20) {
-                    if (deltaY > 0 && currentIndex < slotOptions.length - 1) {
-                        currentIndex++;
-                        startY = currentY;
-                    } else if (deltaY < 0 && currentIndex > 0) {
-                        currentIndex--;
-                        startY = currentY;
-                    }
-                    updateSlotDisplay();
-                }
-            }
-
-            function handleMouseEnd(e) {
-                isDragging = false;
-                
-                // Apply momentum
-                if (Math.abs(velocity) > 0.5) {
-                    const momentum = Math.sign(velocity) * Math.min(Math.abs(velocity) * 10, 2);
-                    applyMomentum(momentum);
-                } else {
-                    snapToClosest();
-                }
-                
-                updateContinueButton();
-            }
-
-            function applyMomentum(momentum) {
-                let remainingMomentum = momentum;
-                let currentVelocity = remainingMomentum;
-                
-                function animate() {
-                    if (Math.abs(currentVelocity) > 0.1) {
-                        if (currentVelocity > 0 && currentIndex < slotOptions.length - 1) {
-                            currentIndex++;
-                        } else if (currentVelocity < 0 && currentIndex > 0) {
-                            currentIndex--;
-                        }
-                        
-                        updateSlotDisplay();
-                        currentVelocity *= 0.9; // Decay
-                        animationId = requestAnimationFrame(animate);
-                    } else {
-                        snapToClosest();
-                    }
-                }
-                
-                animate();
-            }
-
-            function snapToClosest() {
-                // Ensure we're at a valid index
-                currentIndex = Math.max(0, Math.min(currentIndex, slotOptions.length - 1));
-                updateSlotDisplay();
-            }
-
-            function updateSlotDisplay() {
-                slotOptions.forEach((option, index) => {
-                    option.classList.remove('active');
-                    if (index === currentIndex) {
-                        option.classList.add('active');
-                        selectedAge = option.getAttribute('data-value');
-                    }
-                });
-                slotMachine.classList.add('active');
-            }
-
-            // Add click functionality for direct selection
-            slotOptions.forEach((option, index) => {
-                option.addEventListener('click', () => {
-                    currentIndex = index;
-                    updateSlotDisplay();
-                    updateContinueButton();
-                });
-            });
-
-            // Add keyboard support
-            slotMachine.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowDown' && currentIndex < slotOptions.length - 1) {
-                    currentIndex++;
-                    updateSlotDisplay();
-                    updateContinueButton();
-                } else if (e.key === 'ArrowUp' && currentIndex > 0) {
-                    currentIndex--;
-                    updateSlotDisplay();
-                    updateContinueButton();
-                }
-            });
-
-            // Make the picker focusable for keyboard navigation
-            slotMachine.setAttribute('tabindex', '0');
-        }
 
         // Initialize progress dots
         function initProgressDots() {
@@ -1558,7 +1345,7 @@
             dots.forEach((dot, index) => {
                 if (index === currentPage - 1) {
                     dot.classList.add('active');
-                } else {
+        } else {
                     dot.classList.remove('active');
                 }
             });
@@ -1573,13 +1360,6 @@
                     page.classList.remove('active');
                 }
             });
-
-            // Initialize slot machine if on age question
-            if (pageIndex === 2) {
-                setTimeout(() => {
-                    initSlotMachine();
-                }, 100);
-            }
 
             // Initialize grip autocomplete if on grip input page
             if (pageIndex === 7) {
@@ -1613,7 +1393,7 @@
                 // Section intro pages
                 navContainer.style.display = 'none';
                 progressDots.style.display = 'flex';
-            } else {
+          } else {
                 // Regular question pages
                 navContainer.style.display = 'flex';
                 progressDots.style.display = 'flex';
@@ -1632,11 +1412,6 @@
         // Check if current page is valid
         function isPageValid() {
             const currentPageEl = pages[currentPage];
-            
-            // Special handling for age question (slot machine)
-            if (currentPage === 2) {
-                return selectedAge !== null;
-            }
             
             const inputs = currentPageEl.querySelectorAll('input[type="radio"], input[type="checkbox"], input[type="text"]');
             
@@ -1707,6 +1482,11 @@
 
         // Handle slider updates
         function handleSliderUpdate(e) {
+            if (e.target.id === 'age-slider') {
+                const ageRanges = ['Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65+'];
+                const value = parseInt(e.target.value);
+                document.getElementById('age-value').textContent = ageRanges[value];
+            }
             if (e.target.id === 'handicap-slider') {
                 const handicapRanges = ['Scratch to 4', '5-9', '10-14', '15-20', '21+'];
                 const value = parseInt(e.target.value);
