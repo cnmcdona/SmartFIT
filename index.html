@@ -1401,7 +1401,14 @@
         // Handle option selection
         function handleOptionSelection(e) {
             if (e.target.classList.contains('option-button')) {
-                const input = e.target.previousElementSibling;
+                // Use the 'for' attribute to find the associated input
+                const inputId = e.target.getAttribute('for');
+                let input = null;
+                if (inputId) {
+                    input = document.getElementById(inputId);
+                } else {
+                    input = e.target.previousElementSibling;
+                }
                 if (input && (input.type === 'radio' || input.type === 'checkbox')) {
                     input.checked = !input.checked;
                     
