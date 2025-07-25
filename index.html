@@ -81,16 +81,16 @@
         ::-webkit-scrollbar { display: none; }
         * { overscroll-behavior: none; }
         /* iOS tap feedback */
-        button, .option-button, .nav-button, .begin-button, .slot-option {
+        button, .option-button, .nav-button, .slot-option {
             -webkit-tap-highlight-color: rgba(79,209,197,0.08) !important;
             transition: background 0.15s, color 0.15s, box-shadow 0.15s;
         }
-        button:active, .option-button:active, .nav-button:active, .begin-button:active, .slot-option:active {
+        button:active, .option-button:active, .nav-button:active, .slot-option:active {
             background: #f0fdfa !important;
             color: #319795 !important;
         }
         /* Ensure all interactive elements are large enough */
-        .option-button, .nav-button, .begin-button, .slot-option {
+        .option-button, .nav-button, .slot-option {
             min-height: 48px;
             min-width: 48px;
             font-size: 1.1rem;
@@ -983,9 +983,11 @@
                     <div class="welcome-content" style="position: relative; z-index: 1;">
                         <h1>Welcome to the SmartFIT™ Experience</h1>
                         <p>The most comprehensive and advanced grip fitting technology available to golfers.</p>
-                        <button class="begin-button" id="begin-button">BEGIN</button>
                     </div>
-    </div>
+                    <div class="nav-container">
+                        <button class="nav-button primary" id="begin-button">BEGIN</button>
+                    </div>
+                </div>
 
                 <!-- Section 1 Intro -->
                 <div class="survey-page" data-page="1">
@@ -1124,7 +1126,8 @@
                 <!-- Question 6: Current grip model -->
                 <div class="survey-page" data-page="7">
                     <div class="question-number">6</div>
-                    <h2 class="question-text">What model(s) are your current grips? (If you know)</h2>
+                    <h2 class="question-text">What model are your current grips?</h2>
+                    <p style="text-align: center; color: #666; margin: 8px 0 20px 0; font-size: 0.9rem;">(if you know)</p>
                     <div class="options-container" style="margin-bottom:0;">
                         <input type="text" id="current-grip-input" name="current-grip" placeholder="Start typing grip name..." autocomplete="off" style="font-size:1.1rem; padding:16px 20px; border:2px solid #e2e8f0; border-radius:12px; width:100%; background:#fff;">
                         <div id="grip-autocomplete" class="autocomplete-list" style="position:relative;z-index:10;"></div>
@@ -1422,9 +1425,10 @@
 
             // Update navigation visibility
             if (pageIndex === 0) {
-                // Welcome page
-                navContainer.style.display = 'none';
+                // Welcome page - show nav container for BEGIN button
+                navContainer.style.display = 'flex';
                 progressDots.style.display = 'none';
+                backButton.style.display = 'none';
             } else if (pageIndex === totalPages - 1) {
                 // Completion page
                 navContainer.style.display = 'none';
