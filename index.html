@@ -280,6 +280,60 @@
                 max-width: 95vw;
             }
         }
+        /* Typeform-style transitions */
+        .survey-page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s cubic-bezier(0.4,0,0.2,1);
+            min-height: 400px;
+        }
+        .survey-page.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hide Next button for single-choice */
+        .nav-button.primary.hide-next {
+            display: none !important;
+        }
+
+        /* Keep nav at bottom */
+        .nav-container {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, #181A20 80%);
+            z-index: 10;
+        }
+
+        /* Keep progress bar fixed */
+        .progress-bar-container {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: linear-gradient(180deg, #23272F 90%, transparent 100%);
+            z-index: 10;
+        }
+
+        /* Keep top nav fixed */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 11;
+            background: linear-gradient(180deg, #23272F 100%, transparent 100%);
+        }
+
+        /* Add padding to survey-card for fixed navs */
+        .survey-card {
+            padding-top: 110px;
+            padding-bottom: 100px;
+        }
+
+        @media (max-width: 640px) {
+            .survey-card { padding-top: 90px; padding-bottom: 80px; }
+        }
     </style>
 </head>
 <body>
@@ -923,6 +977,53 @@
         continueButton.addEventListener('click', goToNextPage);
         document.getElementById('survey-pages').addEventListener('click', handleOptionSelection);
         document.getElementById('survey-pages').addEventListener('input', handleSliderUpdate);
+
+        // --- Typeform-style auto-advance and nav logic ---
+        function isSingleChoicePage(pageIndex) {
+            // Age (slot), gender, moisture, grip feel, grip size, swing hand
+            return [2,3,8,9,10,11].includes(pageIndex);
+        }
+        function isSliderPage(pageIndex) {
+            // Handicap, rounds, iron shot shape
+            return [4,5,12].includes(pageIndex);
+        }
+        function isMultiSelectPage(pageIndex) {
+            // Physical conditions
+            return [7].includes(pageIndex);
+        }
+        // Auto-advance for single-choice
+
+        document.getElementById('survey-pages').addEventListener('click', function(e) {
+            if (e.target.classList.contains('option-button')) {
+                const pageIndex = currentPage;
+                if (isSingleChoicePage(pageIndex)) {
+                    setTimeout(() => { goToNextPage(); }, 250);
+                }
+            }
+        });
+        // Auto-advance for slot machine
+        if (document.getElementById('age-options')) {
+            Array.from(document.getElementById('age-options').children).forEach(opt => {
+                opt.addEventListener('click', function() {
+                    if (currentPage === 2) setTimeout(() => { goToNextPage(); }, 250);
+                });
+            });
+        }
+        // Hide Next button for single-choice
+        const origUpdateContinueButton = updateContinueButton;
+        updateContinueButton = function() {
+            if (currentPage === totalPages - 2) {
+                continueButton.textContent = 'Submit';
+            } else {
+                continueButton.textContent = 'Continue';
+            }
+            continueButton.disabled = !isPageValid();
+            if (isSingleChoicePage(currentPage)) {
+                continueButton.classList.add('hide-next');
+            } else {
+                continueButton.classList.remove('hide-next');
+            }
+        };
 
         // Initial setup
         initProgressDots();
