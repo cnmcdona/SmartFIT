@@ -1058,6 +1058,43 @@
                     </div>
                 </div>
 
+                <!-- Question 5: Current grip size -->
+                <div class="survey-page" data-page="6">
+                    <div class="question-number">5</div>
+                    <h2 class="question-text">What size are your current grips? (If you know)</h2>
+                    <div class="options-container">
+                        <input type="radio" id="grip-size-undersize" name="current-grip-size" value="Undersize">
+                        <label for="grip-size-undersize" class="option-button">Undersize</label>
+                        
+                        <input type="radio" id="grip-size-standard" name="current-grip-size" value="Standard">
+                        <label for="grip-size-standard" class="option-button">Standard</label>
+                        
+                        <input type="radio" id="grip-size-midsize" name="current-grip-size" value="Midsize">
+                        <label for="grip-size-midsize" class="option-button">Midsize</label>
+                        
+                        <input type="radio" id="grip-size-jumbo" name="current-grip-size" value="Jumbo">
+                        <label for="grip-size-jumbo" class="option-button">Jumbo</label>
+                        
+                        <input type="radio" id="grip-size-dont-know" name="current-grip-size" value="I don't know">
+                        <label for="grip-size-dont-know" class="option-button">I don't know</label>
+                    </div>
+                </div>
+
+                <!-- Question 6: Current grip model -->
+                <div class="survey-page" data-page="7">
+                    <div class="question-number">6</div>
+                    <h2 class="question-text">What model are your current grips?</h2>
+                    <p style="text-align: center; color: #666; margin: 8px 0 20px 0; font-size: 0.9rem;">(if you know)</p>
+                    <div class="options-container" style="margin-bottom:0;">
+                        <input type="text" id="current-grip-input" name="current-grip" placeholder="Start typing grip name..." autocomplete="off" style="font-size:1.1rem; padding:16px 20px; border:2px solid #e2e8f0; border-radius:12px; width:100%; background:#fff;">
+                        <div id="grip-autocomplete" class="autocomplete-list" style="position:relative;z-index:10;"></div>
+                        <div style="margin-top:16px;">
+                            <input type="radio" id="grip-dont-know" name="current-grip-radio" value="I Don't know">
+                            <label for="grip-dont-know" class="option-button">I Don't know</label>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Section 2 Intro -->
                 <div class="survey-page" data-page="8">
                     <div class="section-intro">
@@ -1122,22 +1159,6 @@
                         <label for="feel-too-firm" class="option-button">Too Firm</label>
                     </div>
                 </div>
-
-                <!-- Question 6: Current grip model -->
-                <div class="survey-page" data-page="7">
-                    <div class="question-number">6</div>
-                    <h2 class="question-text">What model are your current grips?</h2>
-                    <p style="text-align: center; color: #666; margin: 8px 0 20px 0; font-size: 0.9rem;">(if you know)</p>
-                    <div class="options-container" style="margin-bottom:0;">
-                        <input type="text" id="current-grip-input" name="current-grip" placeholder="Start typing grip name..." autocomplete="off" style="font-size:1.1rem; padding:16px 20px; border:2px solid #e2e8f0; border-radius:12px; width:100%; background:#fff;">
-                        <div id="grip-autocomplete" class="autocomplete-list" style="position:relative;z-index:10;"></div>
-                        <div style="margin-top:16px;">
-                            <input type="radio" id="grip-dont-know" name="current-grip-radio" value="I Don't know">
-                            <label for="grip-dont-know" class="option-button">I Don't know</label>
-                        </div>
-                    </div>
-                </div>
-
 
                 <!-- Question 10: Swing hand -->
                 <div class="survey-page" data-page="12">
@@ -1362,7 +1383,7 @@
   <script>
         // Survey state
         let currentPage = 0;
-        const totalPages = 22; // Including welcome and photo upload
+        const totalPages = 23; // Including welcome and photo upload
         const surveyData = {};
 
         // DOM elements
@@ -1448,7 +1469,7 @@
             updateContinueButton();
 
             // Auto-select hand on hand instructions page
-            if (pageIndex === 20) {
+            if (pageIndex === 21) {
                 setTimeout(autoSelectHandFromSwing, 100);
             }
         }
@@ -1585,7 +1606,7 @@
             showPage(currentPage);
         });
         document.getElementById('section4-continue').addEventListener('click', () => {
-            currentPage = 20;
+            currentPage = 21;
             showPage(currentPage);
         });
         backButton.addEventListener('click', goToPrevPage);
