@@ -984,9 +984,6 @@
                         <h1>Welcome to the SmartFIT™ Experience</h1>
                         <p>The most comprehensive and advanced grip fitting technology available to golfers.</p>
                     </div>
-                    <div class="nav-container">
-                        <button class="nav-button primary" id="begin-button">BEGIN</button>
-                    </div>
                 </div>
 
                 <!-- Section 1 Intro -->
@@ -1446,15 +1443,14 @@
 
             // Update navigation visibility
             if (pageIndex === 0) {
-                // Welcome page - show nav container for BEGIN button
-                navContainer.style.display = 'flex';
+                // Welcome page - no navigation needed
+                navContainer.style.display = 'none';
                 progressDots.style.display = 'none';
-                backButton.style.display = 'none';
             } else if (pageIndex === totalPages - 1) {
                 // Completion page
                 navContainer.style.display = 'none';
                 progressDots.style.display = 'none';
-            } else if (pageIndex === 1 || pageIndex === 6) {
+            } else if (pageIndex === 1 || pageIndex === 8) {
                 // Section intro pages
                 navContainer.style.display = 'none';
                 progressDots.style.display = 'flex';
@@ -1589,10 +1585,6 @@
         }
 
         // Event listeners
-        document.getElementById('begin-button').addEventListener('click', () => {
-            currentPage = 1;
-            showPage(currentPage);
-        });
         document.getElementById('section1-continue').addEventListener('click', () => {
             currentPage = 2;
             showPage(currentPage);
@@ -1816,6 +1808,14 @@
         // Initial setup
         initProgressDots();
         showPage(currentPage);
+
+        // Welcome page click handler
+        document.querySelector('.welcome-content').addEventListener('click', () => {
+            if (currentPage === 0) {
+                currentPage = 1;
+                showPage(currentPage);
+            }
+        });
   </script>
 </body>
 </html> 
