@@ -1244,10 +1244,6 @@
                     <div class="section-intro">
                         <h2>Instructions</h2>
                         <p style="margin-bottom: 18px;">You'll need any U.S. coin (Quarter, Nickel, etc.) to complete this section. It's used as a reference object for precise measurements.</p>
-                        <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 18px;">
-                            <button id="hand-left-btn" class="option-button" type="button">Left Hand</button>
-                            <button id="hand-right-btn" class="option-button" type="button">Right Hand</button>
-                        </div>
                         <ol style="text-align: left; max-width: 400px; margin: 0 auto; font-size: 1.05rem; color: #2d3748;">
                             <li style="margin-bottom: 10px;">Place your <span id="selected-hand-label">Left</span> hand flat, fingers slightly apart</li>
                             <li style="margin-bottom: 10px;">Put the coin in the center of your palm</li>
@@ -1764,10 +1760,8 @@
             });
         }
 
-        // Hand selection toggle logic
+        // Hand selection logic
         let selectedHand = 'Left';
-        const handLeftBtn = document.getElementById('hand-left-btn');
-        const handRightBtn = document.getElementById('hand-right-btn');
         const selectedHandLabel = document.getElementById('selected-hand-label');
 
         function autoSelectHandFromSwing() {
@@ -1782,16 +1776,8 @@
             } else {
                 selectedHand = 'Left'; // Default
             }
-            if (handLeftBtn && handRightBtn && selectedHandLabel) {
-                if (selectedHand === 'Left') {
-                    handLeftBtn.classList.add('selected');
-                    handRightBtn.classList.remove('selected');
-                    selectedHandLabel.textContent = 'Left';
-                } else {
-                    handRightBtn.classList.add('selected');
-                    handLeftBtn.classList.remove('selected');
-                    selectedHandLabel.textContent = 'Right';
-                }
+            if (selectedHandLabel) {
+                selectedHandLabel.textContent = selectedHand;
             }
         }
 
