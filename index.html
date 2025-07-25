@@ -1227,8 +1227,20 @@
                     </div>
                 </div>
 
-                <!-- Completion Page -->
+                <!-- Section 4 Intro: Hand Measurements -->
                 <div class="survey-page" data-page="19">
+                    <div class="section-intro">
+                        <h2>Hand Measurements</h2>
+                        <p>It's time to capture your unique hand measurements</p>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">A U.S. coin is required as a reference object for precise hand measurement.</p>
+                    </div>
+                    <div class="nav-container">
+                        <button class="nav-button primary" id="section4-continue">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Completion Page -->
+                <div class="survey-page" data-page="20">
                     <div class="welcome-content">
                         <div class="question-number" style="color: #4fd1c5;">✓</div>
                         <h1>Survey Complete!</h1>
@@ -1250,7 +1262,7 @@
   <script>
         // Survey state
         let currentPage = 0;
-        const totalPages = 20; // Including welcome and completion
+        const totalPages = 21; // Including welcome and completion
         const surveyData = {};
         let selectedAge = null;
 
@@ -1588,6 +1600,10 @@
         });
         document.getElementById('section3-continue').addEventListener('click', () => {
             currentPage = 16;
+            showPage(currentPage);
+        });
+        document.getElementById('section4-continue').addEventListener('click', () => {
+            currentPage = 20;
             showPage(currentPage);
         });
         backButton.addEventListener('click', goToPrevPage);
