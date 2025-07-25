@@ -1,8 +1,10 @@
+<!-- Trigger redeploy: cache bust -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="format-detection" content="telephone=no">
@@ -567,7 +569,6 @@
                 <button class="nav-button primary" id="continue-button">Continue</button>
             </div>
         </div>
-    </div>
 
     <script>
         // Survey state
@@ -581,7 +582,6 @@
         const backButton = document.getElementById('back-button');
         const continueButton = document.getElementById('continue-button');
         const navContainer = document.getElementById('nav-container');
-        const progressDots = document.getElementById('progress-dots');
         const progressBarContainer = document.getElementById('progress-bar-container');
         const progressLabel = document.getElementById('progress-label');
         const progressStep = document.getElementById('progress-step');
@@ -704,28 +704,6 @@
             });
         }
 
-        // Initialize progress dots
-        function initProgressDots() {
-            progressDots.innerHTML = '';
-            for (let i = 0; i < totalPages - 2; i++) { // Exclude welcome and completion
-                const dot = document.createElement('div');
-                dot.className = 'progress-dot';
-                progressDots.appendChild(dot);
-            }
-        }
-
-        // Update progress dots
-        function updateProgressDots() {
-            const dots = progressDots.querySelectorAll('.progress-dot');
-            dots.forEach((dot, index) => {
-                if (index === currentPage - 1) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-
         // Update progress bar
         function updateProgressBar() {
             const currentStep = currentPage - 1; // Adjust for welcome page
@@ -752,32 +730,27 @@
                 }, 100);
             }
 
-            // Update navigation visibility
+            // Update navigation and progress bar visibility
             if (pageIndex === 0) {
                 // Welcome page
                 navContainer.style.display = 'none';
-                progressDots.style.display = 'none';
                 progressBarContainer.style.display = 'none';
             } else if (pageIndex === totalPages - 1) {
                 // Completion page
                 navContainer.style.display = 'none';
-                progressDots.style.display = 'none';
                 progressBarContainer.style.display = 'none';
             } else if (pageIndex === 1 || pageIndex === 6) {
                 // Section intro pages
                 navContainer.style.display = 'none';
-                progressDots.style.display = 'flex';
                 progressBarContainer.style.display = 'none';
             } else {
                 // Regular question pages
                 navContainer.style.display = 'flex';
-                progressDots.style.display = 'flex';
                 progressBarContainer.style.display = 'block';
                 backButton.style.display = pageIndex > 1 ? 'block' : 'none';
                 updateProgressBar();
             }
 
-            updateProgressDots();
             updateContinueButton();
         }
 
@@ -892,7 +865,6 @@
         document.getElementById('survey-pages').addEventListener('input', handleSliderUpdate);
 
         // Initial setup
-        initProgressDots();
         showPage(currentPage);
     </script>
 </body>
