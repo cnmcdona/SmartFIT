@@ -1,0 +1,21 @@
+{
+  "name": "SmartFIT Golf Grip Survey",
+  "short_name": "SmartFIT",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#4fd1c5",
+  "description": "The most comprehensive and advanced grip fitting technology available to golfers.",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+} 
