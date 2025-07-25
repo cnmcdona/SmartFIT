@@ -1323,7 +1323,7 @@
             pages.forEach((page, index) => {
                 if (index === pageIndex) {
                     page.classList.add('active');
-        } else {
+                } else {
                     page.classList.remove('active');
                 }
             });
@@ -1333,6 +1333,25 @@
                 setTimeout(() => {
                     initSlotMachine();
                 }, 100);
+            }
+
+            // Initialize grip autocomplete if on grip input page
+            if (pageIndex === 11) {
+                setTimeout(() => {
+                    setupGripAutocomplete();
+                }, 100);
+            }
+
+            // Set visual state for pre-selected radio buttons
+            const currentPageEl = pages[pageIndex];
+            if (currentPageEl) {
+                const checkedInputs = currentPageEl.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked');
+                checkedInputs.forEach(input => {
+                    const label = document.querySelector(`label[for="${input.id}"]`);
+                    if (label && label.classList.contains('option-button')) {
+                        label.classList.add('selected');
+                    }
+                });
             }
 
             // Update navigation visibility
@@ -1357,13 +1376,6 @@
 
             updateProgressDots();
             updateContinueButton();
-
-            // Initialize grip autocomplete if on page 11
-            if (pageIndex === 11) {
-                setTimeout(() => {
-                    setupGripAutocomplete();
-                }, 100);
-            }
         }
 
         // Check if current page is valid
