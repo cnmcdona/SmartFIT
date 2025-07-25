@@ -977,46 +977,46 @@
                 <!-- Question 3: Handicap -->
                 <div class="survey-page" data-page="4">
                     <div class="question-number">3</div>
-                    <h2 class="question-text">What's your approx. handicap?</h2>
+                    <h2 class="question-text">What is your handicap?</h2>
                     <div class="slider-container">
-                        <div class="slider-value" id="handicap-value">14</div>
-                        <input type="range" id="handicap-slider" name="handicap" min="0" max="36" value="14">
+                        <div class="slider-value" id="handicap-value">10-14</div>
+                        <input type="range" id="handicap-slider" name="handicap" min="0" max="4" value="2" step="1">
                         <div class="slider-labels">
-                            <span>Professional</span>
-                            <span>Beginner</span>
-      </div>
+                            <span>Scratch to 4</span>
+                            <span>21+</span>
+                        </div>
                     </div>
-    </div>
+                </div>
 
                 <!-- Question 4: Rounds per year -->
                 <div class="survey-page" data-page="5">
                     <div class="question-number">4</div>
-                    <h2 class="question-text">How many times a year do you play?</h2>
+                    <h2 class="question-text">How many rounds a year do you play?</h2>
                     <div class="slider-container">
-                        <div class="slider-value" id="rounds-value">60</div>
-                        <input type="range" id="rounds-slider" name="rounds-per-year" min="5" max="100" value="60" step="5">
+                        <div class="slider-value" id="rounds-value">40</div>
+                        <input type="range" id="rounds-slider" name="rounds-per-year" min="5" max="80" value="40" step="5">
                         <div class="slider-labels">
-                            <span>Rarely</span>
-                            <span>Frequently</span>
-      </div>
+                            <span>5</span>
+                            <span>80</span>
+                        </div>
                     </div>
-    </div>
+                </div>
 
                 <!-- Section 2 Intro -->
-                <div class="survey-page" data-page="6">
+                <div class="survey-page" data-page="8">
                     <div class="section-intro">
-                        <h2>Preferences & Physical Considerations</h2>
-                        <p>Now, tell us about any physical considerations and grip preferences. This helps us understand any physical factors that may affect your grip recommendation.</p>
-      </div>
+                        <h2>Physical Considerations & Grip Preferences</h2>
+                        <p>Now, tell us about any physical considerations and grip preferences. This help us understand any physical factors that may affect your grip recommendation.</p>
+                    </div>
                     <div class="nav-container">
                         <button class="nav-button primary" id="section2-continue">Continue</button>
                     </div>
-    </div>
+                </div>
 
-                <!-- Question 5: Physical conditions -->
-                <div class="survey-page" data-page="7">
-                    <div class="question-number">5</div>
-                    <h2 class="question-text">Do you experience any of the following?</h2>
+                <!-- Question 7: Physical conditions -->
+                <div class="survey-page" data-page="9">
+                    <div class="question-number">7</div>
+                    <h2 class="question-text">Do you experience any of the following? (Check all that apply)</h2>
                     <div class="options-container">
                         <input type="checkbox" id="condition-arthritis" name="physical-condition" value="Arthritis">
                         <label for="condition-arthritis" class="option-button">Arthritis</label>
@@ -1029,25 +1029,25 @@
                         
                         <input type="checkbox" id="condition-none" name="physical-condition" value="None of the above">
                         <label for="condition-none" class="option-button">None of the above</label>
-      </div>
-    </div>
+                    </div>
+                </div>
 
-                <!-- Question 6: Moisture control -->
-                <div class="survey-page" data-page="8">
-                    <div class="question-number">6</div>
-                    <h2 class="question-text">Do you need enhanced moisture control?</h2>
+                <!-- Question 8: Moisture control -->
+                <div class="survey-page" data-page="10">
+                    <div class="question-number">8</div>
+                    <h2 class="question-text">Do your grips need to help with moisture control?</h2>
                     <div class="options-container">
                         <input type="radio" id="moisture-yes" name="moisture-control" value="Yes, I struggle with slippage">
                         <label for="moisture-yes" class="option-button">Yes, I struggle with slippage</label>
                         
                         <input type="radio" id="moisture-no" name="moisture-control" value="No, moisture isn't an issue">
                         <label for="moisture-no" class="option-button">No, moisture isn't an issue</label>
-      </div>
-    </div>
+                    </div>
+                </div>
 
-                <!-- Question 7: Grip feel -->
-                <div class="survey-page" data-page="9">
-                    <div class="question-number">7</div>
+                <!-- Question 9: Grip feel -->
+                <div class="survey-page" data-page="11">
+                    <div class="question-number">9</div>
                     <h2 class="question-text">How would you describe your current grip's feel?</h2>
                     <div class="options-container">
                         <input type="radio" id="feel-too-soft" name="grip-feel" value="Too soft">
@@ -1062,37 +1062,15 @@
                         <input type="radio" id="feel-slightly-firm" name="grip-feel" value="Slightly firm">
                         <label for="feel-slightly-firm" class="option-button">Slightly firm</label>
                         
-                        <input type="radio" id="feel-too-firm" name="grip-feel" value="Too firm">
-                        <label for="feel-too-firm" class="option-button">Too firm</label>
-      </div>
-    </div>
+                        <input type="radio" id="feel-too-firm" name="grip-feel" value="Too Firm">
+                        <label for="feel-too-firm" class="option-button">Too Firm</label>
+                    </div>
+                </div>
 
-                <!-- Question 8: Current grip size -->
-                <div class="survey-page" data-page="10">
-                    <div class="question-number">8</div>
-                    <h2 class="question-text">What size are your current grips?</h2>
-                    <div class="options-container">
-                        <input type="radio" id="size-undersize" name="grip-size" value="Undersize">
-                        <label for="size-undersize" class="option-button">Undersize</label>
-                        
-                        <input type="radio" id="size-standard" name="grip-size" value="Standard">
-                        <label for="size-standard" class="option-button">Standard</label>
-                        
-                        <input type="radio" id="size-midsize" name="grip-size" value="Midsize">
-                        <label for="size-midsize" class="option-button">Midsize</label>
-                        
-                        <input type="radio" id="size-jumbo" name="grip-size" value="Jumbo">
-                        <label for="size-jumbo" class="option-button">Jumbo</label>
-                        
-                        <input type="radio" id="size-dont-know" name="grip-size" value="I don't know">
-                        <label for="size-dont-know" class="option-button">I don't know</label>
-      </div>
-    </div>
-
-                <!-- Question 9: Current grip model (NEW) -->
-                <div class="survey-page" data-page="11">
-                    <div class="question-number">9</div>
-                    <h2 class="question-text">What grip do you currently use?</h2>
+                <!-- Question 6: Current grip model -->
+                <div class="survey-page" data-page="7">
+                    <div class="question-number">6</div>
+                    <h2 class="question-text">What model(s) are your current grips? (If you know)</h2>
                     <div class="options-container" style="margin-bottom:0;">
                         <input type="text" id="current-grip-input" name="current-grip" placeholder="Start typing grip name..." autocomplete="off" style="font-size:1.1rem; padding:16px 20px; border:2px solid #e2e8f0; border-radius:12px; width:100%; background:#fff;">
                         <div id="grip-autocomplete" class="autocomplete-list" style="position:relative;z-index:10;"></div>
@@ -1136,25 +1114,128 @@
                                 <path id="shot-path" d="M 100 180 Q 100 150 100 120" stroke="#4fd1c5" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
                             </g>
                         </svg>
-      </div>
+                    </div>
                     <div class="slider-container">
-                        <input type="range" id="iron-shot-slider" name="iron-shot-shape" min="0" max="6" value="3" step="1">
+                        <input type="range" id="iron-shot-slider" name="iron-shot-shape" min="0" max="7" value="4" step="1">
                         <div class="slider-labels">
                             <span>Pull Hook</span>
                             <span>Push Slice</span>
                         </div>
                     </div>
-    </div>
+                </div>
+
+                <!-- Question 12: Driver shot shape -->
+                <div class="survey-page" data-page="14">
+                    <div class="question-number">12</div>
+                    <h2 class="question-text">What's your typical driver shot shape?</h2>
+                    <div class="hand-diagram">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Simplified hand and club illustration -->
+                            <g id="hand-illustration">
+                                <!-- Club shaft -->
+                                <line x1="100" y1="20" x2="100" y2="180" stroke="#718096" stroke-width="4" stroke-linecap="round"/>
+                                
+                                <!-- Hands -->
+                                <ellipse cx="100" cy="100" rx="25" ry="35" fill="#fbbf24" opacity="0.8"/>
+                                <ellipse cx="100" cy="120" rx="25" ry="35" fill="#f59e0b" opacity="0.8"/>
+                                
+                                <!-- Ball path indicator -->
+                                <path id="shot-path" d="M 100 180 Q 100 150 100 120" stroke="#4fd1c5" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="driver-shot-slider" name="driver-shot-shape" min="0" max="7" value="4" step="1">
+                        <div class="slider-labels">
+                            <span>Pull Hook</span>
+                            <span>Push Slice</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3 Intro -->
+                <div class="survey-page" data-page="15">
+                    <div class="section-intro">
+                        <h2>Goals</h2>
+                        <p>Lastly, tell us about your goals. Tell us what you want to improve with your new grips.</p>
+                    </div>
+                    <div class="nav-container">
+                        <button class="nav-button primary" id="section3-continue">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Question 13: Change iron shot shape -->
+                <div class="survey-page" data-page="16">
+                    <div class="question-number">13</div>
+                    <h2 class="question-text">Do you want to change your iron shot shape?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="iron-change-straighter" name="iron-shot-change" value="Yes, I want straighter shots">
+                        <label for="iron-change-straighter" class="option-button">Yes, I want straighter shots</label>
+                        
+                        <input type="radio" id="iron-change-draw" name="iron-shot-change" value="Yes, I want to draw it more">
+                        <label for="iron-change-draw" class="option-button">Yes, I want to draw it more</label>
+                        
+                        <input type="radio" id="iron-change-fade" name="iron-shot-change" value="Yes, I want to fade it more">
+                        <label for="iron-change-fade" class="option-button">Yes, I want to fade it more</label>
+                        
+                        <input type="radio" id="iron-change-no" name="iron-shot-change" value="No, I like my current shape">
+                        <label for="iron-change-no" class="option-button">No, I like my current shape</label>
+                    </div>
+                </div>
+
+                <!-- Question 14: Change driver shot shape -->
+                <div class="survey-page" data-page="17">
+                    <div class="question-number">14</div>
+                    <h2 class="question-text">Do you want to change your driver shot shape?</h2>
+                    <div class="options-container">
+                        <input type="radio" id="driver-change-straighter" name="driver-shot-change" value="Yes, I want straighter shots">
+                        <label for="driver-change-straighter" class="option-button">Yes, I want straighter shots</label>
+                        
+                        <input type="radio" id="driver-change-draw" name="driver-shot-change" value="Yes, I want to draw it more">
+                        <label for="driver-change-draw" class="option-button">Yes, I want to draw it more</label>
+                        
+                        <input type="radio" id="driver-change-fade" name="driver-shot-change" value="Yes, I want to fade it more">
+                        <label for="driver-change-fade" class="option-button">Yes, I want to fade it more</label>
+                        
+                        <input type="radio" id="driver-change-no" name="driver-shot-change" value="No, I like my current shape">
+                        <label for="driver-change-no" class="option-button">No, I like my current shape</label>
+                    </div>
+                </div>
+
+                <!-- Question 15: Grip improvements -->
+                <div class="survey-page" data-page="18">
+                    <div class="question-number">15</div>
+                    <h2 class="question-text">What do you want to improve with your new grips? (check all that apply)</h2>
+                    <div class="options-container">
+                        <input type="checkbox" id="improve-fit" name="grip-improvements" value="Better fit">
+                        <label for="improve-fit" class="option-button">Better fit</label>
+                        
+                        <input type="checkbox" id="improve-control" name="grip-improvements" value="Better club control">
+                        <label for="improve-control" class="option-button">Better club control</label>
+                        
+                        <input type="checkbox" id="improve-feel" name="grip-improvements" value="Improved feel and feedback">
+                        <label for="improve-feel" class="option-button">Improved feel and feedback</label>
+                        
+                        <input type="checkbox" id="improve-moisture" name="grip-improvements" value="Better grip in wet conditions">
+                        <label for="improve-moisture" class="option-button">Better grip in wet conditions</label>
+                        
+                        <input type="checkbox" id="improve-comfort" name="grip-improvements" value="More comfort">
+                        <label for="improve-comfort" class="option-button">More comfort</label>
+                        
+                        <input type="checkbox" id="improve-fatigue" name="grip-improvements" value="Less hand fatigue">
+                        <label for="improve-fatigue" class="option-button">Less hand fatigue</label>
+                    </div>
+                </div>
 
                 <!-- Completion Page -->
-                <div class="survey-page" data-page="14">
+                <div class="survey-page" data-page="19">
                     <div class="welcome-content">
                         <div class="question-number" style="color: #4fd1c5;">✓</div>
                         <h1>Survey Complete!</h1>
                         <p>Thank you for completing the SmartFIT grip assessment. Your personalized grip recommendations are being prepared.</p>
                         <div class="success-message" id="success-message" style="display: block;">
                             Your responses have been saved successfully!
-      </div>
+                        </div>
                     </div>
                 </div>
     </div>
@@ -1169,7 +1250,7 @@
   <script>
         // Survey state
         let currentPage = 0;
-        const totalPages = 15; // Including welcome and completion
+        const totalPages = 20; // Including welcome and completion
         const surveyData = {};
         let selectedAge = null;
 
@@ -1336,7 +1417,7 @@
             }
 
             // Initialize grip autocomplete if on grip input page
-            if (pageIndex === 11) {
+            if (pageIndex === 7) {
                 setTimeout(() => {
                     setupGripAutocomplete();
                 }, 100);
@@ -1457,11 +1538,23 @@
         // Handle slider updates
         function handleSliderUpdate(e) {
             if (e.target.id === 'handicap-slider') {
-                document.getElementById('handicap-value').textContent = e.target.value;
+                const handicapRanges = ['Scratch to 4', '5-9', '10-14', '15-20', '21+'];
+                const value = parseInt(e.target.value);
+                document.getElementById('handicap-value').textContent = handicapRanges[value];
             }
             if (e.target.id === 'rounds-slider') {
                 const val = parseInt(e.target.value, 10);
-                document.getElementById('rounds-value').textContent = val >= 85 ? '85+' : val;
+                document.getElementById('rounds-value').textContent = val;
+            }
+            if (e.target.id === 'iron-shot-slider') {
+                const shotShapes = ['Pull Hook', 'Hook', 'Pull', 'Draw', 'Straight', 'Push', 'Slice', 'Push Slice'];
+                const value = parseInt(e.target.value);
+                // Update shot diagram or display value as needed
+            }
+            if (e.target.id === 'driver-shot-slider') {
+                const shotShapes = ['Pull Hook', 'Hook', 'Pull', 'Draw', 'Straight', 'Push', 'Slice', 'Push Slice'];
+                const value = parseInt(e.target.value);
+                // Update shot diagram or display value as needed
             }
         }
 
@@ -1490,7 +1583,11 @@
             showPage(currentPage);
         });
         document.getElementById('section2-continue').addEventListener('click', () => {
-            currentPage = 7;
+            currentPage = 9;
+            showPage(currentPage);
+        });
+        document.getElementById('section3-continue').addEventListener('click', () => {
+            currentPage = 16;
             showPage(currentPage);
         });
         backButton.addEventListener('click', goToPrevPage);
